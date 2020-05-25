@@ -1,0 +1,20 @@
+const Command = require("../../structures/base/Command");
+
+module.exports = class extends Command {
+  constructor() {
+    super({
+      name: "work",
+      category: "Currency",
+      description: "Work for some cash",
+      cooldown: "1h",
+      requiresArgs: false,
+      guildOnly: true
+    });
+  }
+
+  async run(msg, args, flags) {
+    const amt = msg.client.util.randomInRange(12, 89);
+    await msg.author.currency.add(amt);
+    msg.channel.send(msg.success(`You worked for **${amt}** coins`));
+  }
+};
