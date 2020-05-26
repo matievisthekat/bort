@@ -83,13 +83,13 @@ module.exports = class Bort extends Client {
     });
 
     // GET request for all guilds the client is in
-    this.web.app.get(`/api/${this.apiVersion}/guilds`, (req, res) =>
+    this.web.app.get(`/api/${this.config.apiVersion}/guilds`, (req, res) =>
       res.send({ guilds: this.guilds.cache.array() }).status(200)
     );
 
     // Get request for mutual servers with a specific user
     this.web.app.get(
-      `/api/${this.apiVersion}/guilds/mutual/:userID`,
+      `/api/${this.config.apiVersion}/guilds/mutual/:userID`,
       async (req, res) => {
         const userID = req.params.userID;
         let guilds = [];
@@ -103,12 +103,28 @@ module.exports = class Bort extends Client {
     );
 
     // GET request for a specific guild
-    this.web.app.get(`/api/${this.apiVersion}/guilds/:guildID`, (req, res) => {
-      const guildID = req.params.guildID;
-      const guild = this.guilds.cache.get(guildID);
+    this.web.app.get(
+      `/api/${this.config.apiVersion}/guilds/:guildID`,
+      (req, res) => {
+        const guildID = req.params.guildID;
+        const guild = this.guilds.cache.get(guildID);
 
-      res.send({ guild }).status(200);
-    });
+        res.send({ guild }).status(200);
+      }
+    );
+
+    // GET request for roles from a guild
+    this.web.app.get(
+      `/api/${this.config.apiVersion}/guilds/:guildID/roles`,
+      (req, res) => {
+        const guildID = req.params.guildID;
+        const guild = this.guilds.cache.get(guildID);
+        if (!guild)
+          return res.send({ roles: [], error: "No guild found with that ID" });
+
+        res.send({ roles: guild.roles.cache.array() }).status(200);
+      }
+    );
 
     // this.web.app.post(
     //   `api/${this.config.apiVersion}/webhooks/vote`,
