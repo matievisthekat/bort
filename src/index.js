@@ -1,5 +1,4 @@
 require("dotenv").config();
-const fs = require("fs");
 const { resolve } = require("path");
 
 const Bort = require("./structures/base/Client");
