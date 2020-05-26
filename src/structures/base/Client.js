@@ -9,37 +9,38 @@ const {
   } = require("discord.js"),
   dblClient = require("dblapi.js"),
   mongoose = require("mongoose"),
-  Models = require("../../constants/models"),
-  Emojis = require("../../constants/emoji"),
-  Colours = require("../../constants/colours"),
-  Embed = require("./Embed"),
   ErrorManager = require("../managers/Error"),
   CommandManager = require("../managers/Command"),
   EventManager = require("../managers/Event"),
   BlacklistManager = require("../managers/Blacklist"),
   CurrencyManager = require("../managers/Currency"),
   WebManager = require("../../web/structures/Manager"),
-  Util = require("../util/util"),
   Logger = require("../util/Logger"),
-  Translator = require("./Translator"),
-  config = require("../../config");
+  Translator = require("./Translator");
 
 const MessageProps = require("../../structures/base/Message"),
   UserProps = require("../../structures/base/User.js"),
   GuildProps = require("../../structures/base/Guild");
 
+/**
+ * The extended client for Bort
+ * @extends {Client}
+ */
 module.exports = class Bort extends Client {
   constructor(options = {}) {
     super(options);
 
+    // Dunno why these structures don't work without doing this
     this.props = {
       Message: MessageProps,
       User: UserProps,
       Guild: GuildProps
     };
 
+    // Initialize the custom API manager
     this.web = new WebManager();
 
+    // Assign properties
     this.token = options.token;
     this.uri = options.uri;
     this.commandDir = options.commandDir;
@@ -48,34 +49,37 @@ module.exports = class Bort extends Client {
     this.loadMusic = options.loadMusic;
     this.translateAPIKey = options.translateAPIKey;
 
+    // Initialize the snipeMessages collection to hold deleted messages for ~3 seconds
     this.snipeMessages = new Collection();
-    this.guildPrefixes = new Collection();
-    this.blacklists = new Set();
 
-    this.colours = Colours;
-    this.emoji = Emojis;
-    this.models = Models;
-    this.embed = Embed;
-    this.util = Util;
-    this.config = config;
+    // Require constants and utilities
+    this.colours = require("../../constants/colours");
+    this.emoji = require("../../constants/emoji");
+    this.models = require("../../constants/models");
+    this.embed = require("./Embed");
+    this.util = require("../util/util");
+    this.config = require("../../config");
 
+    // Initialize helper classes
     this.logger = new Logger();
     this.translator = new Translator(this, this.translateAPIKey);
     this.errors = new ErrorManager(this);
     this.currency = new CurrencyManager(this);
-
-    this.voteLogWebhook = null;
-
     this.cmd = new CommandManager({
       directory: this.commandDir,
       client: this
     });
-
     this.evnt = new EventManager({
       directory: this.eventDir,
       client: this
     });
+    this.blacklist = new BlacklistManager({
+      client: this,
+      model: this.models.blacklist,
+      channelID: "697123744816300064"
+    });
 
+    // Initialize DBL client
     this.dbl = new dblClient(
       process.env.TOP_GG_API_TOKEN,
       {
@@ -86,15 +90,36 @@ module.exports = class Bort extends Client {
       this
     );
 
-    this.blacklist = new BlacklistManager({
-      client: this,
-      model: this.models.blacklist,
-      channelID: "697123744816300064"
-    });
-
     this.web.app.get(`/api/${this.config.apiVersion}/langauges`, (req, res) => {
       const langs = this.translator.langs;
       res.send({ langs }).status(200);
+    });
+
+    this.web.app.get(`/api/${this.apiVersion}/guilds`, (req, res) =>
+      res.send({ guilds: this.guilds.cache.array() }).status(200)
+    );
+
+    this.web.app.get(
+      `/api/${this.apiVersion}/guilds/mutual/:userID`,
+      async (req, res) => {
+        const userID = req.params.userID;
+        let guilds = [];
+        for (const guild of this.guilds.cache.array()) {
+          const member = await guild.members.fetch(userID).catch(() => {
+            continue;
+          });
+          if (member) guilds.push(guild);
+        }
+
+        res.send({ guilds }).status(200);
+      }
+    );
+
+    this.web.app.get(`/api/${this.apiVersion}/guilds/:guildID`, (req, res) => {
+      const guildID = req.params.guildID;
+      const guild = this.guilds.cache.get(guildID);
+
+      res.send({ guild }).status(200);
     });
 
     // this.web.app.post(
@@ -209,6 +234,10 @@ module.exports = class Bort extends Client {
     return { message: "Successfully reloaded", status: 200 };
   }
 
+  /**
+   *
+   * @param {options} login
+   */
   async init({ login = false, loadWeb = true }) {
     this.cmd.load();
     this.evnt.load();
@@ -230,6 +259,9 @@ module.exports = class Bort extends Client {
     return { message: "Successfully initialized", status: 200 };
   }
 
+  /**
+   * @function connect Initiate a connection with the MongoDB database
+   */
   async connect() {
     await mongoose.connect(this.uri, {
       useNewUrlParser: true,

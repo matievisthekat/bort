@@ -8,9 +8,12 @@ module.exports = class extends Event {
   async run(client, guild) {
     if (!guild.available) return;
 
-    if (client.blacklists.has(guild.id)) return await guild.leave();
-    client.logger.log(`Joined ${guild.name}`);
+    const blacklist = await client.models.blacklist.findOne({
+      guildID: guild.id
+    });
+    if (blacklist) return await guild.leave();
 
+    client.logger.log(`Joined ${guild.name}`);
     const joinLog = client.channels.cache.get(client.config.joinLogChannelID);
     if (joinLog)
       joinLog.send(

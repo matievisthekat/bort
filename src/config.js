@@ -32,6 +32,7 @@ module.exports = {
   },
   supportGuildID: "673605613456195584",
   joinLogChannelID: "702972555715281058",
+  blacklistChannelID: "",
   staff: {
     ids: ["695287250573066280", "492708936290402305"]
   },

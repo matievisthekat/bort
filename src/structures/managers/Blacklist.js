@@ -1,15 +1,18 @@
 module.exports = class BlacklistManager {
-  constructor(options = {}) {
-    this.client = options.client;
-    this.model = options.model;
-    this.channelID = options.channelID;
+  constructor(client) {
+    this.client = client;
+    this.channelID = client.config.blacklistChannelID;
+    this.model = require("../../constants/models").blacklist;
 
     this.channel = this.client.channels.cache.get(this.channelID);
 
-    this.client.web.app.get(`/api/${this.client.config.apiVersion}/blacklist`, async (req, res) => {
-      const blacklists = await this.model.find();
-      res.send({ blacklists }).status(200);
-    });
+    this.client.web.app.get(
+      `/api/${this.client.config.apiVersion}/blacklist`,
+      async (req, res) => {
+        const blacklists = await this.model.find();
+        res.send({ blacklists }).status(200);
+      }
+    );
   }
 
   async add(data = {}) {
