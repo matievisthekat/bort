@@ -2,16 +2,16 @@ const { findNested } = require("../util/util"),
   { Collection } = require("discord.js");
 
 module.exports = class EventManager {
-  constructor(options = {}) {
-    this.dir = options.directory;
-    this.client = options.client;
+  constructor(client) {
+    this.dir = client.eventDir;
+    this.client = client;
+
     this.events = new Collection();
 
     this.client.web.app.get(
       `/api/${this.client.config.apiVersion}/events`,
       (req, res) => {
         const events = this.events.array();
-
         res.send({ events }).status(200);
       }
     );

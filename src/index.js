@@ -15,7 +15,7 @@ const client = new Bort({
   translateAPIKey: process.env.YANDEX_API_KEY
 });
 
-client.init({ login: true }).then((res) => client.logger.log(res.message));
+client.init(true).then((res) => client.logger.log(res.message));
 
 require("discord.js/src/util/Constants.js").DefaultOptions.ws.properties.$browser =
   "Discord iOS";

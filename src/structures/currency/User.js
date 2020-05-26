@@ -1,14 +1,16 @@
 const { randomInRange } = require("../util/util");
+const { money } = require("../../constants/models");
 
 module.exports = class User {
-  constructor(options = {}) {
-    this.userID = options.userID;
-    this.schema = options.schema;
+  constructor(user) {
+    this.user = user;
+    this.userID = user.id;
+    this.schema = money;
   }
 
   async load() {
     const previousModel = await this.schema.findOne({
-      userID: this.userID,
+      userID: this.userID
     });
 
     this.model =
@@ -19,7 +21,7 @@ module.exports = class User {
         bank: 0,
         bankLimit: 200,
         economyXp: 0,
-        economyLevel: 0,
+        economyLevel: 0
       });
 
     await this.model.save();

@@ -23,7 +23,7 @@ module.exports = class Snipe extends Command {
           snipe.author.tag,
           snipe.author.displayAvatarURL({ dynamic: true })
         )
-        .setDesc(snipe.content || "[ No content ]")
+        .setDescription(snipe.content || "[ No content ]")
     );
   }
 };

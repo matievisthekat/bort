@@ -4,68 +4,41 @@ module.exports = class ErrorManager {
     this.prefix = this.client.config.msgPrefixes.error;
   }
 
-  async custom(message, channel, msg) {
-    return channel.send(await message.translate(`${this.prefix} ${msg}`));
+  /**
+   * Send a custom error
+   * @param {Message} [message] The message where the error occured
+   * @param {DMChannel|TextChannel} [channel] The channel to respond in
+   * @param {String} [msg] The message to send
+   */
+  async custom(msg, channel, message) {
+    return channel.send(await msg.translate(`${this.prefix} ${message}`));
   }
 
-  async unknownErr(message, msg, err) {
-    try {
-      const bugs = this.client.channels.cache.get(
-        this.client.bugReportsChannelID
-      );
-      const embed = new this.client.embed()
-        .setAuthor("An unknown error occured!")
-        .setColor(this.client.colours.red)
-        .addField("Error", err.message)
-        .addField(
-          "In server",
-          `**${msg.guild.name}**  \`${msg.guild.id}\``,
-          true
-        )
-        .addField(
-          "By user",
-          `${msg.author}  **${msg.author.tag}**  \`${msg.author.id}\``,
-          true
-        )
-        .setTimestamp();
-      bugs.send(embed);
-    } catch (err) {}
+  /**
+   *
+   * @param {Message} [msg] The mesasge where the error occured
+   */
+  async unknownErr(msg) {
     msg.channel.send(
-      await message.translate(
-        `${this.prefix} There was an unexpected error. This error has been automaticaly reported to the developers! Please try again.`
+      await msg.translate(
+        `${this.prefix} There was an unexpected error. If this continues please contact ${msg.client.creators.tags[0]}`
       )
     );
   }
 
-  async saveFail(message, msg, err) {
-    try {
-      const bugs = this.client.channels.cache.get(
-        this.client.bugReportsChannelID
-      );
-      const embed = new this.client.embed()
-        .setAuthor("An save fail occured!")
-        .setColor(this.client.colours.red)
-        .addField("Error", err.message)
-        .addField(
-          "In server",
-          `**${msg.guild.name}** | \`${msg.guild.id}\``,
-          true
-        )
-        .addField(
-          "By user",
-          `${msg.author} | **${msg.author.tag}** | \`${msg.author.id}\``,
-          true
-        )
-        .setTimestamp();
-      bugs.send(embed);
-    } catch (err) {}
+  async saveFail(msg) {
     msg.channel.send(
-      await message.translate(
+      await msg.translate(
         `${this.prefix} There was an error saving your data. This error has been automaticaly reported to the developers! Please try again.`
       )
     );
   }
 
+  /**
+   * Send an error to tell the user that the command may only be used in a guild
+   * @param {Message} [message] The message where the error occured
+   * @param {DMChannel|TextChannel} [channel] The channel to respond in
+   */
   async guildOnly(message, channel) {
     channel.send(
       await message.translate(
@@ -74,6 +47,11 @@ module.exports = class ErrorManager {
     );
   }
 
+  /**
+   * Send an error to tell the user that the command may only be used by a creator
+   * @param {Message} [message] The message where the error occured
+   * @param {DMChannel|TextChannel} [channel] The channel to respond in
+   */
   async creatorOnly(message, channel) {
     channel.send(
       await message.translate(
@@ -82,6 +60,13 @@ module.exports = class ErrorManager {
     );
   }
 
+  /**
+   *
+   * @param {Message} [message] The message where the error occured
+   * @param {DMChannel|TextChannel} [channel] The channel to respond in
+   * @param {String} [startTime] The time the cooldown was set
+   * @param {String} [cooldown] The cooldown of the command
+   */
   async cooldown(message, channel, startTime, cooldown) {
     const ms = require("ms");
     const time = ms(ms(cooldown) - (Date.now() - startTime), { long: true });
@@ -92,6 +77,13 @@ module.exports = class ErrorManager {
     );
   }
 
+  /**
+   * Send an error to inform the user that they did not provide the required arguments
+   * @param {Message} message The message where the error occured
+   * @param {Guild} guild The guild to fetch the prefix from
+   * @param {DMChannel|TextChannel} channel The channel to respond in
+   * @param {String} commandName The name of the run command
+   */
   async noArgs(message, guild, channel, commandName) {
     const prefix = await this.client.models.prefix.findOne({
       guildID: guild ? guild.id : ""

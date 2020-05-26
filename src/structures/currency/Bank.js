@@ -1,7 +1,9 @@
+const { bank } = require("../../constants/models");
+
 module.exports = class Bank {
-  constructor(options = {}) {
-    this.schema = options.schema;
-    this.guild = options.guild;
+  constructor(guild) {
+    this.schema = bank;
+    this.guild = guild;
   }
 
   async load() {

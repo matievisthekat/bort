@@ -5,27 +5,47 @@ class MsgExtension extends Message {
   constructor(...args) {
     super(...args);
 
+    // Initialize cooldowns
     this.cooldown = new Set();
     this.afkCooldown = new Set();
     this.currencyXpCooldown = new Set();
   }
 
+  /**
+   * Format a string for success
+   * @param {String} [str] The string to format as success
+   */
   success(str) {
     return `${this.client.config.msgPrefixes.success} ${str}`;
   }
 
+  /**
+   * Format a string for loading
+   * @param {String} [str] The string to format as loading
+   */
   loading(str) {
     return `${this.client.config.msgPrefixes.loading} ${str}`;
   }
 
+  /**
+   * Format a string for a warning
+   * @param {String} [str] The string to format as a warning
+   */
   warning(str) {
     return `${this.client.config.msgPrefixes.warning} ${str}`;
   }
 
+  /**
+   * Format a string for an error
+   * @param {String} [str] The string to format as an error
+   */
   error(str) {
     return `${this.client.config.msgPrefixes.error} ${str}`;
   }
 
+  /**
+   * Get the command properties for this message
+   */
   async commandProps() {
     const prefix = await this.prefix(true);
 
@@ -53,6 +73,9 @@ class MsgExtension extends Message {
     return { cmd, args, flags };
   }
 
+  /**
+   * Check this message for mentions or an AFK author
+   */
   async afkCheck() {
     const authorAfk = await this.client.models.afk.findOne({
       userID: this.author.id
@@ -103,6 +126,9 @@ class MsgExtension extends Message {
     }
   }
 
+  /**
+   * Run the message as a command
+   */
   async run() {
     const blacklist =
       (await this.client.models.blacklist.findOne({
@@ -163,7 +189,7 @@ class MsgExtension extends Message {
           return { message: "Successfully ran the command" };
         } catch (err) {
           this.client.logger.error(err);
-          return this.client.errors.unknownErr(this, this, err);
+          return this.client.errors.unknownErr(this);
         }
       }
     } else {
@@ -181,6 +207,10 @@ class MsgExtension extends Message {
     }
   }
 
+  /**
+   * Get the prefix used for this message
+   * @param {Boolean} [includeMention] Whether to see a mention as a valid prefix
+   */
   async prefix(includeMention) {
     const prefixMention = new RegExp(`^<@!?${this.client.user.id}> `);
     const data = await this.client.models.prefix.findOne({
@@ -195,6 +225,10 @@ class MsgExtension extends Message {
     return prefix;
   }
 
+  /**
+   * Translate a mesasge into the author's langauge preference
+   * @param {String} [text] The text to translate
+   */
   async translate(text) {
     const userLang = await this.client.models.userLang.findOne({
       userID: this.author.id
@@ -211,6 +245,12 @@ class MsgExtension extends Message {
     return res.text;
   }
 
+  /**
+   * Run the message through tests to make sure it is valid
+   * @param {Object} [cmd] The command to check for
+   * @param {Array} [args] Arguments to check for
+   * @param {Object} [flags] The flags to check for
+   */
   async commandCheck(cmd, args, flags) {
     // const userLang = await this.client.models.userLang.findOne({
     //   userID: this.author.id
@@ -230,9 +270,7 @@ class MsgExtension extends Message {
     //   if (m.deletable) m.delete().catch(() => {});
     // }
 
-    const cmdCooldown = this.client.cmd.commandCooldowns.get(
-            cmd.help.name
-          );
+    const cmdCooldown = this.client.cmd.commandCooldowns.get(cmd.help.name);
 
     if (cmd.config.guildOnly && !this.guild)
       return this.client.errors.guildOnly(this, this.channel);
@@ -376,6 +414,10 @@ class MsgExtension extends Message {
     return true;
   }
 
+  /**
+   * Convert text to emojis (Not in use)
+   * @param {String} [str] The string to emojify
+   */
   emojify(str) {
     return str.toProperCase(); //([...str.replace(/!/gi, this.client.emoji.exclamMark)].map(letter => this.client.emoji[letter.toLowerCase()] || letter).join(""));
   }

@@ -1,6 +1,6 @@
 const { Structures } = require("discord.js"),
   CurrencyUser = require("../currency/User"),
-  { money, userLang } = require("../../constants/models");
+  { userLang } = require("../../constants/models");
 
 module.exports = Structures.extend(
   "User",
@@ -8,10 +8,8 @@ module.exports = Structures.extend(
     class UserExtension extends User {
       constructor(...args) {
         super(...args);
-        this.currency = new CurrencyUser({
-          userID: this.id,
-          schema: money
-        });
+        
+        this.currency = new CurrencyUser(this);
 
         this.langModel;
         this.lang = "en";

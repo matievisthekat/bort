@@ -1,16 +1,15 @@
 const { Structures } = require("discord.js"),
-  Bank = require("../currency/Bank"),
-  { bank } = require("../../constants/models");
+  Bank = require("../currency/Bank");
 
-module.exports = Structures.extend("Guild", (Guild) =>
+module.exports = Structures.extend(
+  "Guild",
+  (Guild) =>
     class GuildExtension extends Guild {
       constructor(...args) {
         super(...args);
 
-        this.bank = new Bank({
-          guild: this,
-          schema: bank,
-        });
+        // Initialize a bank for this guild
+        this.bank = new Bank(this);
       }
     }
 );

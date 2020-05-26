@@ -1,11 +1,14 @@
 module.exports = class BlacklistManager {
   constructor(client) {
+    // Set properties
     this.client = client;
     this.channelID = client.config.blacklistChannelID;
     this.model = require("../../constants/models").blacklist;
 
+    // Get the channel to log blacklists in (Not in use)
     this.channel = this.client.channels.cache.get(this.channelID);
 
+    // GET request to see all current blacklists
     this.client.web.app.get(
       `/api/${this.client.config.apiVersion}/blacklist`,
       async (req, res) => {
@@ -15,26 +18,30 @@ module.exports = class BlacklistManager {
     );
   }
 
-  async add(data = {}) {
-    if (!data.id || !data.reason)
+  /**
+   * Add a blacklist
+   * @param {String} [id] The ID to blacklist
+   * @param {String} [reason] The reason for blacklisting
+   */
+  async add(id, reason) {
+    if (!id || !reason)
       throw new Error(
         "BlacklistManager#add() requires both id and reason paramaters"
       );
 
     const resolved =
-      this.client.guilds.cache.get(data.id) ||
-      this.client.users.cache.get(data.id);
+      this.client.guilds.cache.get(id) || this.client.users.cache.get(id);
 
     const previousModel = await this.model.findOne({
-      id: data.id
+      id
     });
 
     if (previousModel)
       return { message: "That Id is already blacklisted", status: 404 };
 
     const model = new this.model({
-      id: data.id,
-      reason: data.reason,
+      id,
+      reason,
       timestamp: Date.now()
     });
 
@@ -58,22 +65,26 @@ module.exports = class BlacklistManager {
     };
   }
 
-  async remove(data = {}) {
-    if (!data.id || !data.reason)
+  /**
+   * Remove a blacklist
+   * @param {String} [id] The ID to un-blacklist
+   * @param {String} [reason] The reason to remove the blacklist
+   */
+  async remove(id, reason) {
+    if (!id || !reason)
       throw new Error(
         "BlacklistManager#remove() requires both id and reason paramaters"
       );
 
     const model = await this.model.findOne({
-      id: data.id
+      id
     });
 
     if (model === null)
       return { message: "No database entry found", status: 404 };
 
     const resolved =
-      this.client.guilds.cache.get(data.id) ||
-      this.client.users.cache.get(data.id);
+      this.client.guilds.cache.get(id) || this.client.users.cache.get(id);
 
     try {
       await model.delete();
@@ -89,12 +100,16 @@ module.exports = class BlacklistManager {
 
     return {
       message: `Removed **${
-        resolved ? resolved.username || resolved.name : data.id
+        resolved ? resolved.username || resolved.name : id
       }** from the blacklist`,
       status: 200
     };
   }
 
+  /**
+   * Fetch a blacklist
+   * @param {String} [id] he ID of the blacklisted user or guild
+   */
   async get(id) {
     if (!id)
       throw new Error("BlacklistManager#get() requires the id paramater");

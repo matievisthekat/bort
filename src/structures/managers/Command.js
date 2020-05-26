@@ -2,9 +2,9 @@ const { Collection } = require("discord.js");
 const { findNested } = require("../util/util");
 
 module.exports = class CommandManager {
-  constructor(options = {}) {
-    this.dir = options.directory;
-    this.client = options.client;
+  constructor(client) {
+    this.dir = client.commandDir;
+    this.client = client;
 
     this.commands = new Collection();
     this.aliases = new Collection();

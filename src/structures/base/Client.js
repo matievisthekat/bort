@@ -22,10 +22,6 @@ const MessageProps = require("../../structures/base/Message"),
   UserProps = require("../../structures/base/User.js"),
   GuildProps = require("../../structures/base/Guild");
 
-/**
- * The extended client for Bort
- * @extends {Client}
- */
 module.exports = class Bort extends Client {
   constructor(options = {}) {
     super(options);
@@ -65,19 +61,9 @@ module.exports = class Bort extends Client {
     this.translator = new Translator(this, this.translateAPIKey);
     this.errors = new ErrorManager(this);
     this.currency = new CurrencyManager(this);
-    this.cmd = new CommandManager({
-      directory: this.commandDir,
-      client: this
-    });
-    this.evnt = new EventManager({
-      directory: this.eventDir,
-      client: this
-    });
-    this.blacklist = new BlacklistManager({
-      client: this,
-      model: this.models.blacklist,
-      channelID: "697123744816300064"
-    });
+    this.blacklist = new BlacklistManager(this);
+    this.cmd = new CommandManager(this);
+    this.evnt = new EventManager(this);
 
     // Initialize DBL client
     this.dbl = new dblClient(
@@ -90,15 +76,18 @@ module.exports = class Bort extends Client {
       this
     );
 
+    // GET request for available langauges
     this.web.app.get(`/api/${this.config.apiVersion}/langauges`, (req, res) => {
       const langs = this.translator.langs;
       res.send({ langs }).status(200);
     });
 
+    // GET request for all guilds the client is in
     this.web.app.get(`/api/${this.apiVersion}/guilds`, (req, res) =>
       res.send({ guilds: this.guilds.cache.array() }).status(200)
     );
 
+    // Get request for mutual servers with a specific user
     this.web.app.get(
       `/api/${this.apiVersion}/guilds/mutual/:userID`,
       async (req, res) => {
@@ -115,6 +104,7 @@ module.exports = class Bort extends Client {
       }
     );
 
+    // GET request for a specific guild
     this.web.app.get(`/api/${this.apiVersion}/guilds/:guildID`, (req, res) => {
       const guildID = req.params.guildID;
       const guild = this.guilds.cache.get(guildID);
@@ -141,6 +131,10 @@ module.exports = class Bort extends Client {
     // );
   }
 
+  /**
+   * Remove a set prefix from the database
+   * @param {Model} [data] The model of data for the prefix
+   */
   async unloadPrefix(data) {
     if (!data.guildID || !data.prefix || !data)
       throw new Error("Bort#unloadPrefix must have mongodb data");
@@ -150,27 +144,38 @@ module.exports = class Bort extends Client {
     return true;
   }
 
-  async loadPrefix(options = {}) {
-    if (!options.guildID || !options.prefix)
+  /**
+   * Enter a custom prefix for a guild
+   * @param {String} [guildID] The ID of the guild to load a prefix for
+   * @param {String} [prefix] The prefix to set
+   */
+  async loadPrefix(guildID, prefix) {
+    if (!guildID || !prefix)
       throw new Error(
         "Bort#loadPrefix must have a guildID and prefix paramaters"
       );
 
     const data =
-      (await this.models.prefix.findOne({ guildID: options.guildID })) ||
+      (await this.models.prefix.findOne({ guildID })) ||
       new this.models.prefix({
-        guildID: options.guildID
+        guildID
       });
 
-    data.prefix = options.prefix;
+    data.prefix = prefix;
     await data.save();
 
     return {
-      message: `Successfully loaded the prefix ${options.prefix} for ${options.guildID}`,
+      message: `Successfully loaded the prefix ${prefix} for ${guildID}`,
       status: 200
     };
   }
 
+  /**
+   * Resolve for a user, member, channel, role or guild
+   * @param {String} [type] To resolve for a user, guild, channel, role or member
+   * @param {String} [value] The value to search with
+   * @param {Guild} [guild] The guild to search in
+   */
   async resolve(type, value, guild) {
     if (!value) return null;
     value = value.toLowerCase();
@@ -226,19 +231,23 @@ module.exports = class Bort extends Client {
     }
   }
 
+  /**
+   * Reload the client without logging in
+   */
   reload() {
     this.logger.warn("Force full reload");
 
-    this.init({ login: false });
+    this.init(false);
 
     return { message: "Successfully reloaded", status: 200 };
   }
 
   /**
-   *
-   * @param {options} login
+   * Initialize the client
+   * @param {Boolean} [login] Whether to login when initializing or not
+   * @param {Boolean} [loadWeb] Whether to load the custom API or not
    */
-  async init({ login = false, loadWeb = true }) {
+  async init(login = false, loadWeb = true) {
     this.cmd.load();
     this.evnt.load();
     await this.translator.load().then((res) => this.logger.log(res.message));
@@ -260,7 +269,7 @@ module.exports = class Bort extends Client {
   }
 
   /**
-   * @function connect Initiate a connection with the MongoDB database
+   * Initialize a connection with the MongoDB database
    */
   async connect() {
     await mongoose.connect(this.uri, {
