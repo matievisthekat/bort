@@ -20,7 +20,7 @@ module.exports = class extends Event {
       await channel.messages.fetch(reactionRole.messageID);
     }
 
-    if (client.loadMusic) {
+    if (client.loadMusic === "true") {
       const nodes = [
         {
           host: "localhost",
