@@ -15,6 +15,7 @@ module.exports = class Help extends Command {
   }
 
   async run(msg, args, flags) {
+    const dashboardURL = `https://bort.matievisthekat.dev/dashboard/${msg.guild.id}`;
     const prefix = await msg.prefix(false);
     let commandSize = msg.client.cmd.commands.filter((c) =>
       c.help.name.toLowerCase() &&
@@ -29,7 +30,9 @@ module.exports = class Help extends Command {
       .setDescription(
         `__**Links**__: ${msg.client.config.links
           .map((l) => `${l.emoji || ""} [${l.name}](${l.link})`)
-          .join(" **|** ")}`
+          .join(" **|** ")} **|** ${
+          msg.client.emoji.staffBadge
+        } [Dashboard](${dashboardURL})`
       )
       .setFooter(
         `Currently running ${commandSize} commands! | < optional > { required } Prefix: ${prefix}`
@@ -58,7 +61,8 @@ module.exports = class Help extends Command {
 
         commands = commands
           .filter((c) =>
-            c.help.name && !msg.client.config.creators.ids.includes(msg.author.id)
+            c.help.name &&
+            !msg.client.config.creators.ids.includes(msg.author.id)
               ? !c.config.creatorOnly
               : true && !msg.guild
               ? !c.config.guildOnly
@@ -81,9 +85,7 @@ module.exports = class Help extends Command {
         )
       ) {
         const command =
-          msg.client.cmd.commands.get(
-            args.join(" ").toLowerCase()
-          ) ||
+          msg.client.cmd.commands.get(args.join(" ").toLowerCase()) ||
           msg.client.cmd.commands.get(
             msg.client.cmd.aliases.get(args.join(" ").toLowerCase())
           );
