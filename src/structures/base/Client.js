@@ -136,7 +136,7 @@ module.exports = class Bort extends Client {
 
     // GET request for the prefix of specific guild
     this.web.app.get(
-      `/api/${this.config.apiVersion}/prefix/${guildID}`,
+      `/api/${this.config.apiVersion}/prefix/:guildID`,
       async (req, res) => {
         const data = await this.models.prefix.findOne({
           guildID: req.params.guildID
