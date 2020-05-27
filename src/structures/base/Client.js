@@ -124,11 +124,58 @@ module.exports = class Bort extends Client {
       `/api/${this.config.apiVersion}/prefixes`,
       async (req, res) => {
         const data = await this.models.prefix.find();
-        res.send({
-          prefixes: data.map((doc) => {
-            return { guildID: doc.guildID, prefix: doc.prefix };
+        res
+          .send({
+            prefixes: data.map((doc) => {
+              return { guildID: doc.guildID, prefix: doc.prefix };
+            })
           })
+          .status(200);
+      }
+    );
+
+    // GET request for the prefix of specific guild
+    this.web.app.get(
+      `/api/${this.config.apiVersion}/prefix/${guildID}`,
+      async (req, res) => {
+        const data = await this.models.prefix.findOne({
+          guildID: req.params.guildID
         });
+        res.send({ prefix: data ? data.prefix : this.prefix }).status(200);
+      }
+    );
+
+    // POST request to change the prefix of a guild
+    this.web.app.post(
+      `/api/${this.config.apiVersion}/guilds/:guildID/changeprefix`,
+      (req, res) => {
+        const guildID = req.params.guildID;
+        const guild = this.guilds.cache.get(guildID);
+        if (!guild) return res.send({ error: "No guild found", status: 404 });
+
+        const userID = req.body.userID;
+        const member = guild.members.cache.get(userID);
+        if (!member)
+          return res.send({ error: "No member was found", status: 404 });
+        if (!member.hasPermission("MANAGE_GUILD"))
+          return res.send({
+            error: "You lack permission to change the prefix for that server"
+          });
+
+        const prefix = req.body.prefix;
+        if (!prefix) return res.send({ error: "You need to send a prefix", status: 404 });
+        if (prefix === this.prefix) return res.send({ message: "Successfully changed the prefix"}).status(200)
+
+        const data = await this.models.prefix.findOne({
+          guildID
+        }) || new this.models.prefix({
+          guildID
+        });
+
+        data.prefix = prefix;
+        await data.save();
+        
+        res.send({ message: "Successfully changed the prefix"}).status(200)
       }
     );
 
