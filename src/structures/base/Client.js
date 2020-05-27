@@ -181,7 +181,11 @@ module.exports = class Bort extends Client {
         data.prefix = prefix;
         await data.save();
 
-        res.send({ message: "Successfully changed the prefix" }).status(200);
+        res
+          .send({
+            message: `Successfully changed the prefix to ${data.prefix}`
+          })
+          .status(200);
       }
     );
 
