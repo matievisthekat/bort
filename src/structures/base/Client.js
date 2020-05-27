@@ -95,6 +95,7 @@ module.exports = class Bort extends Client {
         let guilds = [];
         for (const guild of this.guilds.cache.array()) {
           const member = await guild.members.fetch(userID).catch(() => {});
+          if (req.query.manager)
           if (member) guilds.push(guild);
         }
 
