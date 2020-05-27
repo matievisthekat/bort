@@ -56,7 +56,7 @@ function setStatus(client) {
   client.user.setPresence({
     status: "online",
     activity: {
-      name: `public test stage | /help | ${
+      name: `hi | /help | ${
         client.guilds.cache.size
       } servers (${Math.round(
         client.users.cache.size / client.guilds.cache.size
