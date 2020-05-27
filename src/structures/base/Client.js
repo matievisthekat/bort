@@ -165,10 +165,6 @@ module.exports = class Bort extends Client {
         const prefix = req.body.body.prefix;
         if (!prefix)
           return res.send({ error: "You need to send a prefix", status: 404 });
-        if (prefix === this.prefix)
-          return res
-            .send({ message: "Successfully changed the prefix" })
-            .status(200);
 
         const data =
           (await this.models.prefix.findOne({
