@@ -153,7 +153,7 @@ module.exports = class Bort extends Client {
         const guild = this.guilds.cache.get(guildID);
         if (!guild) return res.send({ error: "No guild found", status: 404 });
 
-        const userID = req.body.userID;
+        const userID = req.body.body.userID;
         const member = guild.members.cache.get(userID);
         if (!member)
           return res.send({ error: "No member was found", status: 404 });
@@ -162,20 +162,26 @@ module.exports = class Bort extends Client {
             error: "You lack permission to change the prefix for that server"
           });
 
-        const prefix = req.body.prefix;
-        if (!prefix) return res.send({ error: "You need to send a prefix", status: 404 });
-        if (prefix === this.prefix) return res.send({ message: "Successfully changed the prefix"}).status(200)
+        const prefix = req.body.body.prefix;
+        if (!prefix)
+          return res.send({ error: "You need to send a prefix", status: 404 });
+        if (prefix === this.prefix)
+          return res
+            .send({ message: "Successfully changed the prefix" })
+            .status(200);
 
-        const data = await this.models.prefix.findOne({
-          guildID
-        }) || new this.models.prefix({
-          guildID
-        });
+        const data =
+          (await this.models.prefix.findOne({
+            guildID
+          })) ||
+          new this.models.prefix({
+            guildID
+          });
 
         data.prefix = prefix;
         await data.save();
 
-        res.send({ message: "Successfully changed the prefix"}).status(200)
+        res.send({ message: "Successfully changed the prefix" }).status(200);
       }
     );
 

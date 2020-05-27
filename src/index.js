@@ -4,7 +4,7 @@ const { resolve } = require("path");
 const Bort = require("./structures/base/Client");
 const client = new Bort({
   disableMentions: "everyone",
-  loadMusic: process.env.LOAD_MUSIC,
+  loadMusic: false,//process.env.LOAD_MUSIC,
   commandDir: resolve(__dirname, "./commands/"),
   eventDir: resolve(__dirname, "./events/"),
   prefix: process.env.PREFIX || "/",
