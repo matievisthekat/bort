@@ -119,6 +119,19 @@ module.exports = class Bort extends Client {
       }
     );
 
+    // GET request for all prefixes mapped to their guild
+    this.web.app.get(
+      `/api/${this.config.apiVersion}/prefixes`,
+      async (req, res) => {
+        const data = await this.models.prefix.find();
+        res.send({
+          prefixes: data.map((doc) => {
+            return { guildID: doc.guildID, prefix: doc.prefix };
+          })
+        });
+      }
+    );
+
     // GET request for roles from a guild
     this.web.app.get(
       `/api/${this.config.apiVersion}/guilds/:guildID/roles`,
