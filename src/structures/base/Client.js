@@ -148,7 +148,7 @@ module.exports = class Bort extends Client {
     // POST request to change the prefix of a guild
     this.web.app.post(
       `/api/${this.config.apiVersion}/guilds/:guildID/changeprefix`,
-      (req, res) => {
+      async (req, res) => {
         const guildID = req.params.guildID;
         const guild = this.guilds.cache.get(guildID);
         if (!guild) return res.send({ error: "No guild found", status: 404 });
@@ -174,7 +174,7 @@ module.exports = class Bort extends Client {
 
         data.prefix = prefix;
         await data.save();
-        
+
         res.send({ message: "Successfully changed the prefix"}).status(200)
       }
     );
