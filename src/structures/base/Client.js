@@ -157,7 +157,10 @@ module.exports = class Bort extends Client {
         const member = guild.members.cache.get(userID);
         if (!member)
           return res.send({ error: "No member was found", status: 404 });
-        if (!member.hasPermission("MANAGE_GUILD"))
+        if (
+          !member.hasPermission("MANAGE_GUILD") &&
+          !this.config.creators.ids.includes(member.user.id)
+        )
           return res.send({
             error: "You lack permission to change the prefix for that server"
           });
