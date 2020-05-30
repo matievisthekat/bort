@@ -17,8 +17,8 @@ module.exports = class extends Event {
             : client.config.defaultUserAvatarURL
         )
         .setDescription(
-          `${`${voter} (${voter.tag})` || "Unknown"} just voted for ${
-            `${bot} (${bot.tag})` || "Unknown"
+          `${voter ? `${voter} (${voter.tag})` : "Unknown"} just voted for ${
+            bot ? `${bot} (${bot.tag})` : "Unknown"
           } ${
             bot && bot.id === client.user.id
               ? `and earned ${client.config.voteReward}`
