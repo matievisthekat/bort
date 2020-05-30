@@ -79,7 +79,7 @@ module.exports = class Bort extends Client {
     // );
 
     // POST request for https://top.gg vote logs
-    this.web.app.get(`/api/${this.config.apiVersion}/vote`, (req, res) => {
+    this.web.app.post(`/api/${this.config.apiVersion}/vote`, (req, res) => {
       const auth = req.headers.authorization;
       console.log("auth:", auth);
     });
