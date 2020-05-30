@@ -88,7 +88,7 @@ module.exports = class Bort extends Client {
       const bot = this.users.cache.get(data.bot);
       const isWeekend = data.isWeekend;
 
-      this.dbl.emit("vote", (voter, bot, isWeekend));
+      this.dbl.emit("vote", voter, bot, isWeekend);
     });
 
     // GET request for available langauges
