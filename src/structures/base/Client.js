@@ -82,7 +82,13 @@ module.exports = class Bort extends Client {
     this.web.app.post(`/api/${this.config.apiVersion}/vote`, (req, res) => {
       const auth = req.headers.authorization;
       if (auth !== process.env.TOP_GG_WEBHOOK_AUTH) return res.sendStatus(403);
-      console.log(req.body);
+
+      const data = req.body;
+      const voter = this.users.cache.get(data.user);
+      const bot = this.users.cache.get(data.bot);
+      const isWeekend = data.isWeekend;
+
+      this.dbl.emit("vote", (voter, bot, isWeekend));
     });
 
     // GET request for available langauges

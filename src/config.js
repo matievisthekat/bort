@@ -3,6 +3,8 @@ const emoji = require("./constants/emoji");
 module.exports = {
   apiVersion: "v1",
   dblWebhookPort: 8000,
+  voteReward: `${emoji.coin} 100`,
+  voteRewardAmount: 100,
   msgPrefixes: {
     error: `${emoji.dnd} **|**`,
     success: `${emoji.online} **|**`,
@@ -30,6 +32,8 @@ module.exports = {
     tags: ["MatievisTheKat#4975"],
     ids: ["492708936290402305"]
   },
+  defaultUserAvatarURL: "",
+  voteLogChannelID: "701147297609941052",
   supportGuildID: "673605613456195584",
   joinLogChannelID: "702972555715281058",
   blacklistChannelID: "",
