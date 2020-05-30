@@ -11,7 +11,9 @@ module.exports = class extends Event {
       const embed = new client.embed().green
         .setAuthor(
           voter ? voter.tag : "Unknown",
-          voter ? voter.displayAvatarURL() : client.config.defaultUserAvatarURL
+          voter && voter.displayAvatarURL
+            ? voter.displayAvatarURL()
+            : client.config.defaultUserAvatarURL
         )
         .setDescription(
           `${`${voter} (${voter.tag})` || "Unknown"} just voted for ${
