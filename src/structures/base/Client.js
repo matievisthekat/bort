@@ -81,7 +81,8 @@ module.exports = class Bort extends Client {
     // POST request for https://top.gg vote logs
     this.web.app.post(`/api/${this.config.apiVersion}/vote`, (req, res) => {
       const auth = req.headers.authorization;
-      console.log("auth:", auth);
+      if (auth !== process.env.TOP_GG_WEBHOOK_AUTH) return res.sendStatus(403);
+      console.log(req.body);
     });
 
     // GET request for available langauges
