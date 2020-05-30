@@ -7,6 +7,7 @@ module.exports = class extends Event {
 
   async run(client, voter, bot, isWeekend) {
     const logChan = client.channels.cache.get(client.config.voteLogChannelID);
+    client.logger.warn("Someone voted but the vote log channel was not found!");
     if (logChan) {
       const embed = new client.embed().green
         .setAuthor(
