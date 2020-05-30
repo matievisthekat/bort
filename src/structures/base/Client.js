@@ -65,18 +65,8 @@ module.exports = class Bort extends Client {
     this.cmd = new CommandManager(this);
     this.evnt = new EventManager(this);
 
+    // Initialize DBL client
     this.dbl = new dblClient(process.env.TOP_GG_API_TOKEN, this);
-
-    // // Initialize DBL client
-    // this.dbl = new dblClient(
-    //   process.env.TOP_GG_API_TOKEN,
-    //   {
-    //     webhookPort: this.config.dblWebhookPort,
-    //     webhookAuth: process.env.TOP_GG_WEBHOOK_AUTH,
-    //     webhookPath: "vote"
-    //   },
-    //   this
-    // );
 
     // POST request for https://top.gg vote logs
     this.web.app.post(`/api/${this.config.apiVersion}/vote`, (req, res) => {
