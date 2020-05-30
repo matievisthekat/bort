@@ -25,8 +25,8 @@ module.exports = class EventManager {
 
       if (evnt.type === "dbl")
         this.client.dbl.on(evnt.name, evnt.run.bind(null, this.client));
-      else if (evnt.type === "dbl-webhook")
-        this.client.dbl.webhook.on(evnt.name, evnt.run.bind(null, this.client));
+      // else if (evnt.type === "dbl-webhook")
+      //   this.client.dbl.webhook.on(evnt.name, evnt.run.bind(null, this.client));
       else this.client.on(evnt.name, evnt.run.bind(null, this.client));
 
       this.events.set(evnt.name, evnt);

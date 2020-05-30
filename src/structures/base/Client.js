@@ -65,16 +65,24 @@ module.exports = class Bort extends Client {
     this.cmd = new CommandManager(this);
     this.evnt = new EventManager(this);
 
-    // Initialize DBL client
-    this.dbl = new dblClient(
-      process.env.TOP_GG_API_TOKEN,
-      {
-        webhookPort: this.config.dblWebhookPort,
-        webhookAuth: process.env.TOP_GG_WEBHOOK_AUTH,
-        webhookPath: `/api/${this.config.apiVersion}/webhooks/vote`
-      },
-      this
-    );
+    this.dbl = new dblClient(process.env.TOP_GG_API_TOKEN, this);
+
+    // // Initialize DBL client
+    // this.dbl = new dblClient(
+    //   process.env.TOP_GG_API_TOKEN,
+    //   {
+    //     webhookPort: this.config.dblWebhookPort,
+    //     webhookAuth: process.env.TOP_GG_WEBHOOK_AUTH,
+    //     webhookPath: "vote"
+    //   },
+    //   this
+    // );
+
+    // POST request for https://top.gg vote logs
+    this.web.app.get(`/api/${this.config.apiVersion}/vote`, (req, res) => {
+      const auth = req.headers.authorization;
+      console.log("auth:", auth);
+    });
 
     // GET request for available langauges
     this.web.app.get(`/api/${this.config.apiVersion}/langauges`, (req, res) => {
@@ -151,12 +159,16 @@ module.exports = class Bort extends Client {
       async (req, res) => {
         const guildID = req.params.guildID;
         const guild = this.guilds.cache.get(guildID);
-        if (!guild) return res.send({ error: "No guild found", status: 404 });
+        if (!guild)
+          return res.send({ error: "That guild was not found!", status: 404 });
 
         const userID = req.body.body.userID;
         const member = guild.members.cache.get(userID);
         if (!member)
-          return res.send({ error: "No member was found", status: 404 });
+          return res.send({
+            error: "You are not a member of that guild!"
+          });
+
         if (
           !member.hasPermission("MANAGE_GUILD") &&
           !this.config.creators.ids.includes(member.user.id)
@@ -222,7 +234,7 @@ module.exports = class Bort extends Client {
 
   /**
    * Remove a set prefix from the database
-   * @param {Model} [data] The model of data for the prefix
+   * @param {Model} data The model of data for the prefix
    */
   async unloadPrefix(data) {
     if (!data.guildID || !data.prefix || !data)
@@ -235,8 +247,8 @@ module.exports = class Bort extends Client {
 
   /**
    * Enter a custom prefix for a guild
-   * @param {String} [guildID] The ID of the guild to load a prefix for
-   * @param {String} [prefix] The prefix to set
+   * @param {String} guildID The ID of the guild to load a prefix for
+   * @param {String} prefix The prefix to set
    */
   async loadPrefix(guildID, prefix) {
     if (!guildID || !prefix)
@@ -261,9 +273,9 @@ module.exports = class Bort extends Client {
 
   /**
    * Resolve for a user, member, channel, role or guild
-   * @param {String} [type] To resolve for a user, guild, channel, role or member
-   * @param {String} [value] The value to search with
-   * @param {Guild} [guild] The guild to search in
+   * @param {String} type To resolve for a user, guild, channel, role or member
+   * @param {String} value The value to search with
+   * @param {Guild} guild The guild to search in
    */
   async resolve(type, value, guild) {
     if (!value) return null;
@@ -333,8 +345,8 @@ module.exports = class Bort extends Client {
 
   /**
    * Initialize the client
-   * @param {Boolean} [login] Whether to login when initializing or not
-   * @param {Boolean} [loadWeb] Whether to load the custom API or not
+   * @param {Boolean} login Whether to login when initializing or not
+   * @param {Boolean} loadWeb Whether to load the custom API or not
    */
   async init(login = false, loadWeb = true) {
     this.cmd.load();
