@@ -7,7 +7,6 @@ module.exports = class extends Event {
 
   async run(client, voter, bot, isWeekend) {
     const logChan = client.channels.cache.get(client.config.voteLogChannelID);
-    client.logger.warn("Someone voted but the vote log channel was not found!");
     if (logChan) {
       const embed = new client.embed().green
         .setAuthor(
@@ -27,7 +26,10 @@ module.exports = class extends Event {
         );
 
       logChan.send(embed);
-    }
+    } else
+      client.logger.warn(
+        "Someone voted but the vote log channel was not found!"
+      );
 
     const user = await client.models.money.findOne({
       userID: voter ? voter.id : ""
