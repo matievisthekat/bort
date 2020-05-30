@@ -44,9 +44,9 @@ module.exports = class extends Command {
     ];
     const embed = new msg.client.embed().none(
       `${links
-        .map((link) => `[${link.name}](${link.url})`)
+        .map((link) => `- [${link.name}](${link.url})`)
         .join(
-          "\n- "
+          "\n"
         )}\n\nFind all the links on the Bort website [here](https://bort.matievisthekat.dev/vote)!`
     );
 
