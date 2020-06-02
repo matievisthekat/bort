@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-function findNested(dir, pattern) {
+function findNested(dir, pattern = ".js") {
   let results = [];
 
   fs.readdirSync(dir).forEach((inner_dir) => {

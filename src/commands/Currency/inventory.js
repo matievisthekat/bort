@@ -5,7 +5,7 @@ module.exports = class extends Command {
     super({
       name: "inventory",
       aliases: ["inv"],
-      category: "Currency",
+      category: "Fun",
       description: "View your inventory",
       requiresArgs: false
     });
@@ -15,7 +15,7 @@ module.exports = class extends Command {
     const data = await msg.client.models.inv.findOne({
       userID: msg.author.id
     });
-    if (!data)
+    if (!data || data.inv.length < 1)
       return msg.client.errors.custom(
         msg,
         msg.channel,

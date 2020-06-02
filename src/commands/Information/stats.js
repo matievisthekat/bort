@@ -1,7 +1,8 @@
 const Command = require("../../structures/base/Command"),
   { version } = require("discord.js"),
   { cpu, mem, osCmd } = require("node-os-utils"),
-  { check } = require("diskusage");
+  { check } = require("diskusage"),
+  { join } = require("path");
 
 module.exports = class extends Command {
   constructor() {
@@ -19,6 +20,7 @@ module.exports = class extends Command {
     const m = await msg.channel.send(msg.loading("Fetching statistics..."));
 
     const path = process.platform === "win32" ? "c:" : "/";
+    const files = msg.client.util.findNested(join(__dirname, "..", "..", ".."));
 
     const botUptime = msg.client.util.ms(msg.client.uptime, { long: true });
     const procUptime = msg.client.util.ms(
@@ -65,7 +67,9 @@ module.exports = class extends Command {
           "Disk",
           `**Total:** ${tot} GB\n**Used:** ${used} GB (${Math.round(
             (used / tot) * 100
-          )}%)\n**Free:** ${free} GB (${Math.round((free / tot) * 100)}%)`
+          )}%)\n**Free:** ${free} GB (${Math.round(
+            (free / tot) * 100
+          )}%)\n**Total JS Files for this bot:** ${files.length}`
         );
 
       m.edit("", embed);
