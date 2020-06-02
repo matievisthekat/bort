@@ -56,5 +56,91 @@ module.exports = {
       content:
         "*Please note none of these companies asked to be put here. bort has no obligation to any of these companies*\n\n__**Recommended**__\n[`Servercheap.net`](https://servercheap.net/crm/aff.php?aff=365) Starting at $2.99/month for 1GB ram, 30DB SSD, unmetered bandwidth and 1 CPU core\n\n__**More Options**__\n[`Oxide Hosting`](https://oxide.host) Starting at $4.39/month for 2GB ram, 32GB SSD, 1 CPU core, unmetered bandwidth\n[`Vultr`](https://www.vultr.com/) Starting at $2.50/month for 521MD ram, 10GB SSD, 1 CPU core, 0.50TB bandwidth\n[`Digital Ocean`](https://www.digitalocean.com/) Starting at $5/month for 1GB ram, 25GB SSD, 1TB bandwidth, 1 CPU core\n[`OVH`](https://www.ovhcloud.com/) Starting at $6/month for 2GB ram, 40 GB NVMe, unmetered bandwidth, 1 CPU core\n\n__**Bort uses**__\n[`Servercheap.net`](https://servercheap.net/crm/aff.php?aff=365) $3.82/month for 2GB ram, 60GB SSD, unmetered bandwidth, 2 CPU cores, free DNS management"
     }
+  ],
+  animals: {
+    common: [
+      {
+        name: "cat",
+        price: 50
+      },
+      {
+        name: "dog",
+        price: 45
+      },
+      {
+        name: "mouse",
+        price: 10
+      },
+      {
+        name: "chicken",
+        price: 34
+      }
+    ],
+    uncommon: [
+      {
+        name: "bird",
+        price: 76
+      },
+      {
+        name: "eagle",
+        price: 100
+      }
+    ],
+    legendary: [
+      {
+        name: "dinasour",
+        price: 400
+      },
+      {
+        name: "electric dog",
+        price: 370
+      },
+      {
+        name: "ultra chicken",
+        price: 350
+      }
+    ],
+    mythical: [
+      {
+        name: "ultra dog",
+        price: 500
+      },
+      {
+        name: "ultra dinasour",
+        price: 670
+      },
+      {
+        name: "ultra eagle",
+        price: 780
+      }
+    ]
+  },
+  fish: [
+    { name: "salmon", price: 10 },
+    { name: "cod", price: 15 },
+    { name: "catfish", price: 30 },
+    { name: "tuna", price: 20 }
+  ],
+  ores: [
+    {
+      name: "iron",
+      price: 40
+    },
+    {
+      name: "gold",
+      price: 60
+    },
+    {
+      name: "coal",
+      price: 50
+    },
+    {
+      name: "emerald",
+      price: 100
+    },
+    {
+      name: "diamond",
+      price: 240
+    }
   ]
 };

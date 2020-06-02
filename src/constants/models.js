@@ -59,6 +59,13 @@ module.exports = {
       economyLevel: Number
     })
   ),
+  inv: model(
+    "animals",
+    new Schema({
+      userID: String,
+      inv: [Object]
+    })
+  ),
   rank: model(
     "ranks",
     new Schema({

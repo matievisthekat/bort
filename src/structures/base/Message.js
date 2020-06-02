@@ -275,6 +275,33 @@ class MsgExtension extends Message {
     if (cmd.config.guildOnly && !this.guild)
       return this.client.errors.guildOnly(this, this.channel);
 
+    if (this.guild) {
+      if (
+        !this.member.hasPermission(
+          cmd.config.requiredPerms ? cmd.config.requiredPerms : "SEND_MESSAGES"
+        ) &&
+        !this.client.config.creators.ids.includes(this.author.id)
+      )
+        return this.client.errors.noPerms(
+          this,
+          this.channel,
+          cmd.config.requiredPerms
+        );
+
+      if (
+        !this.guild.me.hasPermission(
+          cmd.config.requiredClientPerms
+            ? cmd.config.requiredClientPerms
+            : "SEND_MESSAGES"
+        )
+      )
+        return this.client.errors.noClientPerms(
+          this,
+          this,
+          cmd.config.requiredClientPerms
+        );
+    }
+
     if (
       cmd.config.creatorOnly &&
       !this.client.config.creators.ids.includes(this.author.id)
@@ -325,7 +352,10 @@ class MsgExtension extends Message {
         );
     }
 
-    if (cmd.help.category.toLowerCase() === "music" && !this.client.loadMusic)
+    if (
+      cmd.help.category.toLowerCase() === "music" &&
+      this.client.loadMusic !== "true"
+    )
       return this.client.errors.custom(
         this,
         this.channel,
@@ -383,33 +413,6 @@ class MsgExtension extends Message {
         this.channel,
         cmd.help.name
       );
-
-    if (this.guild) {
-      if (
-        !this.member.hasPermission(
-          cmd.config.requiredPerms ? cmd.config.requiredPerms : "SEND_MESSAGES"
-        ) &&
-        !this.client.config.creators.ids.includes(this.author.id)
-      )
-        return this.client.errors.noPerms(
-          this,
-          this.channel,
-          cmd.config.requiredPerms
-        );
-
-      if (
-        !this.guild.me.hasPermission(
-          cmd.config.requiredClientPerms
-            ? cmd.config.requiredClientPerms
-            : "SEND_MESSAGES"
-        )
-      )
-        return this.client.errors.noClientPerms(
-          this,
-          this,
-          cmd.config.requiredClientPerms
-        );
-    }
 
     return true;
   }
