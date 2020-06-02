@@ -20,7 +20,9 @@ module.exports = class extends Command {
     const m = await msg.channel.send(msg.loading("Fetching statistics..."));
 
     const path = process.platform === "win32" ? "c:" : "/";
-    const files = msg.client.util.findNested(join(__dirname, "..", "..", ".."));
+    const files = msg.client.util
+      .findNested(join(__dirname, "..", "..", ".."))
+      .filter((p) => !p.includes("node_modules"));
 
     const botUptime = msg.client.util.ms(msg.client.uptime, { long: true });
     const procUptime = msg.client.util.ms(
