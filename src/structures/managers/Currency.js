@@ -2,21 +2,6 @@ module.exports = class CurrencyManager {
   constructor(client) {
     // Set properties
     this.client = client;
-
-    // GET request to view a currency user
-    this.client.web.app.get(
-      `/api/${this.client.config.apiVersion}/currencyUser/:id`,
-      async (req, res) => {
-        const user = await this.getUser(req.params.id);
-        if (user) {
-          if (!user.currency.wallet) await user.currency.load();
-          res.send(user.currency).status(200);
-        } else
-          res
-            .send({ error: "No user with that ID was found", status: 404 })
-            .status(404);
-      }
-    );
   }
 
   /**

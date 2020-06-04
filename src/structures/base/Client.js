@@ -33,9 +33,6 @@ module.exports = class Bort extends Client {
       Guild: GuildProps
     };
 
-    // Initialize the custom API manager
-    this.web = new WebManager();
-
     // Assign properties
     this.token = options.token;
     this.uri = options.uri;
@@ -57,6 +54,7 @@ module.exports = class Bort extends Client {
     this.config = require("../../config");
 
     // Initialize helper classes
+    this.web = new WebManager(this);
     this.logger = new Logger();
     this.translator = new Translator(this, this.translateAPIKey);
     this.errors = new ErrorManager(this);
@@ -67,166 +65,6 @@ module.exports = class Bort extends Client {
 
     // Initialize DBL client
     this.dbl = new dblClient(process.env.TOP_GG_API_TOKEN, this);
-
-    // POST request for https://top.gg vote logs
-    this.web.app.post(`/api/${this.config.apiVersion}/vote`, (req, res) => {
-      const auth = req.headers.authorization;
-      if (auth !== process.env.TOP_GG_WEBHOOK_AUTH) return res.sendStatus(403);
-
-      const data = req.body;
-      const voter = this.users.cache.get(data.user);
-      const bot = this.users.cache.get(data.bot);
-      const isWeekend = data.isWeekend;
-
-      this.dbl.emit("vote", voter, bot, isWeekend);
-    });
-
-    // GET request for available langauges
-    this.web.app.get(`/api/${this.config.apiVersion}/langauges`, (req, res) => {
-      const langs = this.translator.langs;
-      res.send({ langs }).status(200);
-    });
-
-    // GET request for all guilds the client is in
-    this.web.app.get(`/api/${this.config.apiVersion}/guilds`, (req, res) =>
-      res.send({ guilds: this.guilds.cache.array() }).status(200)
-    );
-
-    // Get request for mutual servers with a specific user
-    this.web.app.get(
-      `/api/${this.config.apiVersion}/guilds/mutual/:userID`,
-      async (req, res) => {
-        const userID = req.params.userID;
-        let guilds = [];
-        for (const guild of this.guilds.cache.array()) {
-          const member = await guild.members.fetch(userID).catch(() => {});
-          if (
-            req.query.manager &&
-            member &&
-            !member.hasPermission("MANAGE_GUILD")
-          )
-            continue;
-          if (member) guilds.push(guild);
-        }
-
-        res.send({ guilds }).status(200);
-      }
-    );
-
-    // GET request for a specific guild
-    this.web.app.get(
-      `/api/${this.config.apiVersion}/guilds/:guildID`,
-      (req, res) => {
-        const guildID = req.params.guildID;
-        const guild = this.guilds.cache.get(guildID);
-
-        res.send({ guild }).status(200);
-      }
-    );
-
-    // GET request for all prefixes mapped to their guild
-    this.web.app.get(
-      `/api/${this.config.apiVersion}/prefixes`,
-      async (req, res) => {
-        const data = await this.models.prefix.find();
-        res
-          .send({
-            prefixes: data.map((doc) => {
-              return { guildID: doc.guildID, prefix: doc.prefix };
-            })
-          })
-          .status(200);
-      }
-    );
-
-    // GET request for the prefix of specific guild
-    this.web.app.get(
-      `/api/${this.config.apiVersion}/prefix/:guildID`,
-      async (req, res) => {
-        const data = await this.models.prefix.findOne({
-          guildID: req.params.guildID
-        });
-        res.send({ prefix: data ? data.prefix : this.prefix }).status(200);
-      }
-    );
-
-    // POST request to change the prefix of a guild
-    this.web.app.post(
-      `/api/${this.config.apiVersion}/guilds/:guildID/changeprefix`,
-      async (req, res) => {
-        const guildID = req.params.guildID;
-        const guild = this.guilds.cache.get(guildID);
-        if (!guild)
-          return res.send({ error: "That guild was not found!", status: 404 });
-
-        const userID = req.body.body.userID;
-        const member = guild.members.cache.get(userID);
-        if (!member)
-          return res.send({
-            error: "You are not a member of that guild!"
-          });
-
-        if (
-          !member.hasPermission("MANAGE_GUILD") &&
-          !this.config.creators.ids.includes(member.user.id)
-        )
-          return res.send({
-            error: "You lack permission to change the prefix for that server"
-          });
-
-        const prefix = req.body.body.prefix;
-        if (!prefix)
-          return res.send({ error: "You need to send a prefix", status: 404 });
-
-        const data =
-          (await this.models.prefix.findOne({
-            guildID
-          })) ||
-          new this.models.prefix({
-            guildID
-          });
-
-        data.prefix = prefix;
-        await data.save();
-
-        res
-          .send({
-            message: `Successfully changed the prefix to ${data.prefix}`
-          })
-          .status(200);
-      }
-    );
-
-    // GET request for roles from a guild
-    this.web.app.get(
-      `/api/${this.config.apiVersion}/guilds/:guildID/roles`,
-      (req, res) => {
-        const guildID = req.params.guildID;
-        const guild = this.guilds.cache.get(guildID);
-        if (!guild)
-          return res.send({ roles: [], error: "No guild found with that ID" });
-
-        res.send({ roles: guild.roles.cache.array() }).status(200);
-      }
-    );
-
-    // this.web.app.post(
-    //   `api/${this.config.apiVersion}/webhooks/vote`,
-    //   (req, res) => {
-    //     this.logger.info("Webhook POST request received");
-    //     // if (req.headers["Authorization"] !== process.env.TOP_GG_WEBHOOK_AUTH)
-    //     //   return res.sendStatus(403);
-
-    //     if (this.voteLogWebhook) {
-    //       const user = this.users.cache.get(req.body.user);
-    //       this.voteLogWebhook.send(
-    //         `${user || "Unknown"} ${
-    //           user ? `**(${user.tag})**` : ""
-    //         } has just voted for <@${req.body.bot}>`
-    //       );
-    //     }
-    //   }
-    // );
   }
 
   /**

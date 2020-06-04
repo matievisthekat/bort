@@ -7,14 +7,6 @@ module.exports = class EventManager {
     this.client = client;
 
     this.events = new Collection();
-
-    this.client.web.app.get(
-      `/api/${this.client.config.apiVersion}/events`,
-      (req, res) => {
-        const events = this.events.array();
-        res.send({ events }).status(200);
-      }
-    );
   }
 
   load() {

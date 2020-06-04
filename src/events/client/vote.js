@@ -2,7 +2,7 @@ const Event = require("../../structures/base/Event");
 
 module.exports = class extends Event {
   constructor() {
-    super("vote", "dbl");
+    super("vote");
   }
 
   async run(client, voter, bot, isWeekend) {

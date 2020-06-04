@@ -7,15 +7,6 @@ module.exports = class BlacklistManager {
 
     // Get the channel to log blacklists in (Not in use)
     this.channel = this.client.channels.cache.get(this.channelID);
-
-    // GET request to see all current blacklists
-    this.client.web.app.get(
-      `/api/${this.client.config.apiVersion}/blacklist`,
-      async (req, res) => {
-        const blacklists = await this.model.find();
-        res.send({ blacklists }).status(200);
-      }
-    );
   }
 
   /**

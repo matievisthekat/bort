@@ -1,6 +1,41 @@
 const { Schema, model } = require("mongoose");
 
+const announcementChannel = model(
+  "guild_channels",
+  new Schema({
+    guildID: String,
+    channelID: String,
+    subCount: Number,
+    subs: [Object],
+    autoAnnounce: Boolean,
+    name: String,
+    avatarURL: String
+  })
+);
+
+const announcementChannels = model(
+  "all_guild_channels",
+  new Schema({
+    clientID: String,
+    channels: [String]
+  })
+);
+
+const announcementWebhook = model(
+  "wehooks",
+  new Schema({
+    token: String,
+    id: String,
+    channelID: String,
+    guildID: String,
+    followedChannelID: String
+  })
+);
+
 module.exports = {
+  announcementChannel,
+  announcementChannels,
+  announcementWebhook,
   userLang: model(
     "user_langs",
     new Schema({
