@@ -1,11 +1,12 @@
 const express = require("express"),
-  Logger = require("../../structures/util/Logger"),
   cors = require("cors"),
   bodyParser = require("body-parser");
 
-module.exports = class WebManager {
-  constructor(client) {
-    this.port = 3001;
+module.exports = class APIManager {
+  constructor(client, port) {
+    this.port = port;
+    this.client = client;
+
     const app = express();
     this.app = app;
     app.use(cors());
@@ -169,21 +170,18 @@ module.exports = class WebManager {
     );
 
     // GET request to see all current blacklists
-    app.get(
-      `/api/${client.client.config.apiVersion}/blacklist`,
-      async (req, res) => {
-        const blacklists = await client.blacklist.model.find();
-        res.send({ blacklists }).status(200);
-      }
-    );
+    app.get(`/api/${client.config.apiVersion}/blacklist`, async (req, res) => {
+      const blacklists = await client.blacklist.model.find();
+      res.send({ blacklists }).status(200);
+    });
 
-    app.get(`/api/${this.client.config.apiVersion}/commands`, (req, res) => {
-      const commands = this.commands.array();
-      const cooldowns = this.commandCooldowns.array();
+    app.get(`/api/${client.config.apiVersion}/commands`, (req, res) => {
+      const commands = client.cmd.commands.array();
+      const cooldowns = client.cmd.commandCooldowns.array();
 
       res
         .send({
-          prefix: this.client.prefix,
+          prefix: client.prefix,
           commands,
           cooldowns
         })
@@ -249,7 +247,7 @@ module.exports = class WebManager {
       }
     );
 
-    app.get(`/api/${this.client.config.apiVersion}/events`, (req, res) => {
+    app.get(`/api/${client.config.apiVersion}/events`, (req, res) => {
       const events = thisclient.evnt.events.array();
       res.send({ events }).status(200);
     });

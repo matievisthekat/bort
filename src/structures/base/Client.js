@@ -14,7 +14,7 @@ const {
   EventManager = require("../managers/Event"),
   BlacklistManager = require("../managers/Blacklist"),
   CurrencyManager = require("../managers/Currency"),
-  WebManager = require("../../web/structures/Manager"),
+  APIManager = require("../managers/API"),
   Logger = require("../util/Logger"),
   Translator = require("./Translator");
 
@@ -54,7 +54,7 @@ module.exports = class Bort extends Client {
     this.config = require("../../config");
 
     // Initialize helper classes
-    this.web = new WebManager(this);
+    this.web = new APIManager(this, this.config.apiPort);
     this.logger = new Logger();
     this.translator = new Translator(this, this.translateAPIKey);
     this.errors = new ErrorManager(this);

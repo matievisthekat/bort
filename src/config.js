@@ -2,6 +2,7 @@ const emoji = require("./constants/emoji");
 
 module.exports = {
   apiVersion: "v1",
+  apiPort: 3001,
   dblWebhookPort: 8000,
   voteReward: `${emoji.coin} 100`,
   voteRewardAmount: 100,
