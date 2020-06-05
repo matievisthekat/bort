@@ -20,7 +20,9 @@ module.exports = class APIManager {
     // POST request for https://top.gg vote logs
     app.post(`/api/${client.config.apiVersion}/vote`, (req, res) => {
       const auth = req.headers.authorization;
-      if (auth !== process.env.TOP_GG_WEBHOOK_AUTH) return res.sendStatus(403);
+      if (auth !== process.env.WEBHOOK_AUTH) return res.sendStatus(403);
+
+      console.log(req.body);
 
       const data = req.body;
       const voter = client.users.cache.get(data.user);
