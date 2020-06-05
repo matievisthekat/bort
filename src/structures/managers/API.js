@@ -22,7 +22,7 @@ module.exports = class APIManager {
       const auth = req.headers.authorization;
       if (auth !== process.env.WEBHOOK_AUTH) return res.sendStatus(403);
 
-      console.log(req.body);
+      console.log(req);
 
       const data = req.body;
       const voter = client.users.cache.get(data.user);
