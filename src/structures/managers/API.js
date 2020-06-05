@@ -22,16 +22,17 @@ module.exports = class APIManager {
       const auth = req.headers.authorization;
       if (auth !== process.env.WEBHOOK_AUTH) return res.sendStatus(403);
 
+      const data = req.body;
+
       const userID = typeof data.user === "string" ? data.user : data.user.id;
       const botID =
         typeof data.bot === "string" ? data.bot : data.bot.url.split("/").pop();
 
-      const data = req.body;
       const voter = client.users.cache.get(userID);
       const bot = client.users.cache.get(botID);
 
       await client.emit("vote", voter, bot);
-      
+
       res.sendStatus(200);
     });
 
