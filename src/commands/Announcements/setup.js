@@ -25,9 +25,7 @@ module.exports = class extends Command {
 
     const embed = new msg.client.embed()
       .setDescription("What channel would you like setup?")
-      .setFooter(
-        `This times out in 5 minutes | Type 'cancel' to quit`
-      );
+      .setFooter(`This times out in 5 minutes | Type 'cancel' to quit`);
 
     const m = await msg.channel.send(embed);
 
@@ -53,11 +51,7 @@ module.exports = class extends Command {
           chan = message.mentions.channels.first();
           if (!chan)
             return message.channel
-              .send(
-                msg.error(
-                  "That is not a valid channel mention"
-                )
-              )
+              .send(msg.error("That is not a valid channel mention"))
               .then((m) => m.delete({ timeout: 10 * 1000 }).catch(() => {}));
 
           if (guildData.channels.includes(chan.id))
@@ -71,7 +65,6 @@ module.exports = class extends Command {
 
           data.channelID = chan.id;
           data.name = `${msg.guild.name} #${chan.name}`;
-          data.avatarURL = msg.guild.iconURL({ format: "png" });
           guildData.channels.push(chan.id);
 
           message.channel.send(
@@ -110,16 +103,16 @@ module.exports = class extends Command {
         await guildData.save();
 
         await chan.setTopic(
-          `Followers: ${data.subCount} | Use \`${await msg.prefix(false)}follow ${
-            data.channelID
-          }\` to follow this channel!`
+          `Followers: ${data.subCount} | Use \`${await msg.prefix(
+            false
+          )}follow ${data.channelID}\` to follow this channel!`
         );
 
         msg.channel.send(
           msg.success(
-            `${chan} is now follow-able by using \`${await msg.prefix(false)}follow ${
-              chan.id
-            }\``
+            `${chan} is now follow-able by using \`${await msg.prefix(
+              false
+            )}follow ${chan.id}\``
           )
         );
       }
