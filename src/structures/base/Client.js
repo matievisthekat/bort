@@ -216,4 +216,21 @@ module.exports = class Bort extends Client {
 
     return { message: "Successfully connected to MongoDB", status: 200 };
   }
+
+  /**
+   * Announce a message
+   * @param {Model} data The data for that announcement channel
+   * @param {String|MessageEmbed} message The message to send
+   */
+  async announce(data, message) {
+    for (const whData of data.subs) {
+      const wh = await this.fetchWebhook(
+        whData.id,
+        whData.token
+      ).catch(() => {});
+      if (!wh) continue;
+
+      await wh.send(message);
+    }
+  }
 };

@@ -21,7 +21,7 @@ class MsgExtension extends Message {
 
   /**
    * Format a string for loading
-   * @param {String} [str] The string to format as loading
+   * @param {String} str The string to format as loading
    */
   loading(str) {
     return `${this.client.config.msgPrefixes.loading} ${str}`;
@@ -29,7 +29,7 @@ class MsgExtension extends Message {
 
   /**
    * Format a string for a warning
-   * @param {String} [str] The string to format as a warning
+   * @param {String} str The string to format as a warning
    */
   warning(str) {
     return `${this.client.config.msgPrefixes.warning} ${str}`;
@@ -37,7 +37,7 @@ class MsgExtension extends Message {
 
   /**
    * Format a string for an error
-   * @param {String} [str] The string to format as an error
+   * @param {String} str The string to format as an error
    */
   error(str) {
     return `${this.client.config.msgPrefixes.error} ${str}`;
@@ -204,12 +204,22 @@ class MsgExtension extends Message {
       }
 
       await this.afkCheck();
+
+      const chanData = await this.client.models.announcementChannel.findOne({
+        channelID: this.channel.id
+      });
+      if (chanData && chanData.autoAnnounce) {
+        await this.client.announce(
+          chanData,
+          this.content || this.embeds[0] || "No content available to announce"
+        );
+      }
     }
   }
 
   /**
    * Get the prefix used for this message
-   * @param {Boolean} [includeMention] Whether to see a mention as a valid prefix
+   * @param {Boolean} includeMention Whether to see a mention as a valid prefix
    */
   async prefix(includeMention) {
     const prefixMention = new RegExp(`^<@!?${this.client.user.id}> `);
