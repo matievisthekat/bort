@@ -22,6 +22,7 @@ module.exports = {
   brand: "<:bot:684065389071958040>",
   github: "<:github:696814331534245898>",
   staffBadge: "<:staffbadge:684118896613130281>",
+  announcement: "<:announcement:718417326730379285>",
   user: "<:user:684061096658993155>",
   scroll: ":scroll:",
   core: ":gear:",
@@ -32,6 +33,7 @@ module.exports = {
   music: ":musical_note:",
   clans: ":crossed_swords:",
   config: ":pencil:",
+  announcements: "<:announcement:718417326730379285>",
   a: "<:a_:682635981790511255>",
   b: "<:b_:682636009841623082>",
   c: "<:c_:682636041911271431>",
@@ -58,5 +60,5 @@ module.exports = {
   x: "<:x_:682642219278401554>",
   y: "<:y_:682636376319197202>",
   z: "<:z_:682642519753883714>",
-  exclamMark: "<:__:682642632870330409>",
+  exclamMark: "<:__:682642632870330409>"
 };

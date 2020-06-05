@@ -5,7 +5,7 @@ module.exports = class extends Command {
     super({
       name: "inventory",
       aliases: ["inv"],
-      category: "Fun",
+      category: "Currency",
       description: "View your inventory",
       requiresArgs: false
     });
