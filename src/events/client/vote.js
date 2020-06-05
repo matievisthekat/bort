@@ -5,7 +5,7 @@ module.exports = class extends Event {
     super("vote");
   }
 
-  async run(client, voter, bot, isWeekend) {
+  async run(client, voter, bot) {
     const logChan = client.channels.cache.get(client.config.voteLogChannelID);
     if (logChan) {
       const embed = new client.embed().green

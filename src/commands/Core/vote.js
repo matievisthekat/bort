@@ -18,7 +18,7 @@ module.exports = class extends Command {
         url: "https://top.gg/bot/681940967615627276/vote"
       },
       {
-        name: "Bots for Discord",
+        name: "Bots for Discord (Gives rewards)",
         url: "https://botsfordiscord.com/bot/681940967615627276/vote"
       },
       {
@@ -26,7 +26,7 @@ module.exports = class extends Command {
         url: "https://arcane-botcenter.xyz/bot/681940967615627276/vote"
       },
       {
-        name: "Discord Boats",
+        name: "Discord Boats (Gives rewards)",
         url: "https://discord.boats/bot/681940967615627276/vote"
       },
       {
