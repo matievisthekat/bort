@@ -97,7 +97,7 @@ module.exports = class extends Command {
       await m.edit(msg.loading("Downloading image..."));
 
       const fileStream = fs.createWriteStream(
-        `./src/images/corona-graph.png`
+        `./src/corona-graph.png`
       );
       imageStream.pipe(fileStream);
 
@@ -105,7 +105,7 @@ module.exports = class extends Command {
         .edit(msg.success("Graph successfully generated. Sending now..."));
 
       await msg.channel.send({
-        files: [resolve(`./src/images/corona-graph.png`)]
+        files: [resolve(`./src/corona-graph.png`)]
       });
       if (m.deletable) await m.delete();
     });
