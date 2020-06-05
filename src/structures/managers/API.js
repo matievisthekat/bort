@@ -21,9 +21,7 @@ module.exports = class APIManager {
     app.post(`/api/${client.config.apiVersion}/vote`, async (req, res) => {
       const auth = req.headers.authorization;
       if (auth !== process.env.WEBHOOK_AUTH) return res.sendStatus(403);
-
-      console.log(req);
-
+      
       const data = req.body;
       const voter = client.users.cache.get(data.user);
       const bot = client.users.cache.get(data.bot);
