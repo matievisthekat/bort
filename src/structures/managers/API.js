@@ -29,7 +29,8 @@ module.exports = class APIManager {
       const bot = client.users.cache.get(data.bot);
       const isWeekend = data.isWeekend;
 
-      client.emit("vote", voter, bot, isWeekend);
+      await client.emit("vote", voter, bot, isWeekend);
+      res.sendStatus(200);
     });
 
     // GET request for all guilds the client is in
