@@ -10,8 +10,7 @@ module.exports = class Level extends Command {
       category: "Core",
       description: "View the level of a user or yourself",
       usage: "<user>",
-      examples: ["@MatievisTheKat --embed", "", "492708936290402305"],
-      flags: ["embed"],
+      examples: ["@MatievisTheKat", "", "492708936290402305"],
       cooldown: "4s",
       requiresArgs: false,
       guildOnly: true,
@@ -39,10 +38,8 @@ module.exports = class Level extends Command {
     const embed = new msg.client.embed()
       .setAuthor(target.tag, target.displayAvatarURL())
       .addField(
-        "Rank",
-        `**Level:** ${currentLevel}
-        **Experience:** ${currentXp}
-        **Progress:** (${percent}%)\n${progress.bar}`
+        "Currency Rank",
+        `**Level:** ${currentLevel}\n**Experience:** ${currentXp}\n**Progress:** (${percent}%)\n${progress.bar}`
       )
       .setFooter(`Requested by ${msg.author.tag}`);
 

@@ -13,7 +13,9 @@ module.exports = class extends Command {
       name: "corona",
       aliases: ["covid", "covid19", "coronavirus"],
       category: "Information",
-      description: "View a graph on coronavirus (global)",
+      usage: "<country | all>",
+      examples: ["south africa", "all", "usa"],
+      description: "View a graph on coronavirus",
       cooldown: "1m",
       requiresArgs: false,
       guildOnly: false
@@ -29,11 +31,20 @@ module.exports = class extends Command {
         "x-rapidapi-key": process.env.RAPID_API_KEY
       },
       params: {
-        country: "all"
+        country: args.join(" ").toLowerCase() || "all"
       }
     });
 
     const data = res.data;
+    if (data.response.length < 1)
+      return m.edit(
+        msg.warning(
+          `No data was found for \`${args.join(
+            " "
+          )}\`! Try again with a different country/continent`
+        )
+      );
+
     const daysUnfiltered = data.response.map((entry) => entry.day);
     const days = daysUnfiltered.filter(
       (day, index) => daysUnfiltered.indexOf(day) === index
@@ -96,18 +107,21 @@ module.exports = class extends Command {
 
       await m.edit(msg.loading("Downloading image..."));
 
-      const fileStream = fs.createWriteStream(
-        `./src/corona-graph.png`
-      );
+      const fileStream = fs.createWriteStream(`./src/corona-graph.png`);
       imageStream.pipe(fileStream);
 
-      await m
-        .edit(msg.success("Graph successfully generated. Sending now..."));
+      await m.edit(msg.success("Graph successfully generated. Sending now..."));
 
-      await msg.channel.send({
-        files: [resolve(`./src/corona-graph.png`)]
-      });
+      await msg.channel.send(
+        `COVID-19 graph for **${
+          args.join(" ") || "the entire world"
+        }** since ${days.pop()}`,
+        {
+          files: [resolve(`./src/corona-graph.png`)]
+        }
+      );
       if (m.deletable) await m.delete();
+      fs.unlinkSync("./src/corona-graph.png");
     });
   }
 };

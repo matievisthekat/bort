@@ -80,10 +80,11 @@ module.exports = class User {
     if (!this.model) await this.load();
 
     this.model.economyLevel++;
-    this.model.bankLimit += randomInRange(
-      this.level * 10000,
-      this.level * 100000
-    );
+
+    const min = this.level === 0 ? 10 : this.level * 10;
+    const max = this.level === 0 ? 55 : this.level * 30;
+
+    this.model.bankLimit += randomInRange(min, max);
 
     await this.model.save();
 
