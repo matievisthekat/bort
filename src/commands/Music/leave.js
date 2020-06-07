@@ -23,7 +23,7 @@ module.exports = class extends Command {
       );
 
     const player = await msg.client.music.players.get(msg.guild.id);
-    if (player) await msg.client.music.players.destory(msg.guild.id);
+    if (player) await msg.client.music.players.destroy(msg.guild.id);
     else await msg.guild.me.voice.channel.leave();
 
     msg.channel.send(msg.success(`I have disconnected`));
