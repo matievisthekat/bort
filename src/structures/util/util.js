@@ -15,7 +15,7 @@ const clapString = (str) => `${str.trim().replace(/ +/gi, ":clap:")}:clap:`;
 const xpForLevel = (currentLevel) => (currentLevel + 5) * 600;
 
 const xpUntilNextLevel = (currentLevel, currentXp) =>
-  (currentLevel + 5) * 600 - currentXp < 1 ? 1 : currentXp;
+  (currentLevel + 5) * 1000 - currentXp;
 
 const formatCategory = (str) =>
   `${emoji[str.toLowerCase()] || ""} ${toProperCase(str)}`;

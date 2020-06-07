@@ -79,12 +79,12 @@ module.exports = class User {
   async levelUp() {
     if (!this.model) await this.load();
 
-    this.model.economyLevel++;
-
     const min = this.level === 0 ? 10 : this.level * 10;
     const max = this.level === 0 ? 55 : this.level * 30;
 
     this.model.bankLimit += randomInRange(min, max);
+    this.model.economyLevel++;
+    this.model.economyXp = 0;
 
     await this.model.save();
 
