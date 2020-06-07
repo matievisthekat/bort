@@ -12,10 +12,10 @@ const toProperCase = (str) =>
 
 const chooseString = (str) => str.split(/\|+/gi).random();
 const clapString = (str) => `${str.trim().replace(/ +/gi, ":clap:")}:clap:`;
-const xpForLevel = (currentLevel) => (currentLevel + 5) * 600;
+const xpForLevel = (currentLevel) => (currentLevel + 5) * 1000;
 
 const xpUntilNextLevel = (currentLevel, currentXp) =>
-  (currentLevel + 5) * 1000 - currentXp;
+  (currentLevel + 5) * 1000 - currentXp < 1 ? 1 : currentXp;
 
 const formatCategory = (str) =>
   `${emoji[str.toLowerCase()] || ""} ${toProperCase(str)}`;
