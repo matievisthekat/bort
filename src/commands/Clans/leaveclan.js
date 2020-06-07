@@ -8,8 +8,9 @@ module.exports = class extends Command {
       category: "Clans",
       description: "Leave the clan you are in",
       cooldown: "1m",
-      requiresArgs: false,
-      guildOnly: false
+      requiresArgs: true,
+      usage: "{clan_name}",
+      examples: ["the kats"],
     });
   }
 
@@ -17,25 +18,30 @@ module.exports = class extends Command {
     const clanModel = msg.client.models.clan;
 
     if (await clanModel.findOne({ leaderID: msg.author.id }))
-      return await msg.client.errors.custom(msg, 
+      return msg.client.errors.custom(
+        msg,
         msg.channel,
         "You cannot leave your own clan! Try `deleteclan` instead"
       );
 
-    const clan = await clanModel.findOne({ memberIDs: msg.author.id });
-
+    const clan = await clanModel.findOne({
+      name: args.join(" "),
+      memberIDs: msg.author.id
+    });
     if (!clan)
-      return await msg.client.errors.custom(msg, msg.channel, "You are not in any clan!");
+      return msg.client.errors.custom(
+        msg,
+        msg.channel,
+        "You are not in that clan!"
+      );
 
-    clan.memberIDs = clan.memberIDs.splice(
+    clan.memberIDs.splice(
       clan.memberIDs.indexOf(msg.author.id),
       1
     );
 
-    await clan.save().catch((err) => msg.client.errors.saveFailr(msg, msg, err));
+    await clan.save().catch((err) => msg.client.errors.saveFail(msg, msg, err));
 
-    msg.channel.send(
-      msg.success(`You have been removed from **${clan.name}**`)
-    );
+    msg.channel.send(msg.success(`You have left from **${clan.name}**`));
   }
 };

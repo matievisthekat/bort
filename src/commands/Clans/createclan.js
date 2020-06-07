@@ -34,7 +34,7 @@ module.exports = class extends Command {
       return await msg.client.errors.custom(
         msg,
         msg.channel,
-        "You are already part of a clan!"
+        "You already own a clan!"
       );
 
     const col = msg.channel.createMessageCollector(

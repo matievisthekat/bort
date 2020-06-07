@@ -7,22 +7,29 @@ module.exports = class extends Command {
       category: "Clans",
       description: "View your current clan",
       guildOnlyCooldown: false,
+      usage: "<clan_name>",
+      examples: ["the kats"],
       requiresArgs: false,
       guildOnly: false
     });
   }
 
   async run(msg, args, flags) {
-    const clan =
-      (await msg.client.models.clan.findOne({
-        leaderID: msg.author.id
-      })) ||
-      (await msg.client.models.clan.findOne({
-        memberIDs: msg.author.id
-      }));
+    const clan = !args[0]
+      ? (await msg.client.models.clan.findOne({
+          leaderID: msg.author.id
+        })) ||
+        (await msg.client.models.clan.findOne({
+          name: args.join(" "),
+          memberIDs: msg.author.id
+        }))
+      : await msg.client.models.clan.findOne({
+          name: args.join(" "),
+          memberIDs: msg.author.id
+        });
 
     if (!clan)
-      return msg.channel.send(msg.warning("You aren't in any clan yet"));
+      return msg.channel.send(msg.warning("You aren't in that/any clan yet"));
 
     const embed = new msg.client.embed()
       .setAuthor(`Clan: ${clan.name}`)

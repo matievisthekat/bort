@@ -21,7 +21,7 @@ module.exports = class ErrorManager {
   async unknownErr(msg) {
     msg.channel.send(
       await msg.translate(
-        `${this.prefix} There was an unexpected error. If this continues please contact ${msg.client.creators.tags[0]}`
+        `${this.prefix} There was an unexpected error. If this continues please contact ${msg.client.config.creators.tags[0]}`
       )
     );
   }
