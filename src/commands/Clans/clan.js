@@ -27,7 +27,6 @@ module.exports = class extends Command {
           name: args.join(" "),
           memberIDs: msg.author.id
         });
-
     if (!clan)
       return msg.channel.send(msg.warning("You aren't in that/any clan yet"));
 
