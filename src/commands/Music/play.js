@@ -8,12 +8,8 @@ module.exports = class extends Command {
       category: "Music",
       description: "Play music",
       usage: "<url | search>",
-      examples: [
-        "rick roll",
-        "https://youtube.com/watch?v=OJMNad978aj",
-        "myPlaylist --playlist"
-      ],
-      flags: ["list", "playlist"],
+      examples: ["rick roll", "https://youtube.com/watch?v=OJMNad978aj"],
+      flags: ["list"],
       cooldown: "4s",
       guildOnlyCooldown: true,
       requiresArgs: false,
@@ -33,9 +29,15 @@ module.exports = class extends Command {
           guild: msg.guild
         }));
 
-      const res = await msg.client.music.search(args.join(" "), msg.author).catch((_) => failed = true);
+      const res = await msg.client.music
+        .search(args.join(" "), msg.author)
+        .catch((_) => (failed = true));
       if (!res || !res.tracks || !res.tracks[0] || failed)
-        return await msg.client.errors.custom(msg, msg.channel, "No results where found!");
+        return await msg.client.errors.custom(
+          msg,
+          msg.channel,
+          "No results where found!"
+        );
 
       if (flags["list"]) {
         const tracks = res.tracks.slice(0, 9);
@@ -61,7 +63,8 @@ module.exports = class extends Command {
           const index = parseInt(m.content) - 1;
           const track = tracks[index];
           if (!track)
-            return await msg.client.errors.custom(msg, 
+            return await msg.client.errors.custom(
+              msg,
               msg.channel,
               "Invalid track selection. try again"
             );
