@@ -21,7 +21,8 @@ module.exports = class extends Command {
       !msg.author.currency.wallet ||
       msg.author.currency.wallet < 1
     )
-      return await msg.client.errors.custom(msg, 
+      return msg.client.errors.custom(
+        msg,
         msg.channel,
         "You don't have any money to gamble!"
       );
@@ -31,13 +32,15 @@ module.exports = class extends Command {
       : parseInt(args[0]);
 
     if (!amount || amount < 0)
-      await msg.client.errors.custom(msg, 
+      return msg.client.errors.custom(
+        msg,
         msg.channel,
         "You need to specifiy a valid amount to gamble!"
       );
 
     if (amount > msg.author.currency.wallet)
-      await msg.client.errors.custom(msg, 
+      return msg.client.errors.custom(
+        msg,
         msg.channel,
         "You cannot gamble more than you have!"
       );
