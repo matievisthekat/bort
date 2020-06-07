@@ -400,7 +400,7 @@ class MsgExtension extends Message {
       } else if (!this.author.currency.model) await this.author.currency.load();
 
       if (!this.currencyXpCooldown.has(this.author.id)) {
-        const xpToAdd = this.client.util.randomInRange(5, 60);
+        const xpToAdd = this.client.util.randomInRange(5, 12);
 
         await this.author.currency.addXp(xpToAdd);
 

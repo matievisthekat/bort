@@ -11,7 +11,7 @@ const toProperCase = (str) =>
   );
 
 const chooseString = (str) => str.split(/\|+/gi).random();
-const clapString = (str) => `${str.trim().replace(/ +/gi, ":clap:")}:clap:`;
+const clapString = (str) => `:clap:${str.trim().replace(/ +/gi, ":clap:")}:clap:`;
 const xpForLevel = (currentLevel) => (currentLevel + 5) * 1000;
 
 const xpUntilNextLevel = (currentLevel, currentXp) =>
@@ -20,8 +20,11 @@ const xpUntilNextLevel = (currentLevel, currentXp) =>
 const formatCategory = (str) =>
   `${emoji[str.toLowerCase()] || ""} ${toProperCase(str)}`;
 
-const randomInRange = (min, max) =>
-  Math.floor(Math.random() * (max - min)) + min;
+const randomInRange = (min, max) => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
 
 module.exports = {
   toProperCase,
