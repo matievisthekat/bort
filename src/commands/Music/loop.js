@@ -26,7 +26,7 @@ module.exports = class extends Command {
     const opt = !["song", "queue"].includes(args[0]) ? "queue" : args[0];
     switch (opt) {
       case "song":
-        await player.setTrackRepeat(player.trackRepeat);
+        await player.setTrackRepeat(!player.trackRepeat);
         return msg.channel.send(
           msg.success(
             `I am ${
@@ -38,11 +38,11 @@ module.exports = class extends Command {
         );
 
       case "queue":
-        await player.setQueueRepeat(player.trackRepeat);
+        await player.setQueueRepeat(!player.queueRepeat);
         return msg.channel.send(
           msg.success(
             `I am ${
-              player.trackRepeat
+              player.queueRepeat
                 ? "now looping the queue"
                 : "no longer looping the queue"
             }`
@@ -50,11 +50,11 @@ module.exports = class extends Command {
         );
 
       default:
-        await player.setQueueRepeat(player.trackRepeat);
+        await player.setQueueRepeat(!player.queueRepeat);
         return msg.channel.send(
           msg.success(
             `I am ${
-              player.trackRepeat
+              player.queueRepeat
                 ? "now looping the queue"
                 : "no longer looping the queue"
             }`
