@@ -8,8 +8,9 @@ module.exports = class Help extends Command {
       category: "Core",
       description: "Get information and a list of commands for this bot",
       usage: "<command | category>",
-      examples: ["post", "Core"],
+      examples: ["post", "Core", "--full"],
       cooldown: "3s",
+      flags: ["full"],
       requiresArgs: false
     });
   }
@@ -26,26 +27,27 @@ module.exports = class Help extends Command {
         : true
     ).size;
 
-    const embed = new msg.client.embed()
-      .setDescription(
-        `__**Links**__: ${msg.client.config.links
-          .map((l) => `${l.emoji || ""} [${l.name}](${l.link})`)
-          .join(" **|** ")} **|** ${
-          msg.client.emoji.staffBadge
-        } [Dashboard](${dashboardURL})`
-      )
-      .setFooter(
-        `Currently running ${commandSize} commands! | < optional > { required } Prefix: ${prefix}`
-      )
-      .setThumbnail(msg.client.user.displayAvatarURL({ size: 512 }));
+    class BaseHelpEmbed extends msg.client.embed {
+      constructor(options) {
+        super(options);
+
+        this.setDescription(
+          `__**Links**__: ${msg.client.config.links
+            .map((l) => `${l.emoji || ""} [${l.name}](${l.link})`)
+            .join(" **|** ")} **|** ${
+            msg.client.emoji.staffBadge
+          } [Dashboard](${dashboardURL})`
+        )
+          .setFooter(
+            `Currently running ${commandSize} commands! | < optional > { required } Prefix: ${prefix}`
+          )
+          .setThumbnail(msg.client.user.displayAvatarURL({ size: 512 }));
+      }
+    }
 
     if (!args[0]) {
-      embed.addField(
-        "For More Information",
-        `\`\`\`dust\nDo ${prefix}${this.help.name} <command | category>\`\`\`
-        __**Want to contribute?**__ Go [here](https://github.com/MatievisTheKat/bort), clone it and share any improvements you make! I would love to see what you could come up with!
-        __**Want a custom bot?**__ Contact **${msg.client.config.creators.tags[0]}** (or join the support server) to request your own custom bot!`
-      );
+      const embeds = [];
+
       const categories = msg.client.cmd.commands
         .map((c) => c.help.category)
         .reduce((a, b) => {
@@ -54,7 +56,9 @@ module.exports = class Help extends Command {
         }, [])
         .sort();
 
-      categories.map((category) => {
+      const baseEmbed = new BaseHelpEmbed();
+
+      for (const category of categories) {
         let commands = msg.client.cmd.commands.filter(
           (c) => c.help.category.toLowerCase() === category.toLowerCase()
         );
@@ -71,12 +75,26 @@ module.exports = class Help extends Command {
           .map((c) => `\`${c.help.name}\``);
 
         if (commands.length < 1) return;
+        const embed = flags["full"]
+          ? baseEmbed
+          : new BaseHelpEmbed().addField(
+              "For More Information",
+              `\`\`\`dust\nDo ${prefix}${this.help.name} <command | category>\`\`\`
+        __**Want to contribute?**__ Go [here](https://github.com/MatievisTheKat/bort), clone it and share any improvements you make! I would love to see what you could come up with!
+        __**Want a custom bot?**__ Contact **${msg.client.config.creators.tags[0]}** (or join the support server) to request your own custom bot!`
+            );
 
         embed.addField(
           msg.client.util.formatCategory(category),
           `${commands.sort().join(", ")}`
         );
-      });
+
+        embeds.push(embed);
+      }
+
+      flags["full"]
+        ? msg.channel.send(embeds[0])
+        : msg.client.util.paginate(msg, embeds);
     } else {
       if (
         msg.client.cmd.commands.get(args.join(" ").toLowerCase()) ||
@@ -164,6 +182,8 @@ module.exports = class Help extends Command {
             true
           );
       } else {
+        const embed = new BaseHelpEmbed();
+
         embed.setDescription(msg.emojify(args.join(" "))).addField(
           `**Query:** ${args.join(" ")}`,
           msg.client.cmd.commands.filter((c) =>
@@ -181,7 +201,7 @@ module.exports = class Help extends Command {
             : "No results"
         );
       }
+      msg.channel.send(embed);
     }
-    msg.channel.send(embed);
   }
 };

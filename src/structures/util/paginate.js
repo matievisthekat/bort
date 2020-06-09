@@ -12,7 +12,7 @@ async function paginate(
     pages[page].setFooter(
       `Page ${page + 1} / ${pages.length} (This times out in (${ms(timeout, {
         long: true
-      })}))`
+      })})`
     )
   );
 
