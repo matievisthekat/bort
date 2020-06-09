@@ -96,6 +96,8 @@ module.exports = class Help extends Command {
         ? msg.channel.send(embeds[0])
         : msg.client.util.paginate(msg, embeds);
     } else {
+      const embed = new BaseHelpEmbed();
+
       if (
         msg.client.cmd.commands.get(args.join(" ").toLowerCase()) ||
         msg.client.cmd.commands.get(
@@ -182,8 +184,6 @@ module.exports = class Help extends Command {
             true
           );
       } else {
-        const embed = new BaseHelpEmbed();
-
         embed.setDescription(msg.emojify(args.join(" "))).addField(
           `**Query:** ${args.join(" ")}`,
           msg.client.cmd.commands.filter((c) =>
