@@ -1,6 +1,9 @@
 src/images
 src/templates
 src/corona-graph.png
+Lavalink.jar
+application.yml
+music.bat
 
 # Logs
 logs

@@ -16,7 +16,8 @@ module.exports = class extends Command {
   async run(msg, args, flags) {
     const player = await msg.client.music.players.get(msg.guild.id);
     if (!player)
-      return await msg.client.errors.custom(msg, 
+      return await msg.client.errors.custom(
+        msg,
         msg.channel,
         "There is nothing playing on this server!"
       );
@@ -28,17 +29,22 @@ module.exports = class extends Command {
       );
     }
 
-    const queue = player.queue.slice(0, 10);
-    const extra = player.queue.length - queue.length;
+    const embeds = [];
 
-    const embed = new msg.client.embed().setDescription(
-      `${queue.map((t, i) => `**[${i + 1}]** ${t.title}`).join("\n")}\n\n${
-        extra <= 0
-          ? ""
-          : `And ${extra} more ${extra > 1 ? "tracks" : "track"}...`
-      }`
-    );
+    for (let i = 1; i < player.queue.length; i += 10) {
+      const queue = player.queue.slice(i, i + 10);
+      const embed = new msg.client.embed();
+      embed.setDescription(
+        `**Now Playing:** ${player.queue[0].title}\n\n${queue
+          .map(
+            (track) => `**[${player.queue.indexOf(track) + 1}]** ${track.title}`
+          )
+          .join("\n")}`
+      );
+      embeds.push(embed);
+    }
 
-    msg.channel.send(embed);
+    if (embeds.length < 2) return msg.channel.send(embeds[0]);
+    else msg.client.util.paginate(msg, embeds);
   }
 };
