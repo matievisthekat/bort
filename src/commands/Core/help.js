@@ -74,15 +74,9 @@ module.exports = class Help extends Command {
           )
           .map((c) => `\`${c.help.name}\``);
 
-        if (commands.length < 1) return;
-        const embed = flags["full"]
-          ? baseEmbed
-          : new BaseHelpEmbed().addField(
-              "For More Information",
-              `\`\`\`dust\nDo ${prefix}${this.help.name} <command | category>\`\`\`
-        __**Want to contribute?**__ Go [here](https://github.com/MatievisTheKat/bort), clone it and share any improvements you make! I would love to see what you could come up with!
-        __**Want a custom bot?**__ Contact **${msg.client.config.creators.tags[0]}** (or join the support server) to request your own custom bot!`
-            );
+        if (commands.length < 1) continue;
+
+        const embed = !flags["page"] ? baseEmbed : new BaseHelpEmbed();
 
         embed.addField(
           msg.client.util.formatCategory(category),
