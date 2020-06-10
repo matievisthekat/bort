@@ -8,9 +8,9 @@ module.exports = class Help extends Command {
       category: "Core",
       description: "Get information and a list of commands for this bot",
       usage: "<command | category>",
-      examples: ["post", "Core", "--full"],
+      examples: ["post", "Core", "--page"],
       cooldown: "3s",
-      flags: ["full"],
+      flags: ["page"],
       requiresArgs: false
     });
   }
@@ -92,9 +92,9 @@ module.exports = class Help extends Command {
         embeds.push(embed);
       }
 
-      flags["full"]
-        ? msg.channel.send(embeds[0])
-        : msg.client.util.paginate(msg, embeds);
+      flags["page"]
+        ? msg.client.util.paginate(msg, embeds)
+        : msg.channel.send(embeds[0]);
     } else {
       const embed = new BaseHelpEmbed();
 
