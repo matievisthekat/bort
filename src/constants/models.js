@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const { Track } = require("erela.js");
 
 const announcementChannel = model(
   "guild_channels",
@@ -32,23 +33,25 @@ const announcementWebhook = model(
   })
 );
 
+const playlist = model(
+  "playlists",
+  new Schema({
+    userID: String,
+    name: String,
+    tracks: Array
+  })
+);
+
 module.exports = {
   announcementChannel,
   announcementChannels,
   announcementWebhook,
+  playlist,
   userLang: model(
     "user_langs",
     new Schema({
       userID: String,
       lang: String
-    })
-  ),
-  playlist: model(
-    "playlists",
-    new Schema({
-      userID: String,
-      name: String,
-      tracks: Array
     })
   ),
   clan: model(

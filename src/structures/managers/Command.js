@@ -21,7 +21,8 @@ module.exports = class CommandManager {
     for (const file of files) {
       const command = new (require(file))();
 
-      if (!command.help || !command.config || !command.run) continue;
+      if (!command.help || !command.config || !command.run || command.disabled)
+        continue;
 
       command.path = file;
       this.commands.set(command.help.name, command);

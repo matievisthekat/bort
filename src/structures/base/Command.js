@@ -15,8 +15,11 @@ module.exports = class Command {
     guildOnly = true,
     creatorOnly = false,
     voiceChannelOnly = false,
-    currency = false
+    currency = false,
+    disabled = false
   }) {
+    this.disabled = disabled;
+
     this.help = {
       name: name,
       aliases: aliases,

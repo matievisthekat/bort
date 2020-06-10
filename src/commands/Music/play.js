@@ -36,7 +36,7 @@ module.exports = class extends Command {
         return await msg.client.errors.custom(
           msg,
           msg.channel,
-          "No results where found!"
+          "No results where found! Try again later"
         );
 
       if (flags["list"]) {

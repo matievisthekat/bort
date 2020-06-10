@@ -29,7 +29,7 @@ async function paginate(
   );
 
   reactionCollector.on("collect", (reaction) => {
-    reaction.users.remove(msg.author);
+    reaction.users.remove(msg.author).catch(() => {});
     switch (reaction.emoji.name) {
       case emojiList[0]:
         page = page > 0 ? --page : pages.length - 1;

@@ -18,7 +18,8 @@ module.exports = class extends Command {
 			guildOnly: true,
       voiceChannelOnly: false,
       currency: false,
-      creatorOnly: false
+      creatorOnly: false,
+      disabled: false
     });
   }
 

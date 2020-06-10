@@ -27,7 +27,7 @@ module.exports = class Reload extends Command {
       case "commands":
         msg.client.logger.warn("Force commands reload");
 
-        const commandsResult = await msg.client.cmd.loadCommands();
+        const commandsResult = await msg.client.cmd.load();
 
         m.edit(msg.success(commandsResult.message));
 
