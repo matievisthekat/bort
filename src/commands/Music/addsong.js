@@ -27,7 +27,7 @@ module.exports = class extends Command {
     let failed = null;
 
     const res = await msg.client.music
-      .search(args.join(" "), msg.author)
+      .search(args.slice(1).join(" "), msg.author)
       .catch((_) => (failed = true));
     if (!res || !res.tracks || !res.tracks[0] || failed)
       return await msg.client.errors.custom(
