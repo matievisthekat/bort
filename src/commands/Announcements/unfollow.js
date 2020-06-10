@@ -5,19 +5,11 @@ module.exports = class extends Command {
     super({
       name: "unfollow",
       category: "Announcements",
-      description: "",
-      usage: "",
-      examples: [],
-      flags: [],
-      cooldown: "3s",
-      guildOnlyCooldown: false,
-      requiresArgs: true,
-      requiredPerms: [],
-      requriedClientPerms: [],
-      guildOnly: true,
-      voiceChannelOnly: false,
-      currency: false,
-      creatorOnly: false
+      description: "Unfollow an announcement channel",
+      usage: "{channel_ID}",
+      examples: ["704349050475905124"],
+      requiredPerms: ["MANAGE_WEBHOOKS"],
+      requriedClientPerms: ["MANAGE_WEBHOOKS"]
     });
   }
 
@@ -42,11 +34,13 @@ module.exports = class extends Command {
       );
     }
 
-    const previousWebhookData = await msg.client.models.announcementWebhook.findOne({
-      guildID: msg.guild.id,
-      channelID: msg.channel.id,
-      followedChannelID: chanData.channelID
-    });
+    const previousWebhookData = await msg.client.models.announcementWebhook.findOne(
+      {
+        guildID: msg.guild.id,
+        channelID: msg.channel.id,
+        followedChannelID: chanData.channelID
+      }
+    );
     if (!previousWebhookData)
       return msg.channel.send(
         msg.warning(`This channel not following **${chanData.name}**`)
