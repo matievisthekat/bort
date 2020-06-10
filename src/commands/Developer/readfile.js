@@ -28,9 +28,11 @@ module.exports = class ReadFile extends Command {
     };
 
     try {
-      const content = fs.readFileSync(path, "utf8");
-      const result = content; //require("util").inspect(content);
-      msg.channel.send(`\`\`\`js\n${result}\`\`\``, options);
+      const result = fs.readFileSync(path, "utf8");
+      msg.channel.send(
+        `\`\`\`${args.join(" ").split(".").pop() || "js"}\n${result}\`\`\``,
+        options
+      );
     } catch (err) {
       msg.channel.send(msg.error(err.message));
     }

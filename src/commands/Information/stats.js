@@ -71,7 +71,7 @@ module.exports = class Stats extends Command {
             (used / tot) * 100
           )}%)\n**Free:** ${free} GB (${Math.round(
             (free / tot) * 100
-          )}%)\n**Total JS Files for this bot:** ${files.length}`
+          )}%)\n**Total JS Files:** ${files.length}`
         );
 
       m.edit("", embed);
