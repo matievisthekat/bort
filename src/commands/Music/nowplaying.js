@@ -15,7 +15,8 @@ module.exports = class extends Command {
   async run(msg, args, flags) {
     const player = await msg.client.music.players.get(msg.guild.id);
     if (!player)
-      return await msg.client.errors.custom(msg, 
+      return await msg.client.errors.custom(
+        msg,
         msg.channel,
         "There is nothing playing on this server!"
       );
@@ -35,7 +36,9 @@ module.exports = class extends Command {
           "▬".repeat(part) + "🔘" + "▬".repeat(10 - part)
         }[${currPos}/${duration === "Invalid date" ? "Infinite" : duration}]`
       )
-      .setFooter(`Song added by ${np.requester.tag}`);
+      .setFooter(
+        `Song added by ${np.requester ? np.requester.tag : "Unknown"}`
+      );
 
     msg.channel.send(embed);
   }

@@ -1,4 +1,5 @@
 const Command = require("../../structures/base/Command");
+const { Track } = require("erela.js");
 
 module.exports = class extends Command {
   constructor() {
@@ -8,8 +9,12 @@ module.exports = class extends Command {
       category: "Music",
       description: "Play music",
       usage: "<url | search>",
-      examples: ["rick roll", "https://youtube.com/watch?v=OJMNad978aj"],
-      flags: ["list"],
+      examples: [
+        "rick roll",
+        "https://youtube.com/watch?v=OJMNad978aj",
+        "test --playlist"
+      ],
+      flags: ["list", "playlist"],
       cooldown: "4s",
       guildOnlyCooldown: true,
       requiresArgs: false,
@@ -29,65 +34,102 @@ module.exports = class extends Command {
           guild: msg.guild
         }));
 
-      const res = await msg.client.music
-        .search(args.join(" "), msg.author)
-        .catch((_) => (failed = true));
-      if (!res || !res.tracks || !res.tracks[0] || failed)
-        return await msg.client.errors.custom(
-          msg,
-          msg.channel,
-          "No results where found! Try again later"
-        );
+      if (flags["playlist"]) {
+        const pl = await msg.client.models.playlist.findOne({
+          userID: msg.author.id,
+          name: args.join(" ")
+        });
+        if (!pl)
+          return msg.channel.send(
+            msg.warning("You do not own a playlist with that name!")
+          );
 
-      if (flags["list"]) {
-        const tracks = res.tracks.slice(0, 9);
+        const tracks = pl.tracks;
+        for (const track of tracks) {
+          await player.queue.add(
+            new Track(
+              {
+                track: track.track,
+                info: {
+                  identifier: track.identifier,
+                  isSeekable: track.isSeekable,
+                  author: track.author,
+                  length: track.duration,
+                  isStream: track.isStream,
+                  title: track.title,
+                  uri: track.uri
+                }
+              },
+              msg.author
+            )
+          );
+        }
 
-        const embed = new msg.client.embed()
-          .setDescription(
-            tracks.map((t, i) => `**[${i + 1}]** ${t.title}`).join("\n")
-          )
-          .setFooter("Type 'cancel' to cancel | Times out in 30 seconds");
+        if (!player.playing) await player.play();
+        msg.channel.send(msg.success(`Started playing **${pl.name}**`));
+      } else {
+        const res = await msg.client.music
+          .search(args.join(" "), msg.author)
+          .catch((_) => (failed = true));
+        if (!res || !res.tracks || !res.tracks[0] || failed)
+          return await msg.client.errors.custom(
+            msg,
+            msg.channel,
+            "No results where found! Try again"
+          );
 
-        msg.channel.send(embed);
+        if (flags["list"]) {
+          const tracks = res.tracks.slice(0, 9);
 
-        const col = await msg.channel.createMessageCollector(
-          (m) => m.author.id === msg.author.id,
-          { limit: 30000 }
-        );
+          const embed = new msg.client.embed()
+            .setDescription(
+              tracks.map((t, i) => `**[${i + 1}]** ${t.title}`).join("\n")
+            )
+            .setFooter("Type 'cancel' to cancel | Times out in 30 seconds");
 
-        col.on("collect", async (m) => {
-          if (/cancel|cancle/gi.test(m.content)) return await col.stop();
-          if (!/^[0-9]$/.test(m.content))
-            return msg.channel.send(msg.warning("Please enter a valid number"));
+          msg.channel.send(embed);
 
-          const index = parseInt(m.content) - 1;
-          const track = tracks[index];
-          if (!track)
-            return await msg.client.errors.custom(
-              msg,
-              msg.channel,
-              "Invalid track selection. try again"
-            );
+          const col = await msg.channel.createMessageCollector(
+            (m) => m.author.id === msg.author.id,
+            { limit: 30000 }
+          );
 
-          await col.stop();
+          col.on("collect", async (m) => {
+            if (/cancel|cancle/gi.test(m.content)) return await col.stop();
+            if (!/^[0-9]$/.test(m.content))
+              return msg.channel.send(
+                msg.warning("Please enter a valid number")
+              );
+
+            const index = parseInt(m.content) - 1;
+            const track = tracks[index];
+            if (!track)
+              return await msg.client.errors.custom(
+                msg,
+                msg.channel,
+                "Invalid track selection. try again"
+              );
+
+            await col.stop();
+
+            await player.queue.add(track);
+            if (!player.playing) await player.play();
+
+            sendStart(msg, player, track);
+          });
+
+          col.on("end", async (collected) => {
+            if (!collected.first(2))
+              return msg.channel.send(msg.warning("Selection timed out"));
+          });
+        } else {
+          const track = res.tracks[0];
 
           await player.queue.add(track);
           if (!player.playing) await player.play();
 
           sendStart(msg, player, track);
-        });
-
-        col.on("end", async (collected) => {
-          if (!collected.first() || collected.size < 1)
-            return msg.channel.send(msg.warning("Selection timed out"));
-        });
-      } else {
-        const track = res.tracks[0];
-
-        await player.queue.add(track);
-        if (!player.playing) await player.play();
-
-        sendStart(msg, player, track);
+        }
       }
     } else {
       const player = await msg.client.music.players.get(msg.guild.id);

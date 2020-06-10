@@ -10,9 +10,7 @@ module.exports = class extends Command {
         "Create or delete a playlist. Playlist names can only have 1 word, no spaces",
       usage: "{create | delete | view} {playlist_name}",
       examples: ["cool-playlist"],
-      cooldown: "1m",
-      guildOnly: false,
-      disabled: true
+      cooldown: "10s"
     });
   }
 

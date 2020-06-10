@@ -8,8 +8,7 @@ module.exports = class extends Command {
       description: "Remove a song from a playlist",
       usage: "{playlist_name} {song_name}",
       examples: ["test going down - tyler joseph"],
-      cooldown: "10s",
-      disabled: true
+      cooldown: "10s"
     });
   }
 
@@ -24,7 +23,7 @@ module.exports = class extends Command {
       );
 
     const name = args.slice(1).join(" ");
-    const track = pl.tracks.find((t) => t.title.toLowerCase() === name);
+    const track = pl.tracks.find((t) => t.title.toLowerCase() === name.toLowerCase());
     if (!track)
       return msg.channel.send(
         msg.warning("No track was found with that name in that playlist!")

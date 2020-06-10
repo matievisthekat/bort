@@ -9,8 +9,7 @@ module.exports = class extends Command {
       usage: "{playlist_name} {query | url}",
       examples: ["test going down - tyler joseph"],
       flags: ["list"],
-      cooldown: "10s",
-      disabled: true
+      cooldown: "10s"
     });
   }
 
@@ -34,7 +33,7 @@ module.exports = class extends Command {
       return await msg.client.errors.custom(
         msg,
         msg.channel,
-        "No results where found! Try again later"
+        "No results where found! Try again"
       );
 
     if (flags["list"]) {
@@ -60,7 +59,7 @@ module.exports = class extends Command {
 
         const index = parseInt(m.content) - 1;
         const selectedTrack = tracks[index];
-        if (!track)
+        if (!selectedTrack)
           return await msg.client.errors.custom(
             msg,
             msg.channel,
@@ -69,21 +68,34 @@ module.exports = class extends Command {
 
         await col.stop();
         track = selectedTrack;
+
+        track.requester.currency = null;
+        track.requester.langModel = null;
+
+        pl.tracks.push(track);
+        await pl.save().catch((err) => console.log(err.message));
+
+        msg.channel.send(
+          msg.success(`Added **${track.title}** to **${pl.name}**`)
+        );
       });
 
       col.on("end", async (collected) => {
-        if (!collected.first() || collected.size < 1)
+        if (!collected.first(2))
           return msg.channel.send(msg.warning("Selection timed out"));
       });
     } else {
       track = res.tracks[0];
+
+      track.requester.currency = null;
+      track.requester.langModel = null;
+
+      pl.tracks.push(track);
+      await pl.save();
+
+      msg.channel.send(
+        msg.success(`Added **${track.title}** to **${pl.name}**`)
+      );
     }
-
-    console.log(track);
-
-    pl.tracks.push(track);
-    await pl.save();
-
-    msg.channel.send(msg.success(`Added **${track.title}** to **${pl.name}**`));
   }
 };
