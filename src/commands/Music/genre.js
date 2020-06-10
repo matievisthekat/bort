@@ -12,7 +12,7 @@ const links = {
 };
 const genres = Object.keys(links);
 
-module.exports = class extends Command {
+module.exports = class Genre extends Command {
   constructor() {
     super({
       name: "genre",

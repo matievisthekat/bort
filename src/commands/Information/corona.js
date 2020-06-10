@@ -7,7 +7,7 @@ const username = "matievisthekat";
 const api_key = process.env.PLOTLY_API_KEY;
 const plotly = require("plotly")(username, api_key);
 
-module.exports = class extends Command {
+module.exports = class Corona extends Command {
   constructor() {
     super({
       name: "corona",

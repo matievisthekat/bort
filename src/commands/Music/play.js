@@ -1,7 +1,7 @@
 const Command = require("../../structures/base/Command");
 const { Track } = require("erela.js");
 
-module.exports = class extends Command {
+module.exports = class Play extends Command {
   constructor() {
     super({
       name: "play",

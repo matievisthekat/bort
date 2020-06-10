@@ -1,6 +1,6 @@
 const Command = require("../../structures/base/Command");
 
-module.exports = class extends Command {
+module.exports = class Name extends Command {
   constructor() {
     super({
       name: "",
@@ -15,7 +15,7 @@ module.exports = class extends Command {
       requiresArgs: true,
       requiredPerms: [],
       requriedClientPerms: [],
-			guildOnly: true,
+      guildOnly: true,
       voiceChannelOnly: false,
       currency: false,
       creatorOnly: false,

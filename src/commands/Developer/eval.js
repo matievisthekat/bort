@@ -26,7 +26,7 @@ module.exports = class Eval extends Command {
       }
     };
 
-    const match = args[0].match(/--(depth)=(\d+)/gi);
+    const match = args[0].match(/-(depth)=(\d+)/gi);
     const depth = match && match[0] === "depth" ? parseInt(match[0]) : 0;
 
     let content = args.slice(match ? 1 : 0).join(" ");

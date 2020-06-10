@@ -1,7 +1,7 @@
 const Command = require("../../structures/base/Command"),
   hastebin = require("hastebin.js");
 
-module.exports = class extends Command {
+module.exports = class Guilds extends Command {
   constructor() {
     super({
       name: "guilds",

@@ -4,7 +4,7 @@ const Command = require("../../structures/base/Command"),
   { check } = require("diskusage"),
   { join } = require("path");
 
-module.exports = class extends Command {
+module.exports = class Stats extends Command {
   constructor() {
     super({
       name: "stats",

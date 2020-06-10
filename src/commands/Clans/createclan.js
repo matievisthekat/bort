@@ -1,7 +1,7 @@
 const Command = require("../../structures/base/Command"),
   Clan = require("../../structures/currency/Clan");
 
-module.exports = class extends Command {
+module.exports = class CreateClan extends Command {
   constructor() {
     super({
       name: "createclan",

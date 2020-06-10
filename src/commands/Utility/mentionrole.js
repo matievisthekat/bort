@@ -1,6 +1,6 @@
 const Command = require("../../structures/base/Command");
 
-module.exports = class extends Command {
+module.exports = class MentionRole extends Command {
   constructor() {
     super({
       name: "mentionrole",
