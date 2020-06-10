@@ -21,15 +21,7 @@ module.exports = class extends Event {
     }
 
     if (client.loadMusic === "true") {
-      const nodes = [
-        {
-          host: "localhost",
-          port: 2333,
-          password: "youshallnotpass"
-        }
-      ];
-
-      client.music = new ErelaClient(client, nodes);
+      client.music = new ErelaClient(client, client.config.nodes);
       client.music
         .on("nodeConnect", (node) => client.logger.info("Created new node"))
         .on("nodeError", (node, err) =>

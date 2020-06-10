@@ -3,15 +3,21 @@ const emoji = require("./constants/emoji");
 module.exports = {
   apiVersion: "v1",
   apiPort: 3001,
-  dblWebhookPort: 8000,
   voteReward: `${emoji.coin} 100`,
   voteRewardAmount: 100,
   msgPrefixes: {
-    error: `${emoji.dnd} **|**`,
-    success: `${emoji.online} **|**`,
+    error: `${emoji.x_} **|**`,
+    success: `${emoji.check} **|**`,
     warning: `${emoji.idle} **|**`,
     loading: `${emoji.generating} **|**`
   },
+  nodes: [
+    {
+      host: "localhost",
+      port: 2333,
+      password: "youshallnotpass"
+    }
+  ],
   links: [
     {
       link: "https://github.com/MatievisTheKat/bort",
@@ -55,7 +61,7 @@ module.exports = {
     {
       name: "hosting",
       content:
-        "*Please note none of these companies asked to be put here. bort has no obligation to any of these companies*\n\n__**Recommended**__\n[`Servercheap.net`](https://servercheap.net/crm/aff.php?aff=365) Starting at $2.99/month for 1GB ram, 30DB SSD, unmetered bandwidth and 1 CPU core\n\n__**More Options**__\n[`Oxide Hosting`](https://oxide.host) Starting at $4.39/month for 2GB ram, 32GB SSD, 1 CPU core, unmetered bandwidth\n[`Vultr`](https://www.vultr.com/) Starting at $2.50/month for 521MD ram, 10GB SSD, 1 CPU core, 0.50TB bandwidth\n[`Digital Ocean`](https://www.digitalocean.com/) Starting at $5/month for 1GB ram, 25GB SSD, 1TB bandwidth, 1 CPU core\n[`OVH`](https://www.ovhcloud.com/) Starting at $6/month for 2GB ram, 40 GB NVMe, unmetered bandwidth, 1 CPU core\n\n__**Bort uses**__\n[`Servercheap.net`](https://servercheap.net/crm/aff.php?aff=365) $3.82/month for 2GB ram, 60GB SSD, unmetered bandwidth, 2 CPU cores, free DNS management"
+        "*Please note none of these companies asked to be put here. bort has no obligation to any of these companies*\n\n__**Recommended**__\n[`Servercheap.net`](https://servercheap.net/crm/aff.php?aff=365) Starting at $2.99/month for 1GB ram, 30GB SSD, unmetered bandwidth and 1 CPU core\n\n__**More Options**__\n[`Oxide Hosting`](https://oxide.host) Starting at $4.39/month for 2GB ram, 32GB SSD, 1 CPU core, unmetered bandwidth\n[`Vultr`](https://www.vultr.com/) Starting at $2.50/month for 521MB ram, 10GB SSD, 1 CPU core, 0.50TB bandwidth\n[`Digital Ocean`](https://www.digitalocean.com/) Starting at $5/month for 1GB ram, 25GB SSD, 1TB bandwidth, 1 CPU core\n[`OVH`](https://www.ovhcloud.com/) Starting at $6/month for 2GB ram, 40 GB NVMe, unmetered bandwidth, 1 CPU core\n\n__**Bort uses**__\n[`Servercheap.net`](https://servercheap.net/crm/aff.php?aff=365) $4.82/month for 3GB ram, 60GB SSD, unmetered bandwidth, 2 CPU cores, free DNS management"
     }
   ],
   animals: {
@@ -90,58 +96,58 @@ module.exports = {
     legendary: [
       {
         name: "dinasour",
-        price: 400
+        price: 12000
       },
       {
         name: "electric dog",
-        price: 370
+        price: 13700
       },
       {
         name: "ultra chicken",
-        price: 350
+        price: 15050
       }
     ],
     mythical: [
       {
         name: "ultra dog",
-        price: 500
+        price: 30500
       },
       {
         name: "ultra dinasour",
-        price: 670
+        price: 36670
       },
       {
         name: "ultra eagle",
-        price: 780
+        price: 40780
       }
     ]
   },
   fish: [
-    { name: "salmon", price: 10 },
-    { name: "cod", price: 15 },
-    { name: "catfish", price: 30 },
-    { name: "tuna", price: 20 }
+    { name: "salmon", price: 30 },
+    { name: "cod", price: 50 },
+    { name: "catfish", price: 40 },
+    { name: "tuna", price: 35 }
   ],
   ores: [
     {
       name: "iron",
-      price: 40
-    },
-    {
-      name: "gold",
-      price: 60
-    },
-    {
-      name: "coal",
-      price: 50
-    },
-    {
-      name: "emerald",
       price: 100
     },
     {
+      name: "gold",
+      price: 120
+    },
+    {
+      name: "coal",
+      price: 134
+    },
+    {
+      name: "emerald",
+      price: 248
+    },
+    {
       name: "diamond",
-      price: 240
+      price: 1000
     }
   ]
 };
