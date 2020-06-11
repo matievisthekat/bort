@@ -1,64 +1,59 @@
-const Util = require("./util");
-const mongoose = require("mongoose");
-const model = mongoose.model(
-  "logs",
-  new mongoose.Schema({
-    timestamp: Date,
-    msg: String,
-    extra: String,
-  })
-);
+const moment = require("moment");
+const fs = require("fs");
+const path = require("path");
+const chalk = require("chalk");
 
 module.exports = class Logger {
-  constructor(options = {}) {
-    this.util = Util;
-    this.model = model;
+  constructor() {
+    this.tabLength = 4;
   }
 
-  databaseLog(msg, extra) {
-    new this.model({
-      timestamp: Date.now(),
-      msg: msg,
-      extra: extra,
-    })
-      .save()
-      .catch((err) => this.error(err));
+  get time() {
+    return moment().format("HH:mm:ss a");
   }
 
-  error(msg, databaseLog) {
-    console.log(
-      this.util.chalk.red(
-        `[ERROR: ${this.util.moment().format("HH:mm")}] ${
-          msg.stack ? msg.stack : msg
-        }`
-      )
-    );
-    if (databaseLog)
-      this.databaseLog(msg.stack ? `${msg.error} ${msg.stack}` : msg);
+  get date() {
+    return moment().format("DD/MM/YYYY");
   }
 
-  warn(msg, databaseLog) {
-    console.log(
-      this.util.chalk.yellow(
-        `[WARN:  ${this.util.moment().format("HH:mm")}] ${msg}`
-      )
-    );
-    if (databaseLog) this.databaseLog(msg);
+  get timestamp() {
+    return `${this.date} ${this.time}`;
   }
 
+  /**
+   * @private
+   * @param {String} type The logging type
+   */
+  _genPrefix(type) {
+    const tabs = " ".repeat(this.tabLength - (type.length - this.tabLength));
+    return `[${type.toUpperCase()}:${tabs}${this.timestamp}]`;
+  }
+
+  /**
+   * @param {String} msg Log an error
+   */
+  error(msg) {
+    console.log(chalk.red(`${this._genPrefix("error")} ${msg}`));
+  }
+
+  /**
+   * @param {String} msg Log a warning
+   */
+  warn(msg) {
+    console.log(chalk.yellow(`${this._genPrefix("warn")} ${msg}`));
+  }
+
+  /**
+   * @param {String} msg Log information
+   */
   info(msg) {
-    console.log(
-      this.util.chalk.green(
-        `[INFO:  ${this.util.moment().format("HH:mm")}] ${msg}`
-      )
-    );
+    console.log(chalk.green(`${this._genPrefix("info")} ${msg}`));
   }
 
+  /**
+   * @param {String} msg Log a message
+   */
   log(msg) {
-    console.log(
-      this.util.chalk.bold(
-        `[LOG:   ${this.util.moment().format("HH:mm")}] ${msg}`
-      )
-    );
+    console.log(chalk.bold(`${this._genPrefix("log")} ${msg}`));
   }
 };
