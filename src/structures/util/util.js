@@ -11,7 +11,8 @@ const toProperCase = (str) =>
   );
 
 const chooseString = (str) => str.split(/\|+/gi).random();
-const clapString = (str) => `:clap:${str.trim().replace(/ +/gi, ":clap:")}:clap:`;
+const clapString = (str) =>
+  `:clap:${str.trim().replace(/ +/gi, ":clap:")}:clap:`;
 const xpForLevel = (currentLevel) => (currentLevel + 5) * 1000;
 
 const xpUntilNextLevel = (currentLevel, currentXp) =>
@@ -26,7 +27,18 @@ const randomInRange = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
+const { promisify } = require("util");
+const exec = promisify(require("child_process").exec);
+
+async function execute(cmd) {
+  let error = null;
+  const result = await exec(cmd).catch((err) => (error = err));
+  if (result.stderr.trim()) error = result.stderr.trim();
+  return { output: result.stdout.trim(), error };
+}
+
 module.exports = {
+  execute,
   toProperCase,
   formatCategory,
   clapString,

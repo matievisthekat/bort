@@ -30,7 +30,6 @@ module.exports = class Eval extends Command {
     const depth = match && match[0] === "depth" ? parseInt(match[0]) : 0;
 
     let content = args.slice(match ? 1 : 0).join(" ");
-
     if (content.includes("await")) content = `(async () => {${content}})();`;
 
     const result = new Promise((resolve, reject) => resolve(eval(content)));
@@ -40,18 +39,15 @@ module.exports = class Eval extends Command {
         if (typeof output !== "string")
           output = require("util").inspect(output, { depth });
 
-        output
-          .replace(msg.client.token, "Client Token")
-          .replace(msg.client.uri, "MongoDB URI");
+        if (typeof output === "string")
+          output.replace(msg.client.token, "Client Token");
 
         msg.channel.send(`\`\`\`js\n${output}\`\`\``, options);
       })
       .catch((err) => {
-        err.stack = err.stack
-          .replace(msg.client.token, "Client Token")
-          .replace(msg.client.uri, "MongoDB URI");
+        err.stack = err.stack.replace(msg.client.token, "Client Token");
 
-        msg.channel.send(`\`\`\`js\n${err.stack}\`\`\``, options);
+        msg.channel.send(`\`\`\`${err.stack}\`\`\``, options);
       });
   }
 };
