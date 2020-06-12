@@ -13,7 +13,9 @@ module.exports = class Daily extends Command {
   }
 
   async run(msg, args, flags) {
-    const daily = await msg.client.daily.findOne({ userID: msg.author.id });
+    const daily = await msg.client.models.daily.findOne({
+      userID: msg.author.id
+    });
     if (daily)
       return msg.channel.send(
         msg.warning(
@@ -25,6 +27,8 @@ module.exports = class Daily extends Command {
 
     const amt = 750;
     await msg.author.currency.add(amt);
+
+    await new msg.client.models.daily({ userID: msg.author.id }).save();
 
     msg.channel.send(msg.success(`You have collected **${amt}** coins!`));
   }
