@@ -18,11 +18,7 @@ module.exports = class Exec extends Command {
     const res = await msg.client.util.execute(args.join(" "));
     const embed = new msg.client.embed();
 
-    if (res.error) {
-      embed.red.addField("Error", `\`\`\`${res.error}\`\`\``);
-    } else {
-      embed.green.addField("Output", `\`\`\`${res.output}\`\`\``);
-    }
+    embed.green.addField("Output", `\`\`\`${res.output || res.error}\`\`\``);
 
     msg.channel.send(embed);
   }
