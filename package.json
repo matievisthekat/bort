@@ -23,6 +23,7 @@
     "moment": "^2.24.0",
     "mongoose": "^5.9.6",
     "ms": "^2.1.2",
+    "node-cron": "^2.0.3",
     "node-os-utils": "^1.2.2",
     "plotly": "^1.0.6"
   },

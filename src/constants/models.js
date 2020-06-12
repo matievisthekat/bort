@@ -46,6 +46,7 @@ module.exports = {
   announcementChannels,
   announcementWebhook,
   playlist,
+  daily: model("dailies", new Schema({ userID: String })),
   userLang: model(
     "user_langs",
     new Schema({

@@ -1,4 +1,5 @@
 require("dotenv").config();
+const cron = require("node-cron");
 const { resolve } = require("path");
 
 const Bort = require("./structures/base/Client");
@@ -29,3 +30,8 @@ String.prototype.toProperCase = function () {
 Array.prototype.random = function () {
   return this[Math.floor(Math.random() * this.length)];
 };
+
+cron.schedule("59 23 * * *", async function () {
+  const dailies = await client.models.daily.find();
+  for (const daily of dailies) await daily.delete();
+});
