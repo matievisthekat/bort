@@ -37,7 +37,7 @@ module.exports = class BuyNick extends Command {
 
       msg.channel.send(
         msg.success(
-          `I have set your nickname to **${nick}** and ${msg.client.emoji.coin}${serverData.price} was transfered to this server's bank from your wallet`
+          `I have set your nickname to **${nick}** and ${serverData.price.toLocaleString()} coins where transfered to this server's bank from your wallet`
         )
       );
     } catch (err) {

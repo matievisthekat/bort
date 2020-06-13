@@ -49,7 +49,7 @@ module.exports = class BankDep extends Command {
     });
 
     msg.channel.send(
-      msg.success(`Deposited ${amount} coins into **${msg.guild.name}**'s bank`)
+      msg.success(`Deposited ${amount.toLocaleString()} coins into **${msg.guild.name}**'s bank`)
     );
   }
 };

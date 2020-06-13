@@ -22,7 +22,10 @@ module.exports = class Rich extends Command {
         lb
           .filter((d) => msg.guild.members.cache.get(d.userID))
           .slice(0, 10)
-          .map((d, i) => `**${i + 1}**: <@${d.userID}> - *${d.wallet}*`)
+          .map(
+            (d, i) =>
+              `**${i + 1}**: <@${d.userID}> - *${d.wallet.toLocaleString()}*`
+          )
       )
       .setFooter(`Requested by ${msg.author.tag}`);
 

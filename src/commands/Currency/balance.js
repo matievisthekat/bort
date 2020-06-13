@@ -22,9 +22,11 @@ module.exports = class Balance extends Command {
     );
     if (!target) return msg.client.errors.invalidTarget(msg, msg.channel);
 
-    let content = `**Wallet:** ${target.currency.wallet || 0}`;
+    let content = `**Wallet:** ${(
+      target.currency.wallet || 0
+    ).toLocaleString()}`;
     if (target.id === msg.author.id)
-      content += `\n**Bank:** ${target.currency.bank || 0}/${
+      content += `\n**Bank:** ${(target.currency.bank || 0).toLocaleString()}/${
         target.currency.bankLimit || 200
       } ${target.currency.bank === target.currency.bankLimit ? "[FULL]" : ""}`;
 

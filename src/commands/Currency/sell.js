@@ -39,7 +39,9 @@ module.exports = class Sell extends Command {
 
     msg.channel.send(
       msg.success(
-        `You sold one **${item.name}** for ${msg.client.emoji.coin}${item.price}`
+        `You sold one **${item.name}** for ${
+          msg.client.emoji.coin
+        }${item.price.toLocaleString()}`
       )
     );
   }

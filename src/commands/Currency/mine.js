@@ -31,7 +31,9 @@ module.exports = class Mine extends Command {
 
       msg.channel.send(
         msg.success(
-          `You found one **${ore.name}**! It is worth ${msg.client.emoji.coin}${ore.price}`
+          `You found one **${ore.name}**! It is worth ${
+            msg.client.emoji.coin
+          }${ore.price.toLocaleString()}`
         )
       );
     } else

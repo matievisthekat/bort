@@ -31,7 +31,9 @@ module.exports = class Fish extends Command {
 
       msg.channel.send(
         msg.success(
-          `You caught one **${fish.name}**! It is worth ${msg.client.emoji.coin}${fish.price}`
+          `You caught one **${
+            fish.name
+          }**! It is worth ${fish.price.toLocaleString()} coins`
         )
       );
     } else

@@ -27,7 +27,7 @@ module.exports = class Bank extends Command {
       .setTimestamp()
       .addField(
         "General",
-        `**Amount:** ${bank.amount}\n**Max Withdrawal Amount:** ${bank.maxWithdrawAmount}`
+        `**Amount:** ${bank.amount.toLocaleString()}\n**Max Withdrawal Amount:** ${bank.maxWithdrawAmount.toLocaleString()}`
       )
       .addField(
         "Information",

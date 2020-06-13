@@ -69,7 +69,7 @@ module.exports = class Hunt extends Command {
 
       msg.channel.send(
         msg.success(
-          `You caught a **${animal.name}**! It is worth ${msg.client.emoji.coin}${animal.price}`
+          `You caught a **${animal.name}**! It is worth ${animal.price.toLocaleString()} coins`
         )
       );
     }

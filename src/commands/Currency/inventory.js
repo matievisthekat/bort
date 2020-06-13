@@ -30,9 +30,11 @@ module.exports = class Inventory extends Command {
       items.forEach((item) =>
         embed.addField(
           `**${item.name.toProperCase()}**`,
-          `- Price: ${msg.client.emoji.coin}${
-            item.price
-          }\n- ID: \`${item.name.toLowerCase().replace(/ +/gi, "")}\``
+          `- Price: ${
+            msg.client.emoji.coin
+          }${item.price.toLocaleString()}\n- ID: \`${item.name
+            .toLowerCase()
+            .replace(/ +/gi, "")}\``
         )
       );
       embeds.push(embed);

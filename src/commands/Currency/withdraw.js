@@ -37,8 +37,10 @@ module.exports = class Withdraw extends Command {
         "You may not withdraw more than you have in your bank"
       );
 
-    msg.author.currency.withdraw(amount);
+    await msg.author.currency.withdraw(amount);
 
-    msg.channel.send(msg.success(`Withdrew ${amount} coins from your bank`));
+    msg.channel.send(
+      msg.success(`Withdrew ${amount.toLocaleString()} coins from your bank`)
+    );
   }
 };

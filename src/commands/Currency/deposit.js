@@ -21,31 +21,31 @@ module.exports = class Deposit extends Command {
       : parseInt(args[0]);
 
     if (amount === 0)
-      return await msg.client.errors.custom(msg, 
+      return msg.client.errors.custom(msg, 
         msg.channel,
         "You don't have any money to deposit"
       );
 
     if (!amount)
-      return await msg.client.errors.custom(msg, 
+      return msg.client.errors.custom(msg, 
         msg.channel,
         "You need to supply an amount to deposit"
       );
 
     if (amount < 0)
-      return await msg.client.errors.custom(msg, 
+      return msg.client.errors.custom(msg, 
         msg.channel,
         "You may not deposit negative amounts"
       );
 
     if (amount > msg.author.currency.model.wallet)
-      return await msg.client.errors.custom(msg, 
+      return msg.client.errors.custom(msg, 
         msg.channel,
         "You may not deposit more than you have. Nice try though ;)"
       );
 
     if (msg.author.currency.bank === msg.author.currency.bankLimit)
-      return await msg.client.errors.custom(msg, 
+      return msg.client.errors.custom(msg, 
         msg.channel,
         "Your bank is full! Level up to earn more space"
       );
@@ -55,8 +55,10 @@ module.exports = class Deposit extends Command {
         msg.author.currency.bank + amount - msg.author.currency.bankLimit;
     }
 
-    msg.author.currency.deposit(amount);
+    await msg.author.currency.deposit(amount);
 
-    msg.channel.send(msg.success(`Deposited ${amount} coins into your bank`));
+    msg.channel.send(
+      msg.success(`Deposited ${amount.toLocaleString()} coins into your bank`)
+    );
   }
 };

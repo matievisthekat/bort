@@ -49,13 +49,19 @@ module.exports = class Gamble extends Command {
     if (chance > 50) {
       await win(amount, msg.author);
       msg.channel.send(
-        msg.success(`You won ${msg.client.emoji.coin}${amount}! Well done`)
+        msg.success(
+          `You won ${
+            msg.client.emoji.coin
+          }${amount.toLocaleString()}! Well done`
+        )
       );
     } else {
       await lose(amount, msg.author, msg.guild);
       msg.channel.send(
         msg.warning(
-          `You lost ${msg.client.emoji.coin}${amount}! Better luck next time`
+          `You lost ${
+            msg.client.emoji.coin
+          }${amount.toLocaleString()}! Better luck next time`
         )
       );
     }

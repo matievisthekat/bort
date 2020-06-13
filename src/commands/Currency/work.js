@@ -15,6 +15,8 @@ module.exports = class Work extends Command {
   async run(msg, args, flags) {
     const amt = msg.client.util.randomInRange(12, 200);
     await msg.author.currency.add(amt);
-    msg.channel.send(msg.success(`You worked for **${amt}** coins`));
+    msg.channel.send(
+      msg.success(`You worked for **${amt.toLocaleString()}** coins`)
+    );
   }
 };

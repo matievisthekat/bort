@@ -55,7 +55,7 @@ module.exports = class BankWith extends Command {
     });
 
     msg.channel.send(
-      msg.success(`Withdrew ${amount} coins from **${msg.guild.name}**'s bank`)
+      msg.success(`Withdrew ${amount.toLocaleString()} coins from **${msg.guild.name}**'s bank`)
     );
   }
 };

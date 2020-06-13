@@ -30,6 +30,8 @@ module.exports = class Daily extends Command {
 
     await new msg.client.models.daily({ userID: msg.author.id }).save();
 
-    msg.channel.send(msg.success(`You have collected **${amt}** coins!`));
+    msg.channel.send(
+      msg.success(`You have collected **${amt.toLocaleString()}** coins!`)
+    );
   }
 };
