@@ -5,7 +5,7 @@ module.exports = class Translate extends Command {
     super({
       name: "translate",
       category: "Utility",
-      description: "Translate between langauges",
+      description: "Translate between languages",
       usage: "{to} {text}",
       examples: ["fr Hello there", "en Bonjour"],
       cooldown: "15s",
@@ -24,7 +24,7 @@ module.exports = class Translate extends Command {
         msg.warning(
           `Invalid langauge selection! Use \`${await msg.prefix(
             false
-          )}langauges\` to view available langauges!`
+          )}languages\` to view available languages!`
         )
       );
 

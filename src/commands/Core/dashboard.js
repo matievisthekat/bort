@@ -12,6 +12,6 @@ module.exports = class Dashboard extends Command {
 
   async run(msg, args, flags) {
     const url = `https://bort.matievisthekat.dev/dashboard/${msg.guild.id}`;
-    msg.channel.send(new msg.client.embed().none(`[\`Dashboard\`](${url})`));
+    msg.channel.send(url);
   }
 };

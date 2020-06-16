@@ -14,7 +14,7 @@ module.exports = class Translator {
   }
 
   /**
-   * Load available langauges
+   * Load available languages
    */
   async load() {
     const res = await axios.get(
@@ -32,7 +32,7 @@ module.exports = class Translator {
     );
 
     return {
-      message: `Loaded ${this.langs.length} langauges`,
+      message: `Loaded ${this.langs.length} languages`,
       status: 200
     };
   }

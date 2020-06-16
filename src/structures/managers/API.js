@@ -41,8 +41,8 @@ module.exports = class APIManager {
       res.send({ guilds: client.guilds.cache.array() }).status(200)
     );
 
-    // GET request for available langauges
-    app.get(`/api/${client.config.apiVersion}/langauges`, (req, res) => {
+    // GET request for available languages
+    app.get(`/api/${client.config.apiVersion}/languages`, (req, res) => {
       const langs = client.translator.langs;
       res.send({ langs }).status(200);
     });

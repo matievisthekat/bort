@@ -4,7 +4,7 @@ module.exports = class Prefix extends Command {
   constructor() {
     super({
       name: "prefix",
-      category: "Core",
+      category: "Config",
       description: "Set the prefix for the server",
       usage: "{prefix}",
       examples: ["!"],
@@ -20,10 +20,7 @@ module.exports = class Prefix extends Command {
     if (args.join(" ") === msg.client.prefix && data !== null) {
       await msg.client.unloadPrefix(data);
     } else {
-      await msg.client.loadPrefix({
-        guildID: msg.guild.id,
-        prefix: args.join(" ")
-      });
+      await msg.client.loadPrefix(msg.guild.id, args.join(" "));
     }
 
     msg.channel.send(

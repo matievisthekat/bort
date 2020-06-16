@@ -5,7 +5,7 @@ module.exports = class PostChannel extends Command {
     super({
       name: "postchannel",
       aliases: ["pc"],
-      category: "Core",
+      category: "Cofing",
       description: "Set the channel to receive posts. Default flags: public",
       usage: "[set | get] <channel>",
       examples: [

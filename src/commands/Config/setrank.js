@@ -4,7 +4,7 @@ module.exports = class SetRank extends Command {
   constructor() {
     super({
       name: "setrank",
-      category: "Core",
+      category: "Config",
       description: "Set a buyable rank",
       usage: "{role} {price}",
       examples: ["@Master 100", "652501889400832011 258034", "noob 40"],
@@ -15,7 +15,7 @@ module.exports = class SetRank extends Command {
 
   async run(msg, args, flags) {
     const role = await msg.client.resolve("role", args[0], msg.guild);
-    if (role === null) return msg.client.errors.invalidTarget(msg, msg.channel);
+    if (!role) return msg.client.errors.invalidTarget(msg, msg.channel);
 
     const data = await msg.client.models.rank.findOne({
       guildID: msg.guild.id,

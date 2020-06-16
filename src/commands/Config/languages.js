@@ -3,10 +3,10 @@ const Command = require("../../structures/base/Command");
 module.exports = class Languages extends Command {
   constructor() {
     super({
-      name: "langauges",
+      name: "languages",
       aliases: ["langs"],
       category: "Config",
-      description: "View all available langauges to switch to",
+      description: "View all available languages to switch to",
       requiresArgs: false,
       guildOnly: false
     });
@@ -16,7 +16,7 @@ module.exports = class Languages extends Command {
     if (!msg.client.availableLangs[0])
       return msg.channel.send(
         msg.warning(
-          `Oops! Looks like the langauges have not been loaded. If this doesn't work in a few minutes please contact the developer (${msg.client.config.creators.tags[0]})`
+          `Oops! Looks like the languages have not been loaded. If this doesn't work in a few minutes please contact the developer (${msg.client.config.creators.tags[0]})`
         )
       );
 
@@ -25,7 +25,7 @@ module.exports = class Languages extends Command {
       const langs = msg.client.availableLangs.slice(i, i + 10);
       const embed = new msg.client.embed().blue
         .setAuthor(
-          `Available Langauges (${msg.client.availableLangs.length})`,
+          `Available languages (${msg.client.availableLangs.length})`,
           msg.author.displayAvatarURL()
         )
         .setDescription(langs.map((lang) => `${lang.name} (${lang.code})`));

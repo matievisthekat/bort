@@ -5,7 +5,7 @@ module.exports = class DelRank extends Command {
     super({
       name: "delrank",
       aliases: ["dr", "deleterank"],
-      category: "Core",
+      category: "Config",
       description: "Delete a rank from the ranks in the current server",
       usage: "{role}",
       examples: ["@Developer --override", "master", "661300428532875266"],
