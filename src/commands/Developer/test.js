@@ -13,6 +13,6 @@ module.exports = class Test extends Command {
   }
 
   run(msg, args, flags) {
-    return msg.channel.send("Test Worked!");
+    return msg.channel.send("Test Worked #2!");
   }
 };
