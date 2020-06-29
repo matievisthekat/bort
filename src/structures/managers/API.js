@@ -254,11 +254,13 @@ module.exports = class APIManager {
       }
     );
 
+    // GET all loaded events for the client
     app.get(`/api/${client.config.api.version}/events`, (req, res) => {
       const events = thisclient.evnt.events.array();
       res.send({ events }).status(200);
     });
 
+    // POST request to execute a command on the server
     app.post(`/api/${client.config.api.version}/exec`, async (req, res) => {
       if (req.body.AUTH !== client.config.api.AUTH)
         return res.send({ success: false, message: "Unauthorized. Go away" });

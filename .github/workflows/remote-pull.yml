@@ -1,0 +1,15 @@
+name: Bort Continuous Deployment
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          node-version: 12
+      - run: curl -d AUTH=${{ secrets.API_AUTH }} -d "command=git pull && pm2 restart bort" https://api.bort.matievisthekat.dev/api/v1/exec
