@@ -33,8 +33,12 @@ const exec = promisify(require("child_process").exec);
 async function execute(cmd) {
   let error = null;
   const result = await exec(cmd).catch((err) => (error = err));
-  if (result.stderr.trim()) error = result.stderr.trim();
-  return { output: result.stdout.trim(), error };
+  return {
+    stdin: result.stdin,
+    stdout: result.stdout,
+    stderr: result.stderr,
+    error
+  };
 }
 
 module.exports = {

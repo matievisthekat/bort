@@ -15,13 +15,21 @@ module.exports = class Exec extends Command {
   }
 
   async run(msg, args, flags) {
+    const options = {
+      split: {
+        char: "\n",
+        prepend: "```\n",
+        append: "```"
+      }
+    };
+
     const m = await msg.channel.send(msg.loading("Running command..."));
-
     const res = await msg.client.util.execute(args.join(" "));
-    const embed = new msg.client.embed();
 
-    embed.green.addField("Output", `\`\`\`${res.output || res.error}\`\`\``);
+    if (res.stdout) msg.channel.send(`\`\`\`\n${res.stdout}\`\`\``, options);
+    if (res.stdin) msg.channel.send(`\`\`\`\n${res.stdin}\`\`\``, options);
+    if (res.stderr) msg.channel.send(`\`\`\`\n${res.stderr}\`\`\``, options);
 
-    m.edit(embed);
+    m.edit(msg.success("Command successfully run"));
   }
 };

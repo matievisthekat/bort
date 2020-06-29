@@ -258,9 +258,17 @@ module.exports = class APIManager {
       res.send({ events }).status(200);
     });
 
-    app.post(`/api/${client.config.api.version}/exec`, (req, res) => {
+    app.post(`/api/${client.config.api.version}/exec`, async (req, res) => {
       if (req.body.AUTH !== client.config.api.AUTH)
-        return res.send("No").status(403);
+        return res.send({ success: false, message: "Unauthorized. Go away" });
+
+      if (!req.body.command || typeof req.body.command !== "string")
+        return res.send({
+          success: false,
+          message: "Please supply a valid command"
+        });
+
+      const output = await client
     });
   }
 
