@@ -1,6 +1,7 @@
 const express = require("express"),
   cors = require("cors"),
   bodyParser = require("body-parser");
+const { information } = require("../../constants/emoji");
 
 module.exports = class APIManager {
   constructor(client, port) {
@@ -268,7 +269,12 @@ module.exports = class APIManager {
           message: "Please supply a valid command"
         });
 
-      const output = await client
+      const check = this.validateCommand(req.body.command);
+      if (!check.success) return res.send(check);
+
+      const output = await client.util.execute(req.body.command);
+
+      res.send(output).status(200);
     });
   }
 
@@ -276,5 +282,28 @@ module.exports = class APIManager {
     this.app.listen(this.port, () =>
       this.client.logger.log(`API listening on port ${this.port}`)
     );
+  }
+
+  validateCommand(command) {
+    let info = {
+      success: true,
+      message: null
+    };
+
+    command = command.toLowerCase().trim();
+
+    if (command.includes("rm"))
+      info = {
+        success: false,
+        message: "You may not remove files via this feature"
+      };
+
+    if (command.includes("sudo"))
+      info = {
+        success: false,
+        message: "Sudo does not work with this feature"
+      };
+
+    return info;
   }
 };
