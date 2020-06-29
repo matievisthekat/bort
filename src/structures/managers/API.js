@@ -18,7 +18,7 @@ module.exports = class APIManager {
     );
 
     // POST request for https://top.gg vote logs
-    app.post(`/api/${client.config.apiVersion}/vote`, async (req, res) => {
+    app.post(`/api/${client.config.api.version}/vote`, async (req, res) => {
       const auth = req.headers.authorization;
       if (auth !== process.env.WEBHOOK_AUTH) return res.sendStatus(403);
 
@@ -37,19 +37,19 @@ module.exports = class APIManager {
     });
 
     // GET request for all guilds the client is in
-    app.get(`/api/${client.config.apiVersion}/guilds`, (req, res) =>
+    app.get(`/api/${client.config.api.version}/guilds`, (req, res) =>
       res.send({ guilds: client.guilds.cache.array() }).status(200)
     );
 
     // GET request for available languages
-    app.get(`/api/${client.config.apiVersion}/languages`, (req, res) => {
+    app.get(`/api/${client.config.api.version}/languages`, (req, res) => {
       const langs = client.translator.langs;
       res.send({ langs }).status(200);
     });
 
     // Get request for mutual servers with a specific user
     app.get(
-      `/api/${client.config.apiVersion}/guilds/mutual/:userID`,
+      `/api/${client.config.api.version}/guilds/mutual/:userID`,
       async (req, res) => {
         const userID = req.params.userID;
         let guilds = [];
@@ -69,7 +69,7 @@ module.exports = class APIManager {
     );
 
     // GET request for a specific guild
-    app.get(`/api/${client.config.apiVersion}/guilds/:guildID`, (req, res) => {
+    app.get(`/api/${client.config.api.version}/guilds/:guildID`, (req, res) => {
       const guildID = req.params.guildID;
       const guild = client.guilds.cache.get(guildID);
 
@@ -77,7 +77,7 @@ module.exports = class APIManager {
     });
 
     // GET request for all prefixes mapped to their guild
-    app.get(`/api/${client.config.apiVersion}/prefixes`, async (req, res) => {
+    app.get(`/api/${client.config.api.version}/prefixes`, async (req, res) => {
       const data = await client.models.prefix.find();
       res
         .send({
@@ -93,7 +93,7 @@ module.exports = class APIManager {
 
     // GET request for the prefix of specific guild
     app.get(
-      `/api/${client.config.apiVersion}/prefix/:guildID`,
+      `/api/${client.config.api.version}/prefix/:guildID`,
       async (req, res) => {
         const data = await client.models.prefix.findOne({
           guildID: req.params.guildID
@@ -108,7 +108,7 @@ module.exports = class APIManager {
 
     // POST request to change the prefix of a guild
     app.post(
-      `/api/${client.config.apiVersion}/guilds/:guildID/changeprefix`,
+      `/api/${client.config.api.version}/guilds/:guildID/changeprefix`,
       async (req, res) => {
         const guildID = req.params.guildID;
         const guild = client.guilds.cache.get(guildID);
@@ -161,7 +161,7 @@ module.exports = class APIManager {
 
     // GET request for roles from a guild
     app.get(
-      `/api/${client.config.apiVersion}/guilds/:guildID/roles`,
+      `/api/${client.config.api.version}/guilds/:guildID/roles`,
       (req, res) => {
         const guildID = req.params.guildID;
         const guild = client.guilds.cache.get(guildID);
@@ -176,12 +176,12 @@ module.exports = class APIManager {
     );
 
     // GET request to see all current blacklists
-    app.get(`/api/${client.config.apiVersion}/blacklist`, async (req, res) => {
+    app.get(`/api/${client.config.api.version}/blacklist`, async (req, res) => {
       const blacklists = await client.blacklist.model.find();
       res.send({ blacklists }).status(200);
     });
 
-    app.get(`/api/${client.config.apiVersion}/commands`, (req, res) => {
+    app.get(`/api/${client.config.api.version}/commands`, (req, res) => {
       const commands = client.cmd.commands.array();
       const cooldowns = client.cmd.commandCooldowns.array();
 
@@ -194,7 +194,7 @@ module.exports = class APIManager {
         .status(200);
     });
 
-    app.get(`/api/${client.config.apiVersion}/commands/search`, (req, res) => {
+    app.get(`/api/${client.config.api.version}/commands/search`, (req, res) => {
       const query = req.query.query;
       if (!query) return res.sendStatus(404);
 
@@ -230,7 +230,7 @@ module.exports = class APIManager {
         .status(200);
     });
 
-    app.get(`/api/${client.config.apiVersion}/command/:name`, (req, res) => {
+    app.get(`/api/${client.config.api.version}/command/:name`, (req, res) => {
       const name = req.params.name;
       const command =
         client.cmd.commands.get(name) ||
@@ -240,7 +240,7 @@ module.exports = class APIManager {
     });
 
     app.get(
-      `/api/${client.config.apiVersion}/currencyUser/:id`,
+      `/api/${client.config.api.version}/currencyUser/:id`,
       async (req, res) => {
         const user = await client.currency.getUser(req.params.id);
         if (user) {
@@ -253,9 +253,14 @@ module.exports = class APIManager {
       }
     );
 
-    app.get(`/api/${client.config.apiVersion}/events`, (req, res) => {
+    app.get(`/api/${client.config.api.version}/events`, (req, res) => {
       const events = thisclient.evnt.events.array();
       res.send({ events }).status(200);
+    });
+
+    app.post(`/api/${client.config.api.version}/exec`, (req, res) => {
+      if (req.body.AUTH !== client.config.api.AUTH)
+        return res.send("No").status(403);
     });
   }
 

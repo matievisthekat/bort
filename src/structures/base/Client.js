@@ -54,7 +54,7 @@ module.exports = class Bort extends Client {
     this.config = require("../../config");
 
     // Initialize helper classes
-    this.web = new APIManager(this, this.config.apiPort);
+    this.web = new APIManager(this, this.config.api.port);
     this.logger = new Logger();
     this.translator = new Translator(this, this.translateAPIKey);
     this.errors = new ErrorManager(this);

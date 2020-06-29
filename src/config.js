@@ -1,8 +1,11 @@
 const emoji = require("./constants/emoji");
 
 module.exports = {
-  apiVersion: "v1",
-  apiPort: 3001,
+  api: {
+    port: 3001,
+    version: "v1",
+    AUTH: process.env.API_AUTH
+  },
   voteReward: `${emoji.coin} 100`,
   voteRewardAmount: 100,
   msgPrefixes: {
@@ -39,7 +42,7 @@ module.exports = {
     tags: ["MatievisTheKat#4975"],
     ids: ["492708936290402305"]
   },
-  defaultUserAvatarURL: "",
+  defaultUserAvatarURL: "https://new.matievisthekat.dev/avatars/default.png",
   voteLogChannelID: "701147297609941052",
   supportGuildID: "673605613456195584",
   joinLogChannelID: "702972555715281058",
@@ -147,7 +150,7 @@ module.exports = {
     },
     {
       name: "diamond",
-      price: 1000
+      price: 670
     }
   ]
 };
