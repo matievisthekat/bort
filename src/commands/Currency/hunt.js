@@ -6,45 +6,32 @@ module.exports = class Hunt extends Command {
       name: "hunt",
       category: "Currency",
       description: "Hunt for some animals",
-      usage: "{common | uncommon | legendary | mythical}",
-      examples: ["common", "mythical"],
-      cooldown: "4h"
+      cooldown: "4h",
+      requiresArgs: false
     });
   }
 
   async run(msg, args, flags) {
-    let invalidOpt = false;
     let chanceOfGettingNothingPercent = 0;
 
-    const option = args[0].toLowerCase();
+    const option = ["uncommon", "legendary", "common", "mythical"].random();
     switch (option) {
       case "common":
-        chanceOfGettingNothingPercent = 50;
+        chanceOfGettingNothingPercent = 30;
         break;
 
       case "uncommon":
-        chanceOfGettingNothingPercent = 60;
+        chanceOfGettingNothingPercent = 50;
         break;
 
       case "legendary":
-        chanceOfGettingNothingPercent = 89.09;
+        chanceOfGettingNothingPercent = 70;
         break;
 
       case "mythical":
-        chanceOfGettingNothingPercent = 99.01;
-        break;
-
-      default:
-        invalidOpt = true;
+        chanceOfGettingNothingPercent = 93;
         break;
     }
-
-    if (invalidOpt)
-      return msg.client.errors.custom(
-        msg,
-        msg.channel,
-        "That is not a valid option"
-      );
 
     const chance = msg.client.util.randomInRange(0, 100);
     if (chance < chanceOfGettingNothingPercent)
@@ -69,7 +56,13 @@ module.exports = class Hunt extends Command {
 
       msg.channel.send(
         msg.success(
-          `You caught a **${animal.name}**! It is worth ${animal.price.toLocaleString()} coins`
+          `You caught a${
+            ["a", "e", "i", "o", "u"].includes(option.charAt(0).toLowerCase())
+              ? "n"
+              : ""
+          } ${option} **${
+            animal.name
+          }**! It is worth ${animal.price.toLocaleString()} coins`
         )
       );
     }
