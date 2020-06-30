@@ -8,10 +8,7 @@ module.exports = class extends Event {
 
   async run(client) {
     setStatus(client);
-
-    client.setInterval(() => {
-      setStatus(client);
-    }, 60 * 60 * 1000);
+    client.setInterval(() => setStatus(client), 60 * 60 * 1000);
 
     const reactionRoles = await client.models.reactionrole.find();
     for (const reactionRole of reactionRoles) {
