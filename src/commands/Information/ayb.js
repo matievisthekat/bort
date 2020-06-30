@@ -10,13 +10,18 @@ module.exports = class Name extends Command {
       description: "View bort's AYB profile",
       cooldown: "5s",
       requiresArgs: false,
-      guildOnly: false
+      guildOnly: false,
+      disabled: true
     });
   }
 
   async run(msg, args, flags) {
-    const me = await msg.client.ayb.fetchMe();
-    console.log(me);
+    const me = await msg.client.ayb.fetchBot(msg.client.user.id);
+    if (!me.success && me.note)
+      return msg.channel.send(
+        msg.warning(`Couldn't fetch the AYB api: ${me.note}`)
+      );
+
     const embed = new msg.client.embed()
       .setAuthor(me.username, me.avatarURL)
       .setDescription(`**${me.description.brief}**\n\n${me.description.full}`)
