@@ -348,7 +348,7 @@ class MsgExtension extends Message {
       if (
         !this.guild.me.permissionsIn(this.member.voice.channel).has("CONNECT")
       )
-        return await this.client.errors.custom(
+        return this.client.errors.custom(
           this,
           this.channel,
           "I do not have permisison to connect to that channel! Contact a server admin or move to another voice channel to fix this"
@@ -379,11 +379,7 @@ class MsgExtension extends Message {
             this.guild.name
           )} was not loaded!`
         );
-        return this.channel.send(
-          this.error(
-            `This server's bank has not been loaded! This is very unusual and should never happen. Please contact **${this.client.config.creators.tags[0]}** ASAP`
-          )
-        );
+        await this.guild.fetch();
       } else if (!this.guild.bank.model) await this.guild.bank.load();
 
       if (!this.author.currency) {
@@ -392,11 +388,7 @@ class MsgExtension extends Message {
             this.author.tag
           )} was not loaded!`
         );
-        return this.channel.send(
-          this.error(
-            `Your currency property has not been loaded! This is very unusual and should never happen. Please contact **${this.client.config.creators.tags[0]}** ASAP`
-          )
-        );
+        await this.author.fetch();
       } else if (!this.author.currency.model) await this.author.currency.load();
 
       if (!this.currencyXpCooldown.has(this.author.id)) {
@@ -429,7 +421,7 @@ class MsgExtension extends Message {
 
   /**
    * Convert text to emojis (Not in use)
-   * @param {String} [str] The string to emojify
+   * @param {String} str The string to emojify
    */
   emojify(str) {
     return str.toProperCase(); //([...str.replace(/!/gi, this.client.emoji.exclamMark)].map(letter => this.client.emoji[letter.toLowerCase()] || letter).join(""));
