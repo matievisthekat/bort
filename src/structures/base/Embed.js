@@ -1,12 +1,11 @@
 const { MessageEmbed } = require("discord.js");
-const { x, check, dnd, idle, online } = require("../../constants/emoji");
+// const { x, check, dnd, idle, online } = require("../../constants/emoji");
 const { red, green, yellow, def } = require("../../constants/colours");
 
 module.exports = class Embed extends MessageEmbed {
   constructor(data) {
     super(data);
     this.color = def;
-    this.setTimestamp();
   }
 
   /**
@@ -70,7 +69,7 @@ module.exports = class Embed extends MessageEmbed {
 
   /**
    * Get an embed formatted for a warning message
-   * @param {String} msg
+   * @param {String} msg The message to set as the description of the embed
    */
   warn(msg) {
     return this.yellow.setDescription(msg);
