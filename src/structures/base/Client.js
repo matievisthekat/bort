@@ -8,6 +8,7 @@ const {
     Role
   } = require("discord.js"),
   dblClient = require("dblapi.js"),
+  AYB = require("ayb-api"),
   mongoose = require("mongoose"),
   ErrorManager = require("../managers/Error"),
   CommandManager = require("../managers/Command"),
@@ -65,6 +66,7 @@ module.exports = class Bort extends Client {
 
     // Initialize DBL client
     this.dbl = new dblClient(process.env.TOP_GG_API_TOKEN, this);
+    this.ayb = new AYB(this);
   }
 
   /**

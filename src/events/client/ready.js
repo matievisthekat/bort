@@ -9,7 +9,7 @@ module.exports = class extends Event {
   async run(client) {
     setStatus(client);
 
-    setInterval(() => {
+    client.setInterval(() => {
       setStatus(client);
     }, 60 * 60 * 1000);
 
@@ -48,11 +48,7 @@ function setStatus(client) {
   client.user.setPresence({
     status: "online",
     activity: {
-      name: `hi | /help | ${
-        client.guilds.cache.size
-      } servers (${Math.round(
-        client.users.cache.size / client.guilds.cache.size
-      )} users per server)`,
+      name: `you sleep | /help | ${client.guilds.cache.size} servers`,
       type: "WATCHING"
     }
   });
