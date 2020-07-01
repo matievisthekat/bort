@@ -12,25 +12,18 @@ module.exports = class Hunt extends Command {
   }
 
   async run(msg, args, flags) {
-    let chanceOfGettingNothingPercent = 0;
+    const chanceOfGettingNothingPercent = 20;
+    const options =["common", "uncommon", "legendary", "mythical"];
+    const rarityChance = msg.client.util.randomInRange(0, 100);
+    let option = options[0];
 
-    const option = ["uncommon", "legendary", "common", "mythical"].random();
-    switch (option) {
-      case "common":
-        chanceOfGettingNothingPercent = 30;
-        break;
-
-      case "uncommon":
-        chanceOfGettingNothingPercent = 50;
-        break;
-
-      case "legendary":
-        chanceOfGettingNothingPercent = 70;
-        break;
-
-      case "mythical":
-        chanceOfGettingNothingPercent = 93;
-        break;
+    switch(rarityChance) {
+      case rarityChance > 30:
+        option = options[2]
+      case rarityChance > 65:
+        option = options[2]
+      case rarityChance > 90:
+        option = options[3];
     }
 
     const chance = msg.client.util.randomInRange(0, 100);
