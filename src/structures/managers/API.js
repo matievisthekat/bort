@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const moment = require("moment");
 
 module.exports = class APIManager {
   constructor(client, port) {
@@ -281,16 +282,52 @@ module.exports = class APIManager {
     // POST request from GitHub on a published release
     app.post(
       `/api/${client.config.api.version}/webhooks/release`,
-      (req, res) => {
-        console.log(req.body);
-
-        const releaseChannel = client.channels
+      async (req, res) => {
+        const data = req.body;
+        const releaseChannel = await client.channels
           .fetch(client.config.channels.releases)
           .catch((err) => client.logger.error(err.message));
 
         if (releaseChannel) {
-          const embed = new client.embed().green.setTitle();
+          const tag = data.tag_name;
+          const name = data.name;
+          const description = data.body;
+          const draft = data.draft;
+          const url = data.html_url;
+          const pre = data.prerelease;
+          const avatarURL = data.author.avatar_url;
+          const created = moment(data.craeted_at).from(Date.now());
+          const published = moment(data.published_at).from(Date.now());
+          const repo = data.repository;
+          const author = data.author;
+
+          const header = draft
+            ? "**Draft release**"
+            : pre
+            ? "Prerelease"
+            : `<@&${client.config.roles.bot_updates}> **Update ${tag}`;
+          const embed = new client.embed().green
+            .setTitle(`[${repo.full_name}] ${name}`)
+            .setAuthor(`New release by ${author.login}`, avatarURL)
+            .setURL(url)
+            .setDescription(description)
+            .addFields([
+              {
+                title: "Created",
+                value: created || "N/A",
+                inline: true
+              },
+              {
+                title: "Published",
+                value: published || "N/A",
+                inline: true
+              }
+            ]);
+
+          releaseChannel.send(header, embed);
         }
+
+        res.sendStatus(200);
       }
     );
   }

@@ -20,6 +20,9 @@ module.exports = {
     join: "702972555715281058",
     blacklist: ""
   },
+  roles: {
+    bot_updates: "" //"704368262871515216"
+  },
   nodes: [
     {
       host: "localhost",
