@@ -286,6 +286,7 @@ module.exports = class APIManager {
         if (req.body.action !== "published") return res.sendStatus(200);
 
         const data = req.body.release;
+        console.log(data.repository, req.body.repository);
         const releaseChannel = await client.channels
           .fetch(client.config.channels.releases)
           .catch((err) => client.logger.error(err.message));
