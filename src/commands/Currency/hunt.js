@@ -29,7 +29,7 @@ module.exports = class Hunt extends Command {
     const chance = msg.client.util.randomInRange(0, 100);
     if (chance < chanceOfGettingNothingPercent)
       return msg.channel.send(
-        msg.warning("Oops, looks like you didn't find anything")
+        msg.warning(`Oops, looks like you didn't find any ${option} animals`)
       );
     else {
       const animals = msg.client.config.animals;
