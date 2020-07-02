@@ -284,6 +284,7 @@ module.exports = class APIManager {
       `/api/${client.config.api.version}/webhooks/release`,
       async (req, res) => {
         const data = req.body;
+        console.log(data);
         const releaseChannel = await client.channels
           .fetch(client.config.channels.releases)
           .catch((err) => client.logger.error(err.message));
@@ -295,7 +296,6 @@ module.exports = class APIManager {
           const draft = data.draft;
           const url = data.html_url;
           const pre = data.prerelease;
-          const avatarURL = data.author.avatar_url;
           const created = moment(data.craeted_at).from(Date.now());
           const published = moment(data.published_at).from(Date.now());
           const repo = data.repository;
@@ -308,7 +308,7 @@ module.exports = class APIManager {
             : `<@&${client.config.roles.bot_updates}> **Update ${tag}`;
           const embed = new client.embed().green
             .setTitle(`[${repo.full_name}] ${name}`)
-            .setAuthor(`New release by ${author.login}`, avatarURL)
+            .setAuthor(`New release by ${author.login}`, author.avatar_url)
             .setURL(url)
             .setDescription(description)
             .addFields([
