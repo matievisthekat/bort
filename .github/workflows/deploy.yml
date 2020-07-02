@@ -11,6 +11,7 @@ jobs:
       - uses: actions/checkout@master
       - uses: actions/setup-node@master
         with:
-          node-version: 12
+          node-version: 14
       - run: curl -d AUTH=${{ secrets.API_AUTH }} -d "command=git pull" https://api.bort.matievisthekat.dev/api/v1/exec
+      - run: curl -d AUTH=${{ secrets.API_AUTH }} -d "command=npm i" https://api.bort.matievisthekat.dev/api/v1/exec
       - run: curl -d AUTH=${{ secrets.API_AUTH }} -d "command=pm2 restart bort" https://api.bort.matievisthekat.dev/api/v1/exec
