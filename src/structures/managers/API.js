@@ -290,6 +290,7 @@ module.exports = class APIManager {
           .fetch(client.config.channels.releases)
           .catch((err) => client.logger.error(err.message));
 
+        console.log(releaseChannel);
         if (releaseChannel) {
           const tag = data.tag_name;
           const name = data.name;
