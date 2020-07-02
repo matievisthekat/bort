@@ -290,7 +290,6 @@ module.exports = class APIManager {
           .fetch(client.config.channels.releases)
           .catch((err) => client.logger.error(err.message));
 
-        console.log(releaseChannel);
         if (releaseChannel) {
           const tag = data.tag_name;
           const name = data.name;
@@ -315,12 +314,12 @@ module.exports = class APIManager {
             .setDescription(description)
             .addFields([
               {
-                title: "Created",
+                name: "Created",
                 value: created || "N/A",
                 inline: true
               },
               {
-                title: "Published",
+                name: "Published",
                 value: published || "N/A",
                 inline: true
               }
