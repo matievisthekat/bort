@@ -286,7 +286,6 @@ module.exports = class APIManager {
         if (req.body.action !== "published") return res.sendStatus(200);
 
         const data = req.body.release;
-        console.log(data.repository, req.body.repository);
         const releaseChannel = await client.channels
           .fetch(client.config.channels.releases)
           .catch((err) => client.logger.error(err.message));
@@ -301,7 +300,7 @@ module.exports = class APIManager {
           const pre = data.prerelease;
           const created = moment(data.craeted_at).from(Date.now());
           const published = moment(data.published_at).from(Date.now());
-          const repo = data.repository;
+          const repo = req.body.repository;
           const author = data.author;
 
           const header = draft
