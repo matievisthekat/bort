@@ -8,8 +8,9 @@ module.exports = class Eval extends Command {
       category: "Developer",
       description: "Evaluate some code",
       usage: "{evaluation}",
+      flags: ["silent"],
       examples: [
-        "msg.channel.send('hi');",
+        "msg.channel.send('hi'); --silent",
         "msg.client.emit('guildCreate', msg.author);"
       ],
       guildOnly: false,
@@ -42,7 +43,7 @@ module.exports = class Eval extends Command {
         if (typeof output === "string")
           output.replace(msg.client.token, "Client Token");
 
-        msg.channel.send(`\`\`\`js\n${output}\`\`\``, options);
+        if (!flags.silent) msg.channel.send(`\`\`\`js\n${output}\`\`\``, options);
       })
       .catch((err) => {
         err.stack = err.stack.replace(msg.client.token, "Client Token");
