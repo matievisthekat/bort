@@ -283,8 +283,7 @@ module.exports = class APIManager {
     app.post(
       `/api/${client.config.api.version}/webhooks/release`,
       async (req, res) => {
-        console.log(req.body.action);
-        if (req.body.action !== "release") return res.sendStatus(200);
+        if (req.body.action !== "published") return res.sendStatus(200);
 
         const data = req.body.release;
         const releaseChannel = await client.channels
