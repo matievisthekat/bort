@@ -283,8 +283,9 @@ module.exports = class APIManager {
     app.post(
       `/api/${client.config.api.version}/webhooks/release`,
       async (req, res) => {
-        const data = req.body;
-        console.log(data);
+        if (req.body.action !== "release") return res.sendStatus(200);
+
+        const data = req.body.release;
         const releaseChannel = await client.channels
           .fetch(client.config.channels.releases)
           .catch((err) => client.logger.error(err.message));
