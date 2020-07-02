@@ -15,7 +15,7 @@ module.exports = {
     loading: `${emoji.generating} **|**`
   },
   channels: {
-    releases: "",
+    releases: "700670099853410345",
     vote: "701147297609941052",
     join: "702972555715281058",
     blacklist: ""
