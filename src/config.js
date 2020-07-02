@@ -21,7 +21,7 @@ module.exports = {
     blacklist: ""
   },
   roles: {
-    bot_updates: "" //"704368262871515216"
+    bot_updates: "704368262871515216"
   },
   nodes: [
     {

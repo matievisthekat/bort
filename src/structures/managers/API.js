@@ -305,8 +305,8 @@ module.exports = class APIManager {
           const header = draft
             ? "**Draft release**"
             : pre
-            ? "Prerelease"
-            : `<@&${client.config.roles.bot_updates}> **Update ${tag}`;
+            ? "**Prerelease**"
+            : `<@&${client.config.roles.bot_updates}> **Update ${tag}**`;
           const embed = new client.embed().green
             .setTitle(`[${repo.full_name}] ${name}`)
             .setAuthor(`New release by ${author.login}`, author.avatar_url)
