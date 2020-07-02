@@ -1,7 +1,6 @@
-const express = require("express"),
-  cors = require("cors"),
-  bodyParser = require("body-parser");
-const { information } = require("../../constants/emoji");
+const express = require("express");
+const cors = require("cors");
+const bodyParser = require("body-parser");
 
 module.exports = class APIManager {
   constructor(client, port) {
@@ -48,7 +47,7 @@ module.exports = class APIManager {
       res.send({ langs }).status(200);
     });
 
-    // Get request for mutual servers with a specific user
+    // GET request for mutual servers with a specific user
     app.get(
       `/api/${client.config.api.version}/guilds/mutual/:userID`,
       async (req, res) => {
@@ -278,6 +277,22 @@ module.exports = class APIManager {
 
       res.send(output).status(200);
     });
+
+    // POST request from GitHub on a published release
+    app.post(
+      `/api/${client.config.api.version}/webhooks/release`,
+      (req, res) => {
+        console.log(req.body);
+
+        const releaseChannel = client.channels
+          .fetch(client.config.channels.releases)
+          .catch((err) => client.logger.error(err.message));
+
+        if (releaseChannel) {
+          const embed = new client.embed().green.setTitle();
+        }
+      }
+    );
   }
 
   init() {

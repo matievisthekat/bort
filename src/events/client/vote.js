@@ -6,7 +6,7 @@ module.exports = class extends Event {
   }
 
   async run(client, voter, bot) {
-    const logChan = client.channels.cache.get(client.config.voteLogChannelID);
+    const logChan = client.channels.cache.get(client.config.channels.vote);
     if (logChan) {
       const embed = new client.embed().green
         .setAuthor(

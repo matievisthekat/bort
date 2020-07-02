@@ -14,6 +14,12 @@ module.exports = {
     warning: `${emoji.idle} **|**`,
     loading: `${emoji.generating} **|**`
   },
+  channels: {
+    releases: "",
+    vote: "701147297609941052",
+    join: "702972555715281058",
+    blacklist: ""
+  },
   nodes: [
     {
       host: "localhost",
@@ -43,10 +49,7 @@ module.exports = {
     ids: ["492708936290402305"]
   },
   defaultUserAvatarURL: "https://new.matievisthekat.dev/avatars/default.png",
-  voteLogChannelID: "701147297609941052",
   supportGuildID: "673605613456195584",
-  joinLogChannelID: "702972555715281058",
-  blacklistChannelID: "",
   staff: {
     ids: ["695287250573066280", "492708936290402305"]
   },

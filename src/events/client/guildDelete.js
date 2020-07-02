@@ -9,7 +9,7 @@ module.exports = class extends Event {
     if (!guild.available) return;
     client.logger.log(`Left ${guild.name}`);
 
-    const joinLog = client.channels.cache.get(client.config.joinLogChannelID);
+    const joinLog = client.channels.cache.get(client.config.channels.join);
     if (joinLog)
       joinLog.send(
         new client.embed()

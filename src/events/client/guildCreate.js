@@ -14,7 +14,7 @@ module.exports = class extends Event {
     if (blacklist) return await guild.leave();
 
     client.logger.log(`Joined ${guild.name}`);
-    const joinLog = client.channels.cache.get(client.config.joinLogChannelID);
+    const joinLog = client.channels.cache.get(client.config.channels.join);
     if (joinLog)
       joinLog.send(
         new client.embed()
