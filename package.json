@@ -27,7 +27,8 @@
     "ms": "^2.1.2",
     "node-cron": "^2.0.3",
     "node-os-utils": "^1.2.2",
-    "plotly": "^1.0.6"
+    "plotly": "^1.0.6",
+    "uuid": "^8.2.0"
   },
   "prettier": {
     "singleQuote": false,
