@@ -16,10 +16,18 @@ module.exports = class Bank extends Command {
   async run(msg, args, flags) {
     const bank = msg.guild.bank;
     if (!bank)
-      await msg.client.errors.custom(msg, 
+      return await msg.client.errors.custom(
+        msg,
         msg.channel,
         `There is no bank loaded for this server! Please contact ${msg.client.config.creators.tags[0]} to fix this!`
       );
+
+    const blMembers = bank.blacklistedMemberIDs
+      .map((id) => msg.guild.members.cache.get(id))
+      .join(", ");
+    const wlMembers = bank.whitelistedMemberIDs
+      .map((id) => msg.guild.members.cache.get(id))
+      .join(", ");
 
     const embed = new msg.client.embed()
       .setAuthor(msg.guild.name, msg.guild.iconURL())
@@ -32,14 +40,10 @@ module.exports = class Bank extends Command {
       .addField(
         "Information",
         `**Blacklisted Members:** ${
-          bank.blacklistedMemberIDs
-            .map(async (id) => (await msg.client.resolve("user", id)) || "")
-            .join(", ") || "[ None ]"
+          blMembers || "[ None ]"
         }\n**Whitelisted Members:** ${
-          bank.whitelistedMemberIDs
-            .map(async (id) => (await msg.client.resolve("user", id)) || "")
-            .join(", ") || "[ None ]"
-        }\n**Role** *(members with this role may withdraw coins)*: ${
+          wlMembers || "[ None ]"
+        }\n**Whitelisted Role**: ${
           msg.guild.roles.cache.get(bank.allowedRoleID) || "[ None ]"
         }`
       );

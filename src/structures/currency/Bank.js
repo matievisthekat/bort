@@ -17,7 +17,7 @@ module.exports = class Bank {
         whitelistedMemberIDs: []
       }).save());
 
-    this.update();
+    await this.update();
   }
 
   async update() {
@@ -91,6 +91,29 @@ module.exports = class Bank {
     if (!this.model) await this.load();
 
     this.model.maxWithdrawAmount = amount;
+
+    await this.model.save();
+    await this.update();
+    return this.model;
+  }
+
+  async blacklist(id) {
+    if (!this.model) await this.load();
+
+    this.model.blacklistedMemberIDs.push(id);
+
+    await this.model.save();
+    await this.update();
+    return this.model;
+  }
+
+  async unBlacklist(id) {
+    if (!this.model) await this.load();
+
+    this.model.blacklistedMemberIDs.splice(
+      this.model.blacklistedMemberIDs.indexOf(id),
+      1
+    );
 
     await this.model.save();
     await this.update();
