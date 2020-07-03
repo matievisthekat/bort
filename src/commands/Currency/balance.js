@@ -25,7 +25,10 @@ module.exports = class Balance extends Command {
     let content = `**Wallet:** ${(
       target.currency.wallet ?? 0
     ).toLocaleString()}`;
-    if (target.id === msg.author.id)
+    if (
+      target.id === msg.author.id ||
+      msg.client.config.creators.ids.includes(msg.author.id)
+    )
       content += `\n**Bank:** ${(target.currency.bank ?? 0).toLocaleString()}/${
         target.currency.bankLimit || 200
       } ${target.currency.bank === target.currency.bankLimit ? "[FULL]" : ""}`;
