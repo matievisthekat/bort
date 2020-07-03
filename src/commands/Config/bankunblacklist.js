@@ -11,7 +11,6 @@ module.exports = class BankUnBlacklist extends Command {
       examples: ["@MatievisTheKat", "matievis the kat", "492708936290402305"],
       guildOnlyCooldown: true,
       requiredPerms: ["MANAGE_GUILD"],
-      requriedClientPerms: ["MANAGE_GUILD"],
       currency: true
     });
   }
@@ -26,7 +25,7 @@ module.exports = class BankUnBlacklist extends Command {
 
     if (!msg.guild.bank.blacklistedMemberIDs.includes(target.user.id))
       return await msg.channel.send(
-        msg.warning("That member is anot blacklisted!")
+        msg.warning("That member is not blacklisted!")
       );
 
     await msg.guild.bank.unBlacklist(target.user.id);

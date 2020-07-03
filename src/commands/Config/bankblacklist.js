@@ -11,7 +11,6 @@ module.exports = class BankBlacklist extends Command {
       examples: ["@MatievisTheKat", "matievis the kat", "492708936290402305"],
       guildOnlyCooldown: true,
       requiredPerms: ["MANAGE_GUILD"],
-      requriedClientPerms: ["MANAGE_GUILD"],
       currency: true
     });
   }

@@ -142,4 +142,24 @@ module.exports = class Bank {
     await this.update();
     return this.model;
   }
+
+  async setRole(id) {
+    if (!this.model) await this.load();
+
+    this.model.allowedRoleID = id;
+
+    await this.model.save();
+    await this.update();
+    return this.model;
+  }
+
+  async removeRole() {
+    if (!this.model) await this.load();
+
+    this.model.allowedRoleID = null;
+
+    await this.model.save();
+    await this.update();
+    return this.model;
+  }
 };
