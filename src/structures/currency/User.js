@@ -32,11 +32,11 @@ module.exports = class User {
   async update() {
     if (!this.model) await this.load();
 
-    this.wallet = this.model.wallet;
-    this.bank = this.model.bank;
-    this.xp = this.model.economyXp;
-    this.level = this.model.economyLevel;
-    this.bankLimit = this.model.bankLimit;
+    this.wallet = Math.floor(this.model.wallet);
+    this.bank = Math.floor(this.model.bank);
+    this.xp = Math.floor(this.model.economyXp);
+    this.level = Math.floor(this.model.economyLevel);
+    this.bankLimit = Math.floor(this.model.bankLimit);
 
     return this;
   }
@@ -69,6 +69,7 @@ module.exports = class User {
     if (!this.model) await this.load();
 
     this.model.economyXp += amount;
+    this.model.bankLimit += Math.floor(amount / 6);
 
     await this.model.save();
 
