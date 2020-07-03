@@ -97,6 +97,29 @@ module.exports = class Bank {
     return this.model;
   }
 
+  async whitelist(id) {
+    if (!this.model) await this.load();
+
+    this.model.whitelistedMemberIDs.push(id);
+
+    await this.model.save();
+    await this.update();
+    return this.model;
+  }
+
+  async unWhitelist(id) {
+    if (!this.model) await this.load();
+
+    this.model.whitelistedMemberIDs.splice(
+      this.model.whitelistedMemberIDs.indexOf(id),
+      1
+    );
+
+    await this.model.save();
+    await this.update();
+    return this.model;
+  }
+
   async blacklist(id) {
     if (!this.model) await this.load();
 
