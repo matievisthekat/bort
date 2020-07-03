@@ -2,14 +2,13 @@ const { bank } = require("../../constants/models");
 
 module.exports = class Bank {
   constructor(guild) {
-    this.schema = bank;
     this.guild = guild;
   }
 
   async load() {
     this.model =
-      (await this.schema.findOne({ guildID: this.guild.id })) ||
-      (await new this.schema({
+      (await bank.findOne({ guildID: this.guild.id })) ||
+      (await new bank({
         guildID: this.guild.id,
         amount: 0,
         maxWithdrawAmount: 100,
@@ -22,54 +21,23 @@ module.exports = class Bank {
   }
 
   async update() {
+    if (!this.model) await this.load();
+
     this.amount = this.model.amount;
     this.maxWithdrawAmount = this.model.maxWithdrawAmount;
     this.allowedRoleID = this.model.allowedRoleID;
     this.blacklistedMemberIDs = this.model.blacklistedMemberIDs;
     this.whitelistedMemberIDs = this.model.whitelistedMemberIDs;
-  }
 
-  async transfer(options = {}) {
-    if (!options.type) throw new Error("No type specified");
-
-    switch (options.type.toLowerCase()) {
-      case "deposit":
-        const depUser = await this.guild.members.resolve(options.userID).user;
-        if (!depUser) throw new Error("No user found");
-
-        depUser.currency.model.wallet -= options.amount;
-        this.model.amount += options.amount;
-
-        await this.model.save();
-        await depUser.currency.save();
-
-        await this.update();
-        return true;
-        break;
-
-      case "withdraw":
-        const withUser = await this.guild.members.resolve(options.userID).user;
-        if (!withUser) throw new Error("No user found");
-
-        withUser.currency.model.wallet += options.amount;
-        this.model.amount -= options.amount;
-
-        await this.model.save();
-        await withUser.currency.save();
-
-        await this.update();
-        return true;
-        break;
-
-      default:
-        return false;
-    }
+    return this.model;
   }
 
   async deposit(options = {}) {
+    if (!this.model) await this.load();
+
     this.model.amount += options.amount;
 
-    const user = await this.guild.members.resolve(options.userID).user;
+    const user = await this.guild.members.resolve(options.userID)?.user;
     if (!user) throw new Error("Could not get user");
 
     user.currency.model.wallet -= options.amount;
@@ -82,9 +50,11 @@ module.exports = class Bank {
   }
 
   async withdraw(options) {
+    if (!this.model) await this.load();
+
     this.model.amount -= options.amount;
 
-    const user = await this.guild.members.resolve(options.userID).user;
+    const user = await this.guild.members.resolve(options.userID)?.user;
     if (!user) throw new Error("Could not get user");
 
     user.currency.model.wallet += options.amount;
@@ -97,6 +67,8 @@ module.exports = class Bank {
   }
 
   async add(amount) {
+    if (!this.model) await this.load();
+
     this.model.amount += amount;
 
     await this.model.save();
@@ -106,10 +78,21 @@ module.exports = class Bank {
   }
 
   async remove(amount) {
+    if (!this.model) await this.load();
+
     this.model.amount -= amount;
 
     await this.model.save();
+    await this.update();
+    return this.model;
+  }
 
+  async setMaxWithdrawAmount(amount) {
+    if (!this.model) await this.load();
+
+    this.model.maxWithdrawAmount = amount;
+
+    await this.model.save();
     await this.update();
     return this.model;
   }

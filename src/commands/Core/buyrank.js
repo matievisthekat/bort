@@ -36,8 +36,7 @@ module.exports = class BuyRank extends Command {
         "You do not have enough money in your wallet to buy that!"
       );
 
-    const res = await msg.guild.bank.transfer({
-      type: "deposit",
+    const res = await msg.guild.bank.deposit({
       userID: msg.author.id,
       amount: rank.price,
     });
