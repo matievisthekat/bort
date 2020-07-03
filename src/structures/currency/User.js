@@ -69,7 +69,6 @@ module.exports = class User {
     if (!this.model) await this.load();
 
     this.model.economyXp += amount;
-    this.model.bankLimit += Math.floor(amount / 6);
 
     await this.model.save();
 
@@ -98,7 +97,6 @@ module.exports = class User {
 
     this.model.wallet += amount;
 
-    await this.addXp(randomInRange(amount / 3, amount));
     await this.model.save();
 
     await this.update();
