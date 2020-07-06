@@ -1,4 +1,5 @@
 const Command = require("../../structures/base/Command");
+const { Util } = require("discord.js");
 
 module.exports = class Exec extends Command {
   constructor() {
@@ -26,9 +27,21 @@ module.exports = class Exec extends Command {
     const m = await msg.channel.send(msg.loading("Running command..."));
     const res = await msg.client.util.execute(args.join(" "));
 
-    if (res.stdout) msg.channel.send(`\`\`\`\n${res.stdout}\`\`\``, options);
-    if (res.stdin) msg.channel.send(`\`\`\`\n${res.stdin}\`\`\``, options);
-    if (res.stderr) msg.channel.send(`\`\`\`\n${res.stderr}\`\`\``, options);
+    if (res.stdout)
+      msg.channel.send(
+        "```js\n" + Util.escapeCodeBlock(res.stdout) + "```",
+        options
+      );
+    if (res.stdin)
+      msg.channel.send(
+        "```js\n" + Util.escapeCodeBlock(res.stdin) + "```",
+        options
+      );
+    if (res.stderr)
+      msg.channel.send(
+        "```js\n" + Util.escapeCodeBlock(res.stderr) + "```",
+        options
+      );
 
     m.edit(msg.success("Command successfully run"));
   }

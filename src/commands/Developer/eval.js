@@ -1,4 +1,5 @@
 const Command = require("../../structures/base/Command");
+const { Util } = require("discord.js");
 
 module.exports = class Eval extends Command {
   constructor() {
@@ -43,12 +44,19 @@ module.exports = class Eval extends Command {
         if (typeof output === "string")
           output.replace(msg.client.token, "Client Token");
 
-        if (!flags.silent) msg.channel.send(`\`\`\`js\n${output}\`\`\``, options);
+        if (!flags.silent)
+          msg.channel.send(
+            "```js\n" + Util.escapeCodeBlock(output) + "```",
+            options
+          );
       })
       .catch((err) => {
         err.stack = err.stack.replace(msg.client.token, "Client Token");
 
-        msg.channel.send(`\`\`\`${err.stack}\`\`\``, options);
+        msg.channel.send(
+          "```js\n" + Util.escapeCodeBlock(output) + "```",
+          options
+        );
       });
   }
 };
