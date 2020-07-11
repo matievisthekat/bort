@@ -55,7 +55,7 @@ module.exports = class ErrorManager {
   async creatorOnly(message, channel) {
     channel.send(
       await message.translate(
-        `${this.prefix} That command is only accesable by developers!`
+        `${this.prefix} That command is only accessable by developers!`
       )
     );
   }
