@@ -27,7 +27,6 @@ export interface IEvent {
 
 export interface IBort {
   token: string;
-  mongo_uri: string;
   event_dir: string;
   command_dir: string;
 }

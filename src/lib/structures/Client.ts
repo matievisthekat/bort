@@ -9,8 +9,8 @@ export class Bort extends Client {
   public cmd: CommandManager;
   public logger: Logger;
 
-  constructor(opts: IBort) {
-    super(...arguments);
+  constructor(baseOpts, opts: IBort) {
+    super(baseOpts);
 
     this.token = opts.token;
 

@@ -1,17 +1,43 @@
 import { Bort } from "../Client";
 import { IEvent } from "../../types";
 
-export class _Event {
-  constructor(private client: Bort, public opts: IEvent) {}
+export class BortEvent {
+  constructor(private client: Bort, public opts: IEvent) {
+    this.opts = opts;
+  }
 
-  async run(client, ...args): Promise<any> {
-    this.client.logger.warn(
-      `Event without run method at ${this.opts.__filename}`
+  /**
+   * run
+   * @param {Bort} client The client this was received by
+   * @param {*} args The arguments for the event\
+   * @returns Anything
+   */
+  run(client: Bort, ...args: any): any {
+    client.logger.warn(
+      `Event without run method (dunno why I cant get the file)`
     );
   }
 
-  unload() {
+  /**
+   * unload
+   * @returns The success status of unloading the event
+   * @public
+   */
+  public unload() {
     const res = this.client.evnt.unloadEvent(this.opts.__filename);
+    return res;
+  }
+
+  /**
+   * reload
+   * @returns The reloaded event
+   * @public
+   */
+  public reload() {
+    const unloadRes = this.unload();
+    if (!unloadRes) return unloadRes;
+
+    const res = this.client.evnt.loadEvent(this.opts.__filename);
     return res;
   }
 }

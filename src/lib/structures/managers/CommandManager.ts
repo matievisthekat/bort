@@ -5,14 +5,19 @@ import { Bort } from "../Client";
 import { findNested } from "../util/findNested";
 
 class CommandManager extends EventEmitter {
-  public commands: Collection<string, Command>;
-  public aliases: Collection<string, Command>;
+  public commands: Collection<string, Command> = new Collection();
+  public aliases: Collection<string, Command> = new Collection();
 
   constructor(private client: Bort, private dir: string) {
     super(...arguments);
   }
 
-  load(): Collection<string, Command> {
+  /**
+   * load
+   * @retruns A collection of commands
+   * @public
+   */
+  public load(): Collection<string, Command> {
     const files = findNested(this.dir);
     for (const file of files) this.loadCommand(file);
 
@@ -20,7 +25,13 @@ class CommandManager extends EventEmitter {
     return this.commands;
   }
 
-  unloadCommand(path: string): boolean {
+  /**
+   * unloadCommand
+   * @param {String} path The file path of the command
+   * @returns The success status of unloading the command
+   * @public
+   */
+  public unloadCommand(path: string): boolean {
     const cmd = this.commands.find((c) => c.opts.__filename === path);
     if (!cmd) return false;
 
@@ -30,11 +41,16 @@ class CommandManager extends EventEmitter {
     return true;
   }
 
-  loadCommand(path: string): Command | boolean {
+  /**
+   * loadCommand
+   * @param {String} path The file poth of the command
+   * @returns The loaded command or the sucess status of loading the command
+   * @public
+   */
+  public loadCommand(path: string): Command | boolean {
     const required = require(path);
-    if (typeof required !== "function") return false;
 
-    const cmd = new required(this.client);
+    const cmd = new required.default(this.client);
     if (!cmd.opts.name) return false;
 
     this.commands.set(cmd.opts.name, cmd);
