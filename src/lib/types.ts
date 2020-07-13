@@ -18,3 +18,16 @@ export interface ICommand {
   cooldown?: string;
   __filename: string;
 }
+
+export interface IEvent {
+  name: string;
+  disabled?: boolean;
+  __filename: string;
+}
+
+export interface IBort {
+  token: string;
+  mongo_uri: string;
+  event_dir: string;
+  command_dir: string;
+}

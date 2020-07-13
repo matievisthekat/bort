@@ -1,8 +1,8 @@
 import { EventEmitter } from "events";
 import { Collection } from "discord.js";
-import Command from "../base/Command";
-import Bort from "../Client";
-import findNested from "../util/findNested";
+import { Command } from "../base/Command";
+import { Bort } from "../Client";
+import { findNested } from "../util/findNested";
 
 class CommandManager extends EventEmitter {
   public commands: Collection<string, Command>;

@@ -1,7 +1,7 @@
 import { ICommand } from "../../types";
-import Bort from "../Client";
+import { Bort } from "../Client";
 
-class Command {
+export class Command {
   constructor(private client: Bort, public opts: ICommand) {
     this.opts.usage = this.opts.args
       ?.map((a) => {
@@ -13,12 +13,11 @@ class Command {
 
   async run(msg, [command, args, flags]): Promise<any> {
     msg.client.logger.warn(
-      `Command without a run function at ${this.opts.__filename}`
+      `Command without a run method at ${this.opts.__filename}`
     );
   }
 
   unload() {
-    delete require.cache[this.opts.__filename];
     const res = this.client.cmd.unloadCommand(this.opts.__filename);
     return res;
   }
@@ -31,5 +30,3 @@ class Command {
     return res;
   }
 }
-
-export default Command;

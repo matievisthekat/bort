@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 
-function findNested(dir, pattern = "js") {
+export function findNested(dir, pattern = "js") {
   let results = [];
 
   fs.readdirSync(dir).forEach((inner_dir) => {
@@ -17,5 +17,3 @@ function findNested(dir, pattern = "js") {
 
   return results;
 }
-
-export default findNested;
