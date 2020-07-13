@@ -9,12 +9,14 @@ export class Bort extends Client {
   public cmd: CommandManager;
   public logger: Logger;
   public readonly prefix: string;
+  public readonly devs: Array<string>;
 
   constructor(baseOpts: object, opts: IBort) {
     super(baseOpts);
 
     this.token = opts.token;
     this.prefix = opts.prefix;
+    this.devs = opts.devs;
 
     this.evnt = new EventManager(this, opts.event_dir);
     this.cmd = new CommandManager(this, opts.command_dir);
