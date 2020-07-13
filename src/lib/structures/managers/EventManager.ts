@@ -4,7 +4,7 @@ import { CustomEvent } from "../base/Event";
 import { findNested } from "../util/findNested";
 import { Collection } from "discord.js";
 
-class EventManager extends EventEmitter {
+export class EventManager extends EventEmitter {
   public events: Collection<string, CustomEvent> = new Collection();
 
   constructor(private client: Bort, private dir: string) {
@@ -59,5 +59,3 @@ class EventManager extends EventEmitter {
     return event;
   }
 }
-
-export default EventManager;

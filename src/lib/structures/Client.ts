@@ -1,7 +1,7 @@
 import { Client } from "discord.js";
-import CommandManager from "./managers/CommandManager";
-import EventManager from "./managers/EventManager";
-import Logger from "./Logger";
+import { CommandManager } from "./managers/CommandManager";
+import { EventManager } from "./managers/EventManager";
+import { Logger } from "./Logger";
 import { IBort } from "../types";
 
 export class Bort extends Client {

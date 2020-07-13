@@ -1,26 +1,19 @@
 import { config } from "dotenv";
 import { Bort } from "../lib";
 import { join } from "path";
-import CommandManager from "../lib/structures/managers/CommandManager";
-import EventManager from "../lib/structures/managers/EventManager";
+
+require("../lib/structures/extend/Message");
 
 config({
   path: join(__dirname, "../../", ".env")
 });
-
-declare module "discord.js" {
-  interface Client {
-    prefix: string;
-    cmd: CommandManager;
-    evnt: EventManager;
-  }
-}
 
 const client = new Bort(
   {},
   {
     token: process.env.TOKEN,
     prefix: "./",
+    devs: ["492708936290402305"],
     event_dir: join(__dirname, "events"),
     command_dir: join(__dirname, "commands")
   }

@@ -1,4 +1,4 @@
-import { CustomEvent } from "../../lib/structures/base/Event";
+import { CustomEvent } from "../../lib";
 import { Bort } from "../../lib";
 import { Message } from "discord.js";
 
@@ -19,8 +19,6 @@ export default class Ready extends CustomEvent {
     )
       return false;
 
-    console.log("message");
-
     const [rawCommand, ...rawArgs] = msg.content
       .slice(client.prefix.length)
       .trim()
@@ -33,6 +31,9 @@ export default class Ready extends CustomEvent {
     flagArgs.map((flag) => (flags[flag] = true));
 
     if (command) {
+      if (command.opts.devOnly && !client.devs.includes(msg.author.id))
+        return await msg.warn("That command is locked to developers only!");
+
       await command.run(msg, [command, args, flags]);
       return true;
     }

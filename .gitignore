@@ -1,11 +1,7 @@
-bort.js
-src/images
-src/templates
-src/corona-graph.png
 Lavalink.jar
 application.yml
-music.bat
 v1-src
+templates
 
 # Logs
 logs

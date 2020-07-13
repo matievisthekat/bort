@@ -1,6 +1,6 @@
 import * as chalk from "chalk";
 
-class Logger {
+export class Logger {
   /**
    * log
    * @param {*} msg The message to log
@@ -37,5 +37,3 @@ class Logger {
     console.log(chalk.red(msg));
   }
 }
-
-export default Logger;

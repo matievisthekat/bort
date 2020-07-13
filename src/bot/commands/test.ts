@@ -1,4 +1,4 @@
-import { Command, Arg } from "../../lib/structures/base/Command";
+import { Command, Arg } from "../../lib/";
 import { Message } from "discord.js";
 
 export default class Test extends Command {
@@ -14,7 +14,6 @@ export default class Test extends Command {
   }
 
   public async run(msg: Message, [command, args, flags]) {
-    console.log(this);
     await msg.channel.send("Test Worked!");
   }
 }

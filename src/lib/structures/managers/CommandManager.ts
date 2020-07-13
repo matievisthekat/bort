@@ -4,7 +4,7 @@ import { Command } from "../base/Command";
 import { Bort } from "../Client";
 import { findNested } from "../util/findNested";
 
-class CommandManager extends EventEmitter {
+export class CommandManager extends EventEmitter {
   public commands: Collection<string, Command> = new Collection();
   public aliases: Collection<string, Command> = new Collection();
 
@@ -71,5 +71,3 @@ class CommandManager extends EventEmitter {
     return cmd;
   }
 }
-
-export default CommandManager;

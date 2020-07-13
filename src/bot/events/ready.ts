@@ -1,4 +1,4 @@
-import { CustomEvent } from "../../lib/structures/base/Event";
+import { CustomEvent } from "../../lib";
 import { Bort } from "../../lib";
 import * as chalk from "chalk";
 

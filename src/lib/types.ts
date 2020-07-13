@@ -1,4 +1,7 @@
 import { PermissionResolvable } from "discord.js";
+import { CommandManager } from "./structures/managers/CommandManager";
+import { EventManager } from "./structures/managers/EventManager";
+import { MessageEmbed } from "discord.js";
 
 export interface IArg {
   name: string;
@@ -31,4 +34,16 @@ export interface IBort {
   devs: Array<string>;
   event_dir: string;
   command_dir: string;
+}
+
+declare module "discord.js" {
+  interface Client {
+    prefix: string;
+    cmd: CommandManager;
+    evnt: EventManager;
+  }
+
+  interface Message {
+    warn(msg: string | MessageEmbed): Promise<any>;
+  }
 }
