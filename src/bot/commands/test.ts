@@ -1,8 +1,8 @@
-import { Command, Arg } from "../../lib/";
+import { Command, Arg, Bort } from "../../lib/";
 import { Message } from "discord.js";
 
-export default class Test extends Command {
-  constructor(client) {
+export default class extends Command {
+  constructor(client: Bort) {
     super(client, {
       name: "test",
       description: "A test command",

@@ -1,7 +1,6 @@
 import { PermissionResolvable } from "discord.js";
 import { CommandManager } from "./structures/managers/CommandManager";
 import { EventManager } from "./structures/managers/EventManager";
-import { MessageEmbed } from "discord.js";
 
 export interface IArg {
   name: string;
@@ -16,8 +15,8 @@ export interface ICommand {
   args?: Array<IArg>;
   usage?: string;
   devOnly?: boolean;
-  botPerms: PermissionResolvable;
-  userPerms: PermissionResolvable;
+  botPerms?: PermissionResolvable;
+  userPerms?: PermissionResolvable;
   cooldown?: string;
   __filename: string;
 }

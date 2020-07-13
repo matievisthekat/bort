@@ -1,0 +1,51 @@
+import { Command, Arg, Bort } from "../../../lib";
+import { inspect } from "util";
+import { Message } from "discord.js";
+import { Util } from "discord.js";
+
+export default class extends Command {
+  constructor(client: Bort) {
+    super(client, {
+      name: "eval",
+      aliases: ["evaluate"],
+      description: "Evaluate some code",
+      examples: ['msg.client.emit("ready");'],
+      args: [new Arg("code", true)],
+      devOnly: true,
+      __filename
+    });
+  }
+
+  public async run(msg: Message, [command, args, flags]) {
+    const options = {
+      split: {
+        char: "\n",
+        prepend: "```js\n",
+        append: "```"
+      }
+    };
+
+    const match = args[0].match(/depth=(\d+)/gi);
+    console.log(args[0].match(/depth=()/gi), match);
+    const depth = match ? match[0]?.split("=")[1] : 2;
+
+    let code = args.slice(match ? 1 : 0).join(" ");
+    if (code.includes("await")) code = `(async () => {${code}})();`;
+
+    const result = new Promise((resolve, rejec) => resolve(eval(code)));
+    return result
+      .then(async (output: any) => {
+        output = inspect(
+          output,
+          false,
+          depth.toLowerCase() === "null" ? null : parseInt(depth) ?? 2
+        );
+
+        if (!flags.silent)
+          await msg.channel.send("```js\n" + output + "```", options);
+      })
+      .catch(async (err: any) => {
+        await msg.channel.send("```js\n" + err + "```", options);
+      });
+  }
+}
