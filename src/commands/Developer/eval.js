@@ -45,18 +45,12 @@ module.exports = class Eval extends Command {
           output.replace(msg.client.token, "Client Token");
 
         if (!flags.silent)
-          msg.channel.send(
-            "```js\n" + Util.escapeCodeBlock(output) + "```",
-            options
-          );
+          msg.channel.send("```js\n" + output + "```", options);
       })
       .catch((err) => {
         err.stack = err.stack.replace(msg.client.token, "Client Token");
 
-        msg.channel.send(
-          "```js\n" + Util.escapeCodeBlock(err) + "```",
-          options
-        );
+        msg.channel.send("```js\n" + err + "```", options);
       });
   }
 };
