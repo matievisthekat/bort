@@ -25,9 +25,8 @@ export default class extends Command {
       }
     };
 
-    const match = args[0].match(/depth=(\d+)/gi);
-    console.log(args[0].match(/depth=()/gi), match);
-    const depth = match ? match[0]?.split("=")[1] : 2;
+    const match = args[0].match(/:(depth)=(\w+)/gm);
+    const depth = match ? match[0]?.split("=")[1] : "2";
 
     let code = args.slice(match ? 1 : 0).join(" ");
     if (code.includes("await")) code = `(async () => {${code}})();`;
@@ -38,7 +37,7 @@ export default class extends Command {
         output = inspect(
           output,
           false,
-          depth.toLowerCase() === "null" ? null : parseInt(depth) ?? 2
+          depth?.toLowerCase() === "null" ? null : parseInt(depth) ?? 2
         );
 
         if (!flags.silent)
