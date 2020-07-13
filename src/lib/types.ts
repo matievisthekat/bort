@@ -27,6 +27,7 @@ export interface IEvent {
 
 export interface IBort {
   token: string;
+  prefix: string;
   event_dir: string;
   command_dir: string;
 }

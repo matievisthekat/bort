@@ -1,11 +1,11 @@
 import { EventEmitter } from "events";
 import { Bort } from "../Client";
-import { BortEvent } from "../base/Event";
+import { CustomEvent } from "../base/Event";
 import { findNested } from "../util/findNested";
 import { Collection } from "discord.js";
 
 class EventManager extends EventEmitter {
-  public events: Collection<string, BortEvent> = new Collection();
+  public events: Collection<string, CustomEvent> = new Collection();
 
   constructor(private client: Bort, private dir: string) {
     super(...arguments);
@@ -16,7 +16,7 @@ class EventManager extends EventEmitter {
    * @retruns A collection of events
    * @public
    */
-  public load(): Collection<string, BortEvent> {
+  public load(): Collection<string, CustomEvent> {
     const files = findNested(this.dir);
     for (const file of files) this.loadEvent(file);
 
@@ -47,7 +47,7 @@ class EventManager extends EventEmitter {
    * @returns The loaded command or the sucess status of loading the event
    * @public
    */
-  public loadEvent(path: string): BortEvent | boolean {
+  public loadEvent(path: string): CustomEvent | boolean {
     const required = require(path);
 
     const event = new required.default(this.client);

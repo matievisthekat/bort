@@ -13,6 +13,16 @@ class CommandManager extends EventEmitter {
   }
 
   /**
+   * get
+   * @param {String} name The name or alias of the command to get
+   * @returns The found command or undefined
+   * @public
+   */
+  public get(name: string): Command | undefined {
+    return this.commands.get(name) ?? this.aliases.get(name);
+  }
+
+  /**
    * load
    * @retruns A collection of commands
    * @public

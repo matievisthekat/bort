@@ -8,21 +8,28 @@ export class Bort extends Client {
   public evnt: EventManager;
   public cmd: CommandManager;
   public logger: Logger;
+  public readonly prefix: string;
 
-  constructor(baseOpts, opts: IBort) {
+  constructor(baseOpts: object, opts: IBort) {
     super(baseOpts);
 
     this.token = opts.token;
+    this.prefix = opts.prefix;
 
     this.evnt = new EventManager(this, opts.event_dir);
     this.cmd = new CommandManager(this, opts.command_dir);
     this.logger = new Logger();
   }
 
-  async load() {
+  /**
+   * load
+   * @returns The result of logging in
+   * @public
+   */
+  public async load() {
     this.cmd.load();
     this.evnt.load();
 
-    super.login(this.token);
+    return await super.login(this.token);
   }
 }

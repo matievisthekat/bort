@@ -1,14 +1,18 @@
 import { ICommand } from "../../types";
 import { Bort } from "../Client";
-import { Message } from "discord.js";
+
+export class Arg {
+  constructor(public name: string, public required?: boolean) {}
+
+  // Gonna add more methods on here
+}
 
 export class Command {
-  constructor(private client: Bort, public opts: ICommand) {
+  constructor(private client: Bort, public readonly opts: ICommand) {
     this.opts.usage = this.opts.args
-      ?.map((a) => {
-        const name = a.name.replace(/ +/gi, "_");
-        return `${a.required ? "{" : "<"}${name}${a.required ? "}" : ">"}`;
-      })
+      ?.map(
+        (a) => `${a.required ? "{" : "<"}${a.name}${a.required ? "}" : ">"}`
+      )
       .join(" ");
   }
 

@@ -1,8 +1,8 @@
 import { Bort } from "../Client";
 import { IEvent } from "../../types";
 
-export class BortEvent {
-  constructor(private client: Bort, public opts: IEvent) {
+export class CustomEvent {
+  constructor(private client: Bort, public readonly opts: IEvent) {
     this.opts = opts;
   }
 

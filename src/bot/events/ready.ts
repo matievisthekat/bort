@@ -1,8 +1,8 @@
-import { BortEvent } from "../../lib/structures/base/Event";
+import { CustomEvent } from "../../lib/structures/base/Event";
 import { Bort } from "../../lib";
 import * as chalk from "chalk";
 
-export default class Ready extends BortEvent {
+export default class Ready extends CustomEvent {
   constructor(client: Bort) {
     super(client, {
       name: "ready",
