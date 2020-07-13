@@ -54,7 +54,7 @@ module.exports = class Eval extends Command {
         err.stack = err.stack.replace(msg.client.token, "Client Token");
 
         msg.channel.send(
-          "```js\n" + Util.escapeCodeBlock(output) + "```",
+          "```js\n" + Util.escapeCodeBlock(err) + "```",
           options
         );
       });
