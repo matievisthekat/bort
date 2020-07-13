@@ -59,6 +59,12 @@ export class CommandManager extends EventEmitter {
    */
   public loadCommand(path: string): Command | boolean {
     const required = require(path);
+    if (
+      !required ||
+      !required.default ||
+      typeof required.default !== "function"
+    )
+      return false;
 
     const cmd = new required.default(this.client);
     if (!cmd.opts.name) return false;
