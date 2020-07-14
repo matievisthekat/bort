@@ -1,13 +1,23 @@
 import * as chalk from "chalk";
+import * as moment from "moment";
 
 export class Logger {
+  /**
+   * date
+   * @returns A string
+   * @private
+   */
+  private get date(): string {
+    return moment().format("DD/MM/YYYY hh:mm:ss a");
+  }
+
   /**
    * log
    * @param {*} msg The message to log
    * @public
    */
   public log(msg: any): void {
-    console.log(chalk.bold(msg));
+    console.log(`[${chalk.grey(this.date)}] ${chalk.bold(msg)}`);
   }
 
   /**
@@ -16,7 +26,7 @@ export class Logger {
    * @public
    */
   public warn(msg: any): void {
-    console.log(chalk.yellow(msg));
+    console.log(`[${chalk.grey(this.date)}] ${chalk.yellow(msg)}`);
   }
 
   /**
@@ -25,7 +35,7 @@ export class Logger {
    * @public
    */
   public info(msg: any): void {
-    console.log(chalk.green(msg));
+    console.log(`[${chalk.grey(this.date)}] ${chalk.green(msg)}`);
   }
 
   /**
@@ -34,6 +44,6 @@ export class Logger {
    * @public
    */
   public error(msg: any): void {
-    console.log(chalk.red(msg));
+    console.log(`[${chalk.grey(this.date)}] ${chalk.red(msg)}`);
   }
 }
