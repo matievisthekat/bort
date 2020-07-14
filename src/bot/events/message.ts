@@ -1,5 +1,4 @@
-import { CustomEvent } from "../../lib";
-import { Bort } from "../../lib";
+import { CustomEvent, Bort } from "../../lib";
 import { Message } from "discord.js";
 
 export default class Ready extends CustomEvent {
@@ -35,15 +34,26 @@ export default class Ready extends CustomEvent {
         return await msg.warn("That command is locked to developers only!");
 
       const botPerms = command.opts.botPerms ?? "SEND_MESSAGES";
-      const userPerm = command.opts.userPerms ?? "SEND_MESSAGES";
+      const userPerms = command.opts.userPerms ?? "SEND_MESSAGES";
 
-      if (!msg.guild.me.hasPermission(botPerms))
+      if (!msg.guild.me.hasPermission(botPerms)) {
+        if (botPerms.includes("SEND_MESSAGES")) {
+          return await msg.warn(
+            `I am missing one or more of the following permissions to execute that command in ${msg.guild.name}: ${botPerms}`,
+            msg.author.dmChannel
+          );
+        } else {
+          return await msg.warn(
+            `I am missing one or more of the following permissions to execute that command: ${botPerms}`
+          );
+        }
+      } else if (!msg.member.hasPermission(userPerms)) {
         return await msg.warn(
-          `I am missing one or more of the following permissions to execute that command: ${botPerms}`
+          `You are missing one or more of the following permissions to execute that command: ${userPerms}`
         );
+      }
 
       await command.run(msg, [command, args, flags]);
-      return true;
     }
   }
 }
