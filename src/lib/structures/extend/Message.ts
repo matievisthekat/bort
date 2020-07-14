@@ -1,8 +1,12 @@
-import { Structures, Client } from "discord.js";
 import { Bort } from "../Client";
-import { TextChannel } from "discord.js";
-import { DMChannel } from "discord.js";
-import { MessageEmbed } from "discord.js";
+import {
+  TextChannel,
+  DMChannel,
+  NewsChannel,
+  MessageEmbed,
+  Structures,
+  Client
+} from "discord.js";
 
 Structures.extend(
   "Message",
@@ -22,8 +26,11 @@ Structures.extend(
        * @returns A promise
        * @public
        */
-      public async warn(msg: string | MessageEmbed): Promise<any> {
-        return await this.channel.send(`:warning: ${msg}`);
+      public async warn(
+        msg: string | MessageEmbed,
+        channel: TextChannel | DMChannel | NewsChannel = this.channel
+      ): Promise<any> {
+        return await channel.send(`:warning: ${msg}`);
       }
 
       /**
@@ -32,8 +39,11 @@ Structures.extend(
        * @returns A promise
        * @public
        */
-      public async success(msg: string | MessageEmbed): Promise<any> {
-        return await this.channel.send(`:white_check_mark: ${msg}`);
+      public async success(
+        msg: string | MessageEmbed,
+        channel: TextChannel | DMChannel | NewsChannel = this.channel
+      ): Promise<any> {
+        return await channel.send(`:white_check_mark: ${msg}`);
       }
     }
 );

@@ -1,6 +1,5 @@
-import { Command, Arg, Bort } from "../../../lib";
+import { Command, Arg, Bort, util } from "../../../lib";
 import { Message } from "discord.js";
-import { util } from "../../../lib";
 
 export default class extends Command {
   constructor(client: Bort) {

@@ -1,6 +1,6 @@
-import { PermissionResolvable } from "discord.js";
 import { CommandManager } from "./structures/managers/CommandManager";
 import { EventManager } from "./structures/managers/EventManager";
+import { PermissionString } from "discord.js";
 
 export interface IArg {
   name: string;
@@ -15,8 +15,8 @@ export interface ICommand {
   args?: Array<IArg>;
   usage?: string;
   devOnly?: boolean;
-  botPerms?: PermissionResolvable;
-  userPerms?: PermissionResolvable;
+  botPerms?: Array<PermissionString>;
+  userPerms?: Array<PermissionString>;
   cooldown?: string;
   __filename: string;
 }
@@ -43,7 +43,13 @@ declare module "discord.js" {
   }
 
   interface Message {
-    warn(msg: string | MessageEmbed): Promise<any>;
-    success(msg: string | MessageEmbed): Promise<any>;
+    warn(
+      msg: string | MessageEmbed,
+      channel?: TextChannel | DMChannel | NewsChannel
+    ): Promise<any>;
+    success(
+      msg: string | MessageEmbed,
+      channel?: TextChannel | DMChannel | NewsChannel
+    ): Promise<any>;
   }
 }
