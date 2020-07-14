@@ -44,5 +44,6 @@ declare module "discord.js" {
 
   interface Message {
     warn(msg: string | MessageEmbed): Promise<any>;
+    success(msg: string | MessageEmbed): Promise<any>;
   }
 }
