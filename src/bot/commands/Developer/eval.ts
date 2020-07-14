@@ -1,13 +1,12 @@
 import { Command, Arg, Bort } from "../../../lib";
 import { inspect } from "util";
 import { Message } from "discord.js";
-import { Util } from "discord.js";
 
 export default class extends Command {
   constructor(client: Bort) {
     super(client, {
       name: "eval",
-      aliases: ["evaluate"],
+      aliases: ["evaluate", "ev"],
       description: "Evaluate some code",
       examples: ['msg.client.emit("ready");'],
       args: [new Arg("code", true)],
@@ -26,7 +25,7 @@ export default class extends Command {
     };
 
     const match = args[0].match(/:(depth)=(\w+)/gm);
-    const depth = match ? match[0]?.split("=")[1] : "2";
+    const depth = match ? match[0]?.split("=")[1] : null;
 
     let code = args.slice(match ? 1 : 0).join(" ");
     if (code.includes("await")) code = `(async () => {${code}})();`;
@@ -34,11 +33,7 @@ export default class extends Command {
     const result = new Promise((resolve, rejec) => resolve(eval(code)));
     return result
       .then(async (output: any) => {
-        output = inspect(
-          output,
-          false,
-          depth?.toLowerCase() === "null" ? null : parseInt(depth) ?? 2
-        );
+        output = inspect(output, false, depth ? parseInt(depth) : 1);
 
         if (!flags.silent)
           await msg.channel.send("```js\n" + output + "```", options);
