@@ -34,6 +34,14 @@ export default class Ready extends CustomEvent {
       if (command.opts.devOnly && !client.devs.includes(msg.author.id))
         return await msg.warn("That command is locked to developers only!");
 
+      const botPerms = command.opts.botPerms ?? "SEND_MESSAGES";
+      const userPerm = command.opts.userPerms ?? "SEND_MESSAGES";
+
+      if (!msg.guild.me.hasPermission(botPerms))
+        return await msg.warn(
+          `I am missing one or more of the following permissions to execute that command: ${botPerms}`
+        );
+
       await command.run(msg, [command, args, flags]);
       return true;
     }
