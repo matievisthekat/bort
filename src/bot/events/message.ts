@@ -9,7 +9,15 @@ export default class Ready extends CustomEvent {
     });
   }
 
-  async run(client: Bort, msg: Message): Promise<any> {
+  /**
+   * run
+   * @param {Bort} client The client that received this message
+   * @param {Message} msg The message that was sent
+   * @returns A promise
+   * @public
+   */
+  public async run(client: Bort, msg: Message): Promise<any> {
+    // If the message wasn't in a guild, wasn't send by a human or doesn't start with the prefix then return
     if (
       !msg.guild ||
       msg.webhookID ||
@@ -18,11 +26,13 @@ export default class Ready extends CustomEvent {
     )
       return false;
 
+    // Get the args and command strings from the message content
     const [rawCommand, ...rawArgs] = msg.content
       .slice(client.prefix.length)
       .trim()
       .split(/ +/gi);
 
+    // Define flags, filter args and get the command
     const flags = {};
     const flagArgs = rawArgs.filter((a) => a.startsWith("--"));
     const args = rawArgs.filter((a) => !a.startsWith("--"));
@@ -30,29 +40,51 @@ export default class Ready extends CustomEvent {
     flagArgs.map((flag) => (flags[flag] = true));
 
     if (command) {
-      if (command.opts.devOnly && !client.devs.includes(msg.author.id))
+      // If the author is not a developer and the command is locked to devOnly send an error
+      if (command.opts.devOnly && !client.devs.includes(msg.author.id)) {
         return await msg.warn("That command is locked to developers only!");
+      }
 
-      const botPerms = command.opts.botPerms ?? "SEND_MESSAGES";
-      const userPerms = command.opts.userPerms ?? "SEND_MESSAGES";
+      // Get the required permissions for the command. Defaulting to SEND_MESSAGES
+      const botPerms = command.opts.botPerms ?? ["SEND_MESSAGES"];
+      const userPerms = command.opts.userPerms ?? ["SEND_MESSAGES"];
 
-      if (!msg.guild.me.hasPermission(botPerms)) {
-        if (botPerms.includes("SEND_MESSAGES")) {
-          return await msg.warn(
-            `I am missing one or more of the following permissions to execute that command in ${msg.guild.name}: ${botPerms}`,
-            msg.author.dmChannel
-          );
-        } else {
-          return await msg.warn(
-            `I am missing one or more of the following permissions to execute that command: ${botPerms}`
-          );
-        }
-      } else if (!msg.member.hasPermission(userPerms)) {
+      // If botPerms doesn't include SEND_MESSAGES push it into the array
+      if (!botPerms.includes("SEND_MESSAGES")) {
+        botPerms.push("SEND_MESSAGES");
+      }
+
+      // Check for permissions in the current guild and channel
+      if (
+        !msg.guild.me.hasPermission(botPerms) ||
+        !msg.guild.me.permissionsIn(msg.channel).has(botPerms)
+      ) {
+        // If the bot is missing the SEND_MESSAGES permission
+        const missingSend = botPerms.includes("SEND_MESSAGES");
+
+        // Send an error message to the current channel or the author's DM channel
         return await msg.warn(
-          `You are missing one or more of the following permissions to execute that command: ${userPerms}`
+          `I am missing one or more of the following permissions (\`${botPerms}\`) to execute that command ${
+            missingSend ? `in **${msg.guild.name}**` : ""
+          }`,
+          // If the bot is missing SEND_MESSAGES permission it sends a message to the author's DM channel (creating on if it doesn't exist)
+          missingSend
+            ? msg.author.dmChannel ?? (await msg.author.createDM())
+            : msg.channel
+        );
+
+        // Check user perms in the current guild and channel
+      } else if (
+        !msg.member.hasPermission(userPerms) ||
+        !msg.member.permissionsIn(msg.channel).has(userPerms)
+      ) {
+        // Send an error message
+        return await msg.warn(
+          `You are missing one or more of the following permissions (\`${userPerms}\`) to execute that command`
         );
       }
 
+      // Run the command once all checks are complete
       await command.run(msg, [command, args, flags]);
     }
   }
