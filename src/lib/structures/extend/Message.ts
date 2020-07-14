@@ -23,7 +23,17 @@ Structures.extend(
        * @public
        */
       public async warn(msg: string | MessageEmbed): Promise<any> {
-        await this.channel.send(`:warning: ${msg}`);
+        return await this.channel.send(`:warning: ${msg}`);
+      }
+
+      /**
+       * success
+       * @param {String|MessageEmbed} msg The message to send
+       * @returns A promise
+       * @public
+       */
+      public async success(msg: string | MessageEmbed): Promise<any> {
+        return await this.channel.send(`:white_check_mark: ${msg}`);
       }
     }
 );
