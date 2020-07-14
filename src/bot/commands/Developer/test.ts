@@ -1,4 +1,4 @@
-import { Command, Arg, Bort } from "../../lib/";
+import { Command, Arg, Bort } from "../../../lib/";
 import { Message } from "discord.js";
 
 export default class extends Command {
