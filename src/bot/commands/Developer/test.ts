@@ -6,7 +6,7 @@ export default class extends Command {
     super(client, {
       name: "test",
       description: "A test command",
-      botPerms: ["SEND_MESSAGES"],
+      botPerms: ["SEND_MESSAGES", "MANAGE_CHANNELS"],
       userPerms: ["SEND_MESSAGES"],
       args: [new Arg("hello", true), new Arg("test")],
       __filename
