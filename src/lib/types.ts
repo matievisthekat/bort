@@ -1,5 +1,3 @@
-import { CommandManager } from "./structures/managers/CommandManager";
-import { EventManager } from "./structures/managers/EventManager";
 import { PermissionString } from "discord.js";
 
 export interface IArg {
@@ -33,23 +31,4 @@ export interface IBort {
   devs: Array<string>;
   event_dir: string;
   command_dir: string;
-}
-
-declare module "discord.js" {
-  interface Client {
-    prefix: string;
-    cmd: CommandManager;
-    evnt: EventManager;
-  }
-
-  interface Message {
-    warn(
-      msg: string | MessageEmbed,
-      channel?: TextChannel | DMChannel | NewsChannel
-    ): Promise<any>;
-    success(
-      msg: string | MessageEmbed,
-      channel?: TextChannel | DMChannel | NewsChannel
-    ): Promise<any>;
-  }
 }
