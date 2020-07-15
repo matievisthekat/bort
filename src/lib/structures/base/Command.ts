@@ -1,14 +1,20 @@
-import { ICommand } from "../../types";
-import { Bort } from "../Client";
+import { types, Bort } from "../../";
+import { Collection } from "discord.js";
 
 export class Arg {
-  constructor(public name: string, public required?: boolean) {}
+  constructor(
+    public name: string,
+    public desc: string,
+    public required?: boolean
+  ) {}
 
-  // Gonna add more methods on here
+  // Gonna add more methods in here
 }
 
 export class Command {
-  constructor(private client: Bort, public readonly opts: ICommand) {
+  public cooldown: Collection<string, string> = new Collection();
+
+  constructor(private client: Bort, public readonly opts: types.ICommand) {
     this.opts.usage = this.opts.args
       ?.map(
         (a) => `${a.required ? "{" : "<"}${a.name}${a.required ? "}" : ">"}`
