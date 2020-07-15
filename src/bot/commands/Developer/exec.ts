@@ -28,7 +28,7 @@ export default class extends Command {
     for (const output of Object.entries(res)) {
       if (output[1])
         await msg.channel.send(
-          `**${output[0]}**\n\`\`\`\n${output[1]}\`\`\``,
+          `**${output[0].title()}**\n\`\`\`\n${output[1]}\`\`\``,
           options
         );
     }
