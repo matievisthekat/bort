@@ -1,6 +1,4 @@
-import { CustomEvent } from "../../lib";
-import { Bort } from "../../lib";
-import * as chalk from "chalk";
+import { CustomEvent, Bort } from "../../lib";
 
 export default class Ready extends CustomEvent {
   constructor(client: Bort) {
@@ -11,10 +9,8 @@ export default class Ready extends CustomEvent {
   }
 
   run(client: Bort) {
-    return client.logger.info(
-      `Logged in as ${chalk.cyan(client.user.tag)} with ${
-        client.guilds.cache.size
-      } guilds`
+    return client.logger.log(
+      `Logged in as ${client.user.tag} with ${client.guilds.cache.size} guilds`
     );
   }
 }
