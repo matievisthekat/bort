@@ -1,14 +1,14 @@
-import { Command, Arg, Bort, util } from "../../../lib";
+import { Command, Arg, Bot, util } from "../../../lib";
 import { Message } from "discord.js";
 
 export default class extends Command {
-  constructor(client: Bort) {
+  constructor(client: Bot) {
     super(client, {
       name: "exec",
       aliases: ["execute"],
       description: "Execute a terminal command",
       examples: ["node -v"],
-      args: [new Arg("command", true)],
+      args: [new Arg("command", "The command(s) to execute", true)],
       devOnly: true,
       __filename
     });
@@ -26,11 +26,7 @@ export default class extends Command {
     const res = await util.execute(args.join(" "));
 
     for (const output of Object.entries(res)) {
-      if (output[1])
-        await msg.channel.send(
-          `**${output[0].title()}**\n\`\`\`\n${output[1]}\`\`\``,
-          options
-        );
+      if (output[1]) await msg.channel.send(`**${output[0].title()}**\n\`\`\`\n${output[1]}\`\`\``, options);
     }
 
     await msg.success("Command successfully run");

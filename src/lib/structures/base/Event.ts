@@ -1,18 +1,18 @@
-import { Bort } from "../Client";
+import { Bot } from "../Client";
 import { IEvent } from "../../types";
 
 export class CustomEvent {
-  constructor(private client: Bort, public readonly opts: IEvent) {
+  constructor(private client: Bot, public readonly opts: IEvent) {
     this.opts = opts;
   }
 
   /**
    * run
-   * @param {Bort} client The client this was received by
+   * @param {Bot} client The client this was received by
    * @param {*} args The arguments for the event\
    * @returns Anything
    */
-  run(client: Bort, ...args: any): any {
+  run(client: Bot, ...args: any): any {
     client.logger.warn(
       `Event without run method (dunno why I cant get the file)`
     );

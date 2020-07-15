@@ -1,5 +1,6 @@
-import { types, Bort } from "../../";
+import { types, Bot } from "../../";
 import { Collection } from "discord.js";
+import { EventEmitter } from "events";
 
 export class Arg {
   constructor(
@@ -11,10 +12,12 @@ export class Arg {
   // Gonna add more methods in here
 }
 
-export class Command {
+export class Command extends EventEmitter {
   public cooldown: Collection<string, string> = new Collection();
 
-  constructor(private client: Bort, public readonly opts: types.ICommand) {
+  constructor(private client: Bot, public readonly opts: types.ICommand) {
+    super(...arguments);
+
     this.opts.usage = this.opts.args
       ?.map(
         (a) => `${a.required ? "{" : "<"}${a.name}${a.required ? "}" : ">"}`

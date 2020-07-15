@@ -1,8 +1,8 @@
-import { CustomEvent, Bort } from "../../lib";
+import { CustomEvent, Bot } from "../../lib";
 import { Message } from "discord.js";
 
 export default class Ready extends CustomEvent {
-  constructor(client: Bort) {
+  constructor(client: Bot) {
     super(client, {
       name: "message",
       __filename
@@ -11,12 +11,12 @@ export default class Ready extends CustomEvent {
 
   /**
    * run
-   * @param {Bort} client The client that received this message
+   * @param {Bot} client The client that received this message
    * @param {Message} msg The message that was sent
    * @returns A promise
    * @public
    */
-  public async run(client: Bort, msg: Message): Promise<any> {
+  public async run(client: Bot, msg: Message): Promise<any> {
     // If the message wasn't in a guild, wasn't send by a human or doesn't start with the prefix then return
     if (
       !msg.guild ||

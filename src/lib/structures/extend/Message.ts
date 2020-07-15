@@ -1,4 +1,4 @@
-import { Bort } from "../Client";
+import { Bot } from "../Client";
 import {
   TextChannel,
   DMChannel,
@@ -13,7 +13,7 @@ Structures.extend(
   (Message) =>
     class extends Message {
       constructor(
-        client: Bort | Client,
+        client: Bot | Client,
         data: object,
         channel: TextChannel | DMChannel
       ) {

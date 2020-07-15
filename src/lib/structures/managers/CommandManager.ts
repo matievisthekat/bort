@@ -1,14 +1,14 @@
 import { EventEmitter } from "events";
 import { Collection } from "discord.js";
 import { Command } from "../base/Command";
-import { Bort } from "../Client";
+import { Bot } from "../Client";
 import { findNested } from "../util/findNested";
 
 export class CommandManager extends EventEmitter {
   public commands: Collection<string, Command> = new Collection();
   public aliases: Collection<string, Command> = new Collection();
 
-  constructor(private client: Bort, private dir: string) {
+  constructor(private client: Bot, private dir: string) {
     super(...arguments);
   }
 

@@ -26,7 +26,7 @@ export interface IEvent {
   __filename: string;
 }
 
-export interface IBort {
+export interface IBot {
   token: string;
   prefix: string;
   devs: Array<string>;

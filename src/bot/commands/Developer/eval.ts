@@ -1,15 +1,15 @@
-import { Command, Arg, Bort } from "../../../lib";
+import { Command, Arg, Bot } from "../../../lib";
 import { inspect } from "util";
 import { Message } from "discord.js";
 
 export default class extends Command {
-  constructor(client: Bort) {
+  constructor(client: Bot) {
     super(client, {
       name: "eval",
       aliases: ["evaluate", "ev"],
       description: "Evaluate some code",
       examples: ['msg.client.emit("ready");'],
-      args: [new Arg("code", true)],
+      args: [new Arg("code", "The code to evaluate", true)],
       devOnly: true,
       __filename
     });
@@ -35,8 +35,7 @@ export default class extends Command {
       .then(async (output: any) => {
         output = inspect(output, false, depth ? parseInt(depth) : 1);
 
-        if (!flags.silent)
-          await msg.channel.send("```js\n" + output + "```", options);
+        if (!flags.silent) await msg.channel.send("```js\n" + output + "```", options);
       })
       .catch(async (err: any) => {
         await msg.channel.send("```js\n" + err + "```", options);

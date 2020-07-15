@@ -1,5 +1,5 @@
 import { config } from "dotenv";
-import { Bort } from "../lib";
+import { Bot } from "../lib";
 import { join } from "path";
 
 require("../lib/structures/extend/Message");
@@ -8,7 +8,7 @@ config({
   path: join(__dirname, "../../", ".env")
 });
 
-const client = new Bort(
+const client = new Bot(
   {},
   {
     token: process.env.TOKEN,

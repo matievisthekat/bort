@@ -1,5 +1,5 @@
 import { EventEmitter } from "events";
-import { Bort } from "../Client";
+import { Bot } from "../Client";
 import { CustomEvent } from "../base/Event";
 import { findNested } from "../util/findNested";
 import { Collection } from "discord.js";
@@ -7,7 +7,7 @@ import { Collection } from "discord.js";
 export class EventManager extends EventEmitter {
   public events: Collection<string, CustomEvent> = new Collection();
 
-  constructor(private client: Bort, private dir: string) {
+  constructor(private client: Bot, private dir: string) {
     super(...arguments);
   }
 
