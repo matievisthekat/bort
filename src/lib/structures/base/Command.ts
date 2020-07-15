@@ -3,26 +3,18 @@ import { Collection } from "discord.js";
 import { EventEmitter } from "events";
 
 export class Arg {
-  constructor(
-    public name: string,
-    public desc: string,
-    public required?: boolean
-  ) {}
+  constructor(public name: string, public desc: string, public required?: boolean) {}
 
   // Gonna add more methods in here
 }
 
 export class Command extends EventEmitter {
-  public cooldown: Collection<string, string> = new Collection();
+  public cooldown: Collection<string, number> = new Collection();
 
   constructor(private client: Bot, public readonly opts: types.ICommand) {
     super(...arguments);
 
-    this.opts.usage = this.opts.args
-      ?.map(
-        (a) => `${a.required ? "{" : "<"}${a.name}${a.required ? "}" : ">"}`
-      )
-      .join(" ");
+    this.opts.usage = this.opts.args?.map((a) => `${a.required ? "{" : "<"}${a.name}${a.required ? "}" : ">"}`).join(" ");
   }
 
   /**
@@ -33,10 +25,8 @@ export class Command extends EventEmitter {
    * @param {Object} flags The flags this command was run with
    * @returns A promise
    */
-  async run(msg, [command, args, flags]): Promise<any> {
-    msg.client.logger.warn(
-      `Command without a run method at ${this.opts.__filename}`
-    );
+  async run(msg, { command, args, flags }: types.ICommandRun): Promise<any> {
+    msg.client.logger.warn(`Command without a run method at ${this.opts.__filename}`);
   }
 
   /**

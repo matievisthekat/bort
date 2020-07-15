@@ -1,8 +1,6 @@
 import { EventEmitter } from "events";
-import { Collection } from "discord.js";
-import { Command } from "../base/Command";
-import { Bot } from "../Client";
-import { findNested } from "../util/findNested";
+import { Collection, Message } from "discord.js";
+import { util, Command, Bot, types } from "../../";
 
 export class CommandManager extends EventEmitter {
   public commands: Collection<string, Command> = new Collection();
@@ -28,7 +26,7 @@ export class CommandManager extends EventEmitter {
    * @public
    */
   public load(): Collection<string, Command> {
-    const files = findNested(this.dir);
+    const files = util.findNested(this.dir);
     for (const file of files) this.loadCommand(file);
 
     this.emit("ready", this.commands);
@@ -47,6 +45,7 @@ export class CommandManager extends EventEmitter {
 
     delete require.cache[cmd.opts.__filename];
     this.commands.delete(cmd.opts.name);
+    cmd.removeAllListeners();
 
     return true;
   }
@@ -59,20 +58,17 @@ export class CommandManager extends EventEmitter {
    */
   public loadCommand(path: string): Command | boolean {
     const required = require(path);
-    if (
-      !required ||
-      !required.default ||
-      typeof required.default !== "function"
-    )
-      return false;
+    if (!required || !required.default || typeof required.default !== "function") return false;
 
     const cmd = new required.default(this.client);
     if (!cmd.opts.name) return false;
 
     this.commands.set(cmd.opts.name, cmd);
+    cmd.on("run", (msg: Message, { command, args, flags }: types.ICommandRun) => {
+      command.cooldown.set(msg.author.id, Date.now());
+    });
 
-    if (cmd.opts.aliases && Array.isArray(cmd.opts.aliases))
-      cmd.opts.aliases.map((a: string) => this.aliases.set(a, cmd));
+    if (cmd.opts.aliases && Array.isArray(cmd.opts.aliases)) cmd.opts.aliases.map((a: string) => this.aliases.set(a, cmd));
 
     return cmd;
   }
