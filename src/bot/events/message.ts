@@ -37,7 +37,7 @@ export default class Ready extends CustomEvent {
     const flagArgs = rawArgs.filter((a) => a.startsWith("--"));
     const args = rawArgs.filter((a) => !a.startsWith("--"));
     const command = client.cmd.get(rawCommand);
-    flagArgs.map((flag) => (flags[flag] = true));
+    flagArgs.map((flag) => (flags[flag.slice(2)] = true));
 
     if (command) {
       // If the author is not a developer and the command is locked to devOnly send an error
