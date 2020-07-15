@@ -1,4 +1,4 @@
-import { Command, Arg, Bot } from "../../../lib";
+import { Command, Arg, Bot, types } from "../../../lib";
 import { inspect } from "util";
 import { Message } from "discord.js";
 
@@ -15,7 +15,7 @@ export default class extends Command {
     });
   }
 
-  public async run(msg: Message, [command, args, flags]) {
+  public async run(msg: Message, { command, args, flags }: types.ICommandRun) {
     const options = {
       split: {
         char: "\n",
@@ -31,7 +31,7 @@ export default class extends Command {
     if (code.includes("await")) code = `(async () => {${code}})();`;
 
     const result = new Promise((resolve, rejec) => resolve(eval(code)));
-    return result
+    result
       .then(async (output: any) => {
         output = inspect(output, false, depth ? parseInt(depth) : 1);
 
@@ -40,5 +40,7 @@ export default class extends Command {
       .catch(async (err: any) => {
         await msg.channel.send("```js\n" + err + "```", options);
       });
+
+    return { done: true };
   }
 }

@@ -1,4 +1,4 @@
-import { Command, Arg, Bot, util } from "../../../lib";
+import { Command, Arg, Bot, util, types } from "../../../lib";
 import { Message } from "discord.js";
 
 export default class extends Command {
@@ -14,7 +14,7 @@ export default class extends Command {
     });
   }
 
-  public async run(msg: Message, [command, args, flags]) {
+  public async run(msg: Message, { command, args, flags }: types.ICommandRun) {
     const options = {
       split: {
         char: "\n",
@@ -30,5 +30,7 @@ export default class extends Command {
     }
 
     await msg.success("Command successfully run");
+
+    return { done: true };
   }
 }

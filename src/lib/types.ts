@@ -1,5 +1,6 @@
 import { CommandManager, EventManager } from "./";
 import { PermissionString } from "discord.js";
+import { Command } from "./structures/base/Command";
 
 export interface IArg {
   name: string;
@@ -34,6 +35,12 @@ export interface IBot {
   command_dir: string;
 }
 
+export interface ICommandRun {
+  command: Command;
+  args: Array<string>;
+  flags: any;
+}
+
 declare module "discord.js" {
   interface Client {
     prefix: string;
@@ -42,13 +49,7 @@ declare module "discord.js" {
   }
 
   interface Message {
-    warn(
-      msg: string | MessageEmbed,
-      channel?: TextChannel | DMChannel | NewsChannel
-    ): Promise<any>;
-    success(
-      msg: string | MessageEmbed,
-      channel?: TextChannel | DMChannel | NewsChannel
-    ): Promise<any>;
+    warn(msg: string | MessageEmbed, channel?: TextChannel | DMChannel | NewsChannel): Promise<any>;
+    success(msg: string | MessageEmbed, channel?: TextChannel | DMChannel | NewsChannel): Promise<any>;
   }
 }
