@@ -1,7 +1,6 @@
-import { CustomEvent, Bot } from "../../lib";
+import { CustomEvent, Bot, types } from "../../lib";
 import { Message } from "discord.js";
 import * as ms from "ms";
-import { time } from "console";
 
 export default class Ready extends CustomEvent {
   constructor(client: Bot) {
@@ -84,7 +83,7 @@ export default class Ready extends CustomEvent {
       }
 
       // Run the command once all checks are complete
-      const res = await command.run(msg, { command, args, flags });
+      const res: types.ICommandDone = await command.run(msg, { command, args, flags });
       if (res && res.done === true) {
         return command.emit("run", msg, { command, args, flags });
       }
