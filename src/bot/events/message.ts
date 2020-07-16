@@ -78,8 +78,15 @@ export default class Ready extends CustomEvent {
 
         // Check user perms in the current guild and channel
       } else if (!msg.member.hasPermission(userPerms) || !msg.member.permissionsIn(msg.channel).has(userPerms)) {
-        // Send an error message
         return await msg.warn(`You are missing one or more of the following permissions (\`${userPerms}\`) to execute that command`);
+      }
+
+      // Check command arguments
+      if (command.opts.args && command.opts.args.length > 0) {
+        for (let i = 0; i < command.opts.args.length; i++) {
+          const arg = command.opts.args[i];
+          if (!args[i] && arg.required) return await msg.warn(`You are missing the argument **${arg.name}**. Correct usage \`${client.prefix}${command.opts.name} ${command.opts.usage}\``);
+        }
       }
 
       // Run the command once all checks are complete

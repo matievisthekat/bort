@@ -1,4 +1,4 @@
-import { Command, Bot, types } from "../../../lib/";
+import { Command, Bot, types, Arg } from "../../../lib/";
 import { Message } from "discord.js";
 
 export default class extends Command {
@@ -8,6 +8,7 @@ export default class extends Command {
       description: "A test command",
       botPerms: ["SEND_MESSAGES", "MANAGE_CHANNELS"],
       userPerms: ["SEND_MESSAGES"],
+      args: [new Arg("test", "A test"), new Arg("another test", "another test arg", true)],
       cooldown: "10s",
       __filename
     });

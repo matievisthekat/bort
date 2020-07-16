@@ -1,9 +1,9 @@
-import { CommandManager, EventManager } from "./";
+import { CommandManager, EventManager, Command } from "./";
 import { PermissionString } from "discord.js";
-import { Command } from "./structures/base/Command";
 
 export interface IArg {
   name: string;
+  desc: string;
   required?: boolean;
 }
 
