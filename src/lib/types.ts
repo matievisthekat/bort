@@ -42,8 +42,13 @@ export interface ICommandRun {
   flags: any;
 }
 
+export interface IConfigEmbed {
+  colour: any;
+}
+
 export interface IConfig {
   emoji: object;
+  embed: IConfigEmbed;
 }
 
 export interface ICommandDone {
