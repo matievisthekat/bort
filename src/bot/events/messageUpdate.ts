@@ -4,7 +4,7 @@ import { Message } from "discord.js";
 export default class extends CustomEvent {
   constructor(client: Bot) {
     super(client, {
-      name: "",
+      name: "messageUpdate",
       __filename
     });
   }
