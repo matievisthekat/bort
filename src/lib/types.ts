@@ -33,6 +33,7 @@ export interface IBot {
   devs: Array<string>;
   event_dir: string;
   command_dir: string;
+  config: IConfig;
 }
 
 export interface ICommandRun {
@@ -41,11 +42,21 @@ export interface ICommandRun {
   flags: any;
 }
 
+export interface IConfigEmoji {
+  default: string;
+  custom: string;
+}
+
+export interface IConfig {
+  emoji: object;
+}
+
 declare module "discord.js" {
   interface Client {
     prefix: string;
     cmd: CommandManager;
     evnt: EventManager;
+    config: IConfig;
   }
 
   interface Message {

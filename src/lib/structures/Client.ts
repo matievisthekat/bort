@@ -2,7 +2,7 @@ import { Client } from "discord.js";
 import { CommandManager } from "./managers/CommandManager";
 import { EventManager } from "./managers/EventManager";
 import { Logger } from "./Logger";
-import { IBot } from "../types";
+import { IBot, IConfig } from "../types";
 
 export class Bot extends Client {
   public evnt: EventManager;
@@ -10,6 +10,7 @@ export class Bot extends Client {
   public logger: Logger;
   public readonly prefix: string;
   public readonly devs: Array<string>;
+  public readonly config: IConfig;
 
   constructor(baseOpts: object, opts: IBot) {
     super(baseOpts);
@@ -17,6 +18,7 @@ export class Bot extends Client {
     this.token = opts.token;
     this.prefix = opts.prefix;
     this.devs = opts.devs;
+    this.config = opts.config;
 
     this.evnt = new EventManager(this, opts.event_dir);
     this.cmd = new CommandManager(this, opts.command_dir);

@@ -15,15 +15,12 @@ const client = new Bot(
     prefix: "./",
     devs: ["492708936290402305"],
     event_dir: join(__dirname, "events"),
-    command_dir: join(__dirname, "commands")
+    command_dir: join(__dirname, "commands"),
+    config: require("./config.json")
   }
 );
 
-client.cmd.on("ready", (commands) =>
-  client.logger.log(`Loaded ${commands.size} commands`)
-);
-client.evnt.on("ready", (events) =>
-  client.logger.log(`Loaded ${events.size} events`)
-);
+client.cmd.on("ready", (commands) => client.logger.log(`Loaded ${commands.size} commands`));
+client.evnt.on("ready", (events) => client.logger.log(`Loaded ${events.size} events`));
 
 client.load().then(() => client.logger.log("Successfully initialized"));
