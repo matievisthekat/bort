@@ -42,13 +42,12 @@ export interface ICommandRun {
   flags: any;
 }
 
-export interface IConfigEmoji {
-  default: string;
-  custom: string;
-}
-
 export interface IConfig {
   emoji: object;
+}
+
+export interface ICommandDone {
+  done: boolean;
 }
 
 declare module "discord.js" {
