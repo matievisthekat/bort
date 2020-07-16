@@ -16,7 +16,7 @@ const client = new Bot(
     devs: ["492708936290402305"],
     event_dir: join(__dirname, "events"),
     command_dir: join(__dirname, "commands"),
-    config: require("./config.json")
+    config: require(join(__dirname, "../..", "config.json"))
   }
 );
 
