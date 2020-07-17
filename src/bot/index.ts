@@ -9,9 +9,19 @@ config({
 });
 
 const client = new Bot(
-  {},
+  {
+    presence: {
+      activity: {
+        name: "you sleep",
+        type: "WATCHING"
+      },
+      status: "idle"
+    },
+    disableMentions: "all"
+  },
   {
     token: process.env.TOKEN,
+    mongo_uri: process.env.MONGO_URI,
     prefix: "./",
     devs: ["492708936290402305"],
     event_dir: join(__dirname, "events"),
@@ -22,5 +32,6 @@ const client = new Bot(
 
 client.cmd.on("ready", (commands) => client.logger.log(`Loaded ${commands.size} commands`));
 client.evnt.on("ready", (events) => client.logger.log(`Loaded ${events.size} events`));
+client.db.on("ready", (connection) => client.logger.log("Connected to MongoDB"));
 
 client.load().then(() => client.logger.log("Successfully initialized"));

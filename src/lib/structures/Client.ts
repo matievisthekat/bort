@@ -1,18 +1,16 @@
-import { Client } from "discord.js";
-import { CommandManager } from "./managers/CommandManager";
-import { EventManager } from "./managers/EventManager";
-import { Logger } from "./Logger";
-import { IBot, IConfig } from "../types";
+import { Client, ClientOptions } from "discord.js";
+import { CommandManager, EventManager, Logger, types, Database } from "../";
 
 export class Bot extends Client {
   public evnt: EventManager;
   public cmd: CommandManager;
   public logger: Logger;
+  public db: Database;
   public readonly prefix: string;
   public readonly devs: Array<string>;
-  public readonly config: IConfig;
+  public readonly config: types.IConfig;
 
-  constructor(baseOpts: object, opts: IBot) {
+  constructor(baseOpts: ClientOptions, opts: types.IBot) {
     super(baseOpts);
 
     this.token = opts.token;
@@ -22,6 +20,7 @@ export class Bot extends Client {
 
     this.evnt = new EventManager(this, opts.event_dir);
     this.cmd = new CommandManager(this, opts.command_dir);
+    this.db = new Database(opts.mongo_uri);
     this.logger = new Logger();
   }
 
@@ -33,6 +32,7 @@ export class Bot extends Client {
   public async load() {
     this.cmd.load();
     this.evnt.load();
+    await this.db.load();
 
     return await super.login(this.token);
   }

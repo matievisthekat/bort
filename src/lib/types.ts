@@ -34,6 +34,7 @@ export interface IBot {
   event_dir: string;
   command_dir: string;
   config: IConfig;
+  mongo_uri: string;
 }
 
 export interface ICommandRun {
