@@ -12,7 +12,7 @@ module.exports = class Stats extends Command {
       category: "Information",
       description: "View statistics for the bot",
       requiresArgs: false,
-      guildOnly: false
+      
     });
   }
 

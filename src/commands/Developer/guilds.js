@@ -9,7 +9,6 @@ module.exports = class Guilds extends Command {
       category: "Core",
       description: "View all the servers the bot is in",
       requiresArgs: false,
-      guildOnly: false,
       creatorOnly: true
     });
   }

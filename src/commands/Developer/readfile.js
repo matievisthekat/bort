@@ -12,7 +12,6 @@ module.exports = class ReadFile extends Command {
       description: "Read a file",
       usage: "{path}",
       examples: ["/src/commands/Developer/readfile.js", ".gitignore"],
-      guildOnly: false,
       creatorOnly: true
     });
   }

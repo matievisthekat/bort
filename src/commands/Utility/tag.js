@@ -9,7 +9,7 @@ module.exports = class Tag extends Command {
       description: "Use a tag",
       usage: "{tag name}",
       examples: ["free hosting", "token leak"],
-      guildOnly: false
+      
     });
   }
 

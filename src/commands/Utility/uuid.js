@@ -9,7 +9,7 @@ module.exports = class Name extends Command {
       category: "Utility",
       description: "Generate a completely unique UUID or token",
       requiresArgs: false,
-      guildOnly: false
+      
     });
   }
 

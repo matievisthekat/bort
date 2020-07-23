@@ -14,7 +14,7 @@ module.exports = class Choose extends Command {
         "cats | dogs",
         "me and you | you and him"
       ],
-      guildOnly: false
+      
     });
   }
 

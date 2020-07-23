@@ -8,7 +8,7 @@ module.exports = class Clap extends Command {
       description: "Clapify a message!",
       usage: "{text}",
       examples: ["o o f", "clapping is nice"],
-      guildOnly: false
+      
     });
   }
 

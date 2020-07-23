@@ -8,7 +8,7 @@ module.exports = class Daily extends Command {
       category: "Currency",
       description: "Collect your daily reward",
       requiresArgs: false,
-      guildOnly: false
+      
     });
   }
 

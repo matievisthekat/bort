@@ -8,7 +8,7 @@ module.exports = class Languages extends Command {
       category: "Config",
       description: "View all available languages to switch to",
       requiresArgs: false,
-      guildOnly: false
+      
     });
   }
 

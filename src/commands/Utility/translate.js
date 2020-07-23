@@ -9,7 +9,7 @@ module.exports = class Translate extends Command {
       usage: "{to} {text}",
       examples: ["fr Hello there", "en Bonjour"],
       cooldown: "15s",
-      guildOnly: false
+      
     });
   }
 

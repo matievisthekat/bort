@@ -9,7 +9,7 @@ module.exports = class DeleteClan extends Command {
       description: "Delete your clan",
       cooldown: "1m",
       requiresArgs: false,
-      guildOnly: false
+      
     });
   }
 

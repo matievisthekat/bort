@@ -7,7 +7,7 @@ module.exports = class Vote extends Command {
       category: "Core",
       description: "Get links to vote for me",
       requiresArgs: false,
-      guildOnly: false
+      
     });
   }
 

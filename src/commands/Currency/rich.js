@@ -8,7 +8,7 @@ module.exports = class Rich extends Command {
       category: "Currency",
       description: "View the richest users",
       requiresArgs: false,
-      guildOnly: false
+      
     });
   }
 

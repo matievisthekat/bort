@@ -11,7 +11,7 @@ module.exports = class Reddit extends Command {
       examples: ["memes", "aww"],
       cooldown: "5s",
       requiresArgs: false,
-      guildOnly: false
+      
     });
   }
 

@@ -9,7 +9,7 @@ module.exports = class Tags extends Command {
       flags: ["embed"],
       examples: [" --embed", ""],
       requiresArgs: false,
-      guildOnly: false
+      
     });
   }
 

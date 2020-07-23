@@ -18,7 +18,7 @@ module.exports = class Corona extends Command {
       description: "View a graph on coronavirus",
       cooldown: "1m",
       requiresArgs: false,
-      guildOnly: false
+      
     });
   }
 

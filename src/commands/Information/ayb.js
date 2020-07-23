@@ -10,7 +10,6 @@ module.exports = class Name extends Command {
       description: "View bort's AYB profile",
       cooldown: "5s",
       requiresArgs: false,
-      guildOnly: false,
       disabled: true
     });
   }

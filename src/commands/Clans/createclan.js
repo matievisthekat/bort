@@ -10,7 +10,7 @@ module.exports = class CreateClan extends Command {
       usage: "{clan name}",
       examples: ["The Big Bois"],
       cooldown: "10m",
-      guildOnly: false
+      
     });
   }
 

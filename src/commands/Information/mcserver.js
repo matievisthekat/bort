@@ -11,7 +11,7 @@ module.exports = class Name extends Command {
       usage: "{server_ip}",
       examples: ["mc.matthewis.online", "mc.matievisthekat.dev", "127.0.0.1"],
       cooldown: "6s",
-      guildOnly: false
+      
     });
   }
 

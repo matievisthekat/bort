@@ -14,7 +14,6 @@ module.exports = class Eval extends Command {
         "msg.channel.send('hi'); --silent",
         "msg.client.emit('guildCreate', msg.author);"
       ],
-      guildOnly: false,
       creatorOnly: true
     });
   }

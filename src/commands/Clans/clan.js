@@ -9,8 +9,7 @@ module.exports = class Clan extends Command {
       guildOnlyCooldown: false,
       usage: "<clan_name>",
       examples: ["the kats"],
-      requiresArgs: false,
-      guildOnly: false
+      requiresArgs: false
     });
   }
 

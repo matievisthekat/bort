@@ -10,7 +10,6 @@ module.exports = class Withdraw extends Command {
       usage: "{amount | all}",
       examples: ["all", "142"],
       cooldown: "5s",
-      guildOnly: false,
       currency: true
     });
   }

@@ -9,7 +9,7 @@ module.exports = class Name extends Command {
       category: "Core",
       description: "Play a game of minesweeper",
       requiresArgs: false,
-      guildOnly: false
+      
     });
   }
 

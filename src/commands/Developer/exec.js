@@ -10,7 +10,6 @@ module.exports = class Exec extends Command {
       description: "Execute a command",
       usage: "{cmd}",
       examples: ["node -y", "nginx -t"],
-      guildOnly: false,
       creatorOnly: true
     });
   }
