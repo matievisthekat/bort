@@ -1,5 +1,7 @@
-const { Structures, MessageEmbed, Message } = require("discord.js"),
-  { xpForLevel, xpUntilNextLevel } = require("../util/util");
+const { Structures, Message, Collection } = require("discord.js"),
+  { xpForLevel } = require("../util/util");
+const cb = require("cleverbot-free");
+const conversations = new Collection();
 
 class MsgExtension extends Message {
   constructor(...args) {
@@ -140,79 +142,102 @@ class MsgExtension extends Message {
 
     if (this.author.bot || this.webhookID || blacklist !== null) return;
 
-    const prefix = await this.prefix(true);
-    if (this.content.toLowerCase().startsWith(prefix)) {
-      if (this.cooldown.has(this.guild ? this.guild.id : this.author.id))
-        return;
+    if (!this.guild) {
+      this.channel.startTyping();
+      const convo = conversations.get(this.author.id) ?? [];
+      conversations.set(this.author.id, convo);
+      const response = await cb(this.content, convo);
 
-      const { cmd, args, flags } = await this.commandProps();
+      convo.push(this.content);
+      setTimeout(() => convo.splice(convo.indexOf(this.content), 1), 120000);
 
-      if (cmd) {
-        try {
-          const check = await this.commandCheck(cmd, args, flags);
-          if (check !== true) return;
+      await this.reply(response || "Oops, I got nothing for that!");
 
-          await cmd.run(this, args, flags);
+      convo.push(response);
+      setTimeout(() => convo.splice(convo.indexOf(response), 1), 120000);
 
-          const cmdCooldown = this.client.cmd.commandCooldowns.get(
-            cmd.help.name
-          );
-          if (cmdCooldown) {
-            cmdCooldown.set(
-              cmd.config.guildOnlyCooldown
-                ? this.guild
-                  ? this.guild.id
-                  : this.author.id
-                : this.author.id,
-              Date.now()
+      this.channel.stopTyping();
+    } else {
+      const prefix = await this.prefix(true);
+      if (this.content.toLowerCase().startsWith(prefix)) {
+        if (this.cooldown.has(this.guild ? this.guild.id : this.author.id))
+          return;
+
+        const { cmd, args, flags } = await this.commandProps();
+
+        if (cmd) {
+          try {
+            const check = await this.commandCheck(cmd, args, flags);
+            if (check !== true) return;
+
+            await cmd.run(this, args, flags);
+
+            const cmdCooldown = this.client.cmd.commandCooldowns.get(
+              cmd.help.name
             );
+            if (cmdCooldown) {
+              cmdCooldown.set(
+                cmd.config.guildOnlyCooldown
+                  ? this.guild
+                    ? this.guild.id
+                    : this.author.id
+                  : this.author.id,
+                Date.now()
+              );
+              setTimeout(
+                () =>
+                  cmdCooldown.delete(
+                    cmd.config.guildOnlyCooldown
+                      ? this.guild
+                        ? this.guild.id
+                        : this.author.id
+                      : this.author.id
+                  ),
+                this.client.util.ms(cmd.config.cooldown)
+              );
+            }
+
+            this.cooldown.add(this.guild ? this.guild.id : this.author.id);
             setTimeout(
               () =>
-                cmdCooldown.delete(
-                  cmd.config.guildOnlyCooldown
-                    ? this.guild
-                      ? this.guild.id
-                      : this.author.id
-                    : this.author.id
+                this.cooldown.delete(
+                  this.guild ? this.guild.id : this.author.id
                 ),
-              this.client.util.ms(cmd.config.cooldown)
+              3000
             );
+
+            return { message: "Successfully ran the command" };
+          } catch (err) {
+            this.client.logger.error(err);
+            return this.client.errors.unknownErr(this);
           }
-
-          this.cooldown.add(this.guild ? this.guild.id : this.author.id);
-          setTimeout(
-            () =>
-              this.cooldown.delete(this.guild ? this.guild.id : this.author.id),
-            3000
-          );
-
-          return { message: "Successfully ran the command" };
-        } catch (err) {
-          this.client.logger.error(err);
-          return this.client.errors.unknownErr(this);
         }
-      }
-    } else {
-      if (this.content.match(new RegExp(`^<@!?${this.client.user.id}>( |)$`))) {
-        this.channel
-          .send(
-            `Hey there! I am **${
-              this.client.user.tag
-            }**! To get started just type \`${await this.prefix(false)}help\`!`
-          )
-          .then((m) => m.delete({ timeout: 20000 }));
-      }
+      } else {
+        if (
+          this.content.match(new RegExp(`^<@!?${this.client.user.id}>( |)$`))
+        ) {
+          this.channel
+            .send(
+              `Hey there! I am **${
+                this.client.user.tag
+              }**! To get started just type \`${await this.prefix(
+                false
+              )}help\`!`
+            )
+            .then((m) => m.delete({ timeout: 20000 }));
+        }
 
-      await this.afkCheck();
+        await this.afkCheck();
 
-      const chanData = await this.client.models.announcementChannel.findOne({
-        channelID: this.channel.id
-      });
-      if (chanData && chanData.autoAnnounce) {
-        await this.client.announce(
-          chanData,
-          this.content || this.embeds[0] || "No content available to announce"
-        );
+        const chanData = await this.client.models.announcementChannel.findOne({
+          channelID: this.channel.id
+        });
+        if (chanData && chanData.autoAnnounce) {
+          await this.client.announce(
+            chanData,
+            this.content || this.embeds[0] || "No content available to announce"
+          );
+        }
       }
     }
   }
