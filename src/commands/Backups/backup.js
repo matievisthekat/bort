@@ -18,19 +18,11 @@ module.exports = class extends Command {
 
   async run(msg, args, flags) {
     const m = await msg.channel.send(msg.loading("Creating backup..."));
-    const backup =
-      (await msg.client.models.backups.findOne({
-        guildID: msg.guild.id
-      })) ?? new msg.client.models.backups({ guildID: msg.guild.id });
-
     backups
       .create(msg.guild, {
         maxMessagesPerChannel: 10
       })
       .then(async (data) => {
-        backup.data = data;
-        await backup.save();
-
         await m.edit(
           msg.success(
             `Created backup \`${data.id}\`. Use \`${await msg.prefix(
