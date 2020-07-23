@@ -10,7 +10,7 @@ const client = new Bort({
   eventDir: resolve(__dirname, "./events/"),
   prefix: process.env.PREFIX || "/",
   token: process.env.TOKEN,
-  uri: process.env.URI,
+  uri: process.env.MONGO_URI,
   partials: ["REACTION"],
   translateAPIKey: process.env.YANDEX_API_KEY
 });
