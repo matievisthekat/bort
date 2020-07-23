@@ -5,7 +5,8 @@ src/corona-graph.png
 Lavalink.jar
 application.yml
 music.bat
-templates
+js-templates
+ts-templates
 
 # Logs
 logs
