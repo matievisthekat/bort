@@ -1,101 +1,102 @@
-const Command = require("../../structures/base/Command");
+const Command = require('../../structures/base/Command')
 
 module.exports = class AddSong extends Command {
-  constructor() {
+  constructor () {
     super({
-      name: "addsong",
-      category: "Music",
-      description: "Add a song to a playlist",
-      usage: "{playlist_name} {query | url}",
-      examples: ["test going down - tyler joseph"],
-      flags: ["list"],
-      cooldown: "10s"
-    });
+      name: 'addsong',
+      category: 'Music',
+      description: 'Add a song to a playlist',
+      usage: '{playlist_name} {query | url}',
+      examples: ['test going down - tyler joseph'],
+      flags: ['list'],
+      cooldown: '10s'
+    })
   }
 
-  async run(msg, args, flags) {
-    const pl = await msg.client.models.playlist.findOne({
+  async run (msg, args, flags) {
+    const pl = await msg.client.models.Playlist.findOne({
       userID: msg.author.id,
       name: args[0]
-    });
-    if (!pl)
+    })
+    if (!pl) {
       return msg.channel.send(
-        msg.warning("You do not own a playlist with that name!")
-      );
+        msg.warning('You do not own a playlist with that name!')
+      )
+    }
 
-    let track = null;
-    let failed = null;
+    let track = null
+    let failed = null
 
     const res = await msg.client.music
-      .search(args.slice(1).join(" "), msg.author)
-      .catch((_) => (failed = true));
-    if (!res || !res.tracks || !res.tracks[0] || failed)
+      .search(args.slice(1).join(' '), msg.author)
+      .catch((_) => (failed = true))
+    if (!res || !res.tracks || !res.tracks[0] || failed) {
       return await msg.client.errors.custom(
         msg,
         msg.channel,
-        "No results where found! Try again"
-      );
+        'No results where found! Try again'
+      )
+    }
 
-    if (flags["list"]) {
-      const tracks = res.tracks.slice(0, 9);
+    if (flags.list) {
+      const tracks = res.tracks.slice(0, 9)
 
-      const embed = new msg.client.embed()
+      const embed = new msg.client.Embed()
         .setDescription(
-          tracks.map((t, i) => `**[${i + 1}]** ${t.title}`).join("\n")
+          tracks.map((t, i) => `**[${i + 1}]** ${t.title}`).join('\n')
         )
-        .setFooter("Type 'cancel' to cancel | Times out in 30 seconds");
+        .setFooter("Type 'cancel' to cancel | Times out in 30 seconds")
 
-      msg.channel.send(embed);
+      msg.channel.send(embed)
 
       const col = await msg.channel.createMessageCollector(
         (m) => m.author.id === msg.author.id,
         { limit: 30000 }
-      );
+      )
 
-      col.on("collect", async (m) => {
-        if (/cancel|cancle/gi.test(m.content)) return await col.stop();
-        if (!/^[0-9]$/.test(m.content))
-          return msg.channel.send(msg.warning("Please enter a valid number"));
+      col.on('collect', async (m) => {
+        if (/cancel|cancle/gi.test(m.content)) return await col.stop()
+        if (!/^[0-9]$/.test(m.content)) { return msg.channel.send(msg.warning('Please enter a valid number')) }
 
-        const index = parseInt(m.content) - 1;
-        const selectedTrack = tracks[index];
-        if (!selectedTrack)
+        const index = parseInt(m.content) - 1
+        const selectedTrack = tracks[index]
+        if (!selectedTrack) {
           return await msg.client.errors.custom(
             msg,
             msg.channel,
-            "Invalid track selection. try again"
-          );
+            'Invalid track selection. try again'
+          )
+        }
 
-        await col.stop();
-        track = selectedTrack;
+        await col.stop()
+        track = selectedTrack
 
-        track.requester.currency = null;
-        track.requester.langModel = null;
+        track.requester.currency = null
+        track.requester.langModel = null
 
-        pl.tracks.push(track);
-        await pl.save().catch((err) => console.log(err.message));
+        pl.tracks.push(track)
+        await pl.save().catch((err) => console.log(err.message))
 
         msg.channel.send(
           msg.success(`Added **${track.title}** to **${pl.name}**`)
-        );
-      });
+        )
+      })
 
-      col.on("end", async (collected) => {
-        if (!collected.first(2))
-          return msg.channel.send(msg.warning("Selection timed out"));
-      });
+      col.on('end', async (collected) => {
+        if (!collected.first(2)) { return msg.channel.send(msg.warning('Selection timed out')) }
+      })
     } else {
-      track = res.tracks[0];
+      track = res.tracks[0]
 
-      track.requester.currency = null;
-      track.requester.langModel = null;
+      track.requester.currency = null
+      track.requester.langModel = null
 
-      pl.tracks.push(track);
-      await pl.save();
+      pl.tracks.push(track)
+      await pl.save()
 
       msg.channel.send(
         msg.success(`Added **${track.title}** to **${pl.name}**`)
-      );
+      )
     }
   }
-};
+}

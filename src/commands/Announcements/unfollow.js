@@ -1,83 +1,85 @@
-const Command = require("../../structures/base/Command");
+const Command = require('../../structures/base/Command')
 
 module.exports = class Unfollow extends Command {
-  constructor() {
+  constructor () {
     super({
-      name: "unfollow",
-      category: "Announcements",
-      description: "Unfollow an announcement channel",
-      usage: "{channel_ID}",
-      examples: ["704349050475905124"],
-      requiredPerms: ["MANAGE_WEBHOOKS"],
-      requiredClientPerms: ["MANAGE_WEBHOOKS"]
-    });
+      name: 'unfollow',
+      category: 'Announcements',
+      description: 'Unfollow an announcement channel',
+      usage: '{channel_ID}',
+      examples: ['704349050475905124'],
+      requiredPerms: ['MANAGE_WEBHOOKS'],
+      requiredClientPerms: ['MANAGE_WEBHOOKS']
+    })
   }
 
-  async run(msg, args, flags) {
-    const chanData = await msg.client.models.announcementChannel.findOne({
+  async run (msg, args, flags) {
+    const chanData = await msg.client.models.AnnouncementChannel.findOne({
       channelID: args[0]
-    });
-    if (!chanData)
+    })
+    if (!chanData) {
       return msg.channel.send(
-        new msg.client.embed().error(
-          "That channel is not an announcement channel"
+        new msg.client.Embed().error(
+          'That channel is not an announcement channel'
         )
-      );
+      )
+    }
 
-    const chan = msg.client.channels.cache.get(chanData.channelID);
+    const chan = msg.client.channels.cache.get(chanData.channelID)
     if (!chan) {
-      await chanData.delete();
+      await chanData.delete()
       return msg.channel.send(
         msg.warning(
           `**${chanData.name}** not longer exists. You will have to delete the webhook manually`
         )
-      );
+      )
     }
 
-    const previousWebhookData = await msg.client.models.announcementWebhook.findOne(
+    const previousWebhookData = await msg.client.models.AnnouncementWebhook.findOne(
       {
         guildID: msg.guild.id,
         channelID: msg.channel.id,
         followedChannelID: chanData.channelID
       }
-    );
-    if (!previousWebhookData)
+    )
+    if (!previousWebhookData) {
       return msg.channel.send(
         msg.warning(`This channel not following **${chanData.name}**`)
-      );
+      )
+    }
 
-    const webhookData = await msg.client.models.announcementWebhook.findOne({
+    const webhookData = await msg.client.models.AnnouncementWebhook.findOne({
       guildID: msg.guild.id,
       channelID: msg.channel.id,
       followedChannelID: chanData.channelID
-    });
+    })
 
     const webhook = await msg.client.fetchWebhook(
       webhookData.id,
       webhookData.token
-    );
-    if (webhook) await webhook.delete().catch(() => {});
+    )
+    if (webhook) await webhook.delete().catch(() => {})
 
-    await webhookData.delete();
+    await webhookData.delete()
 
-    chanData.subCount--;
+    chanData.subCount--
     chanData.subs.splice(
       chanData.subs.indexOf({
         token: webhookData.token,
         id: webhookData.id
       }),
       1
-    );
-    await chanData.save();
+    )
+    await chanData.save()
 
     await chan.setTopic(
       `Followers: ${chanData.subCount} | Use \`${await msg.prefix(
         false
       )}follow ${chanData.channelID}\` to follow this channel!`
-    );
+    )
 
     msg.channel.send(
       msg.success(`Successfully unfollowed **${chanData.name}**`)
-    );
+    )
   }
-};
+}

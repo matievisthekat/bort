@@ -1,9 +1,9 @@
-const emoji = require("./constants/emoji");
+const emoji = require('./constants/emoji')
 
 module.exports = {
   api: {
     port: 3001,
-    version: "v1",
+    version: 'v1',
     AUTH: process.env.API_AUTH
   },
   voteReward: `${emoji.coin} 100`,
@@ -15,148 +15,148 @@ module.exports = {
     loading: `${emoji.generating} **|**`
   },
   channels: {
-    releases: "700670099853410345",
-    vote: "701147297609941052",
-    join: "702972555715281058",
-    blacklist: ""
+    releases: '700670099853410345',
+    vote: '701147297609941052',
+    join: '702972555715281058',
+    blacklist: ''
   },
   roles: {
-    bot_updates: "704368262871515216"
+    bot_updates: '704368262871515216'
   },
   nodes: [
     {
-      host: "localhost",
+      host: 'localhost',
       port: 2333,
-      password: "youshallnotpass"
+      password: 'youshallnotpass'
     }
   ],
   links: [
     {
-      link: "https://github.com/MatievisTheKat/bort",
-      name: "GitHub",
+      link: 'https://github.com/MatievisTheKat/bort',
+      name: 'GitHub',
       emoji: emoji.github
     },
     {
-      link: "https://bort.matievisthekat.dev",
-      name: "Website",
+      link: 'https://bort.matievisthekat.dev',
+      name: 'Website',
       emoji: emoji.brand
     },
     {
-      link: "https://discord.gg/t65hRpd",
-      name: "Server",
+      link: 'https://discord.gg/t65hRpd',
+      name: 'Server',
       emoji: emoji.scroll
     }
   ],
   creators: {
-    tags: ["MatievisTheKat#4975"],
-    ids: ["492708936290402305"]
+    tags: ['MatievisTheKat#4975'],
+    ids: ['492708936290402305']
   },
-  defaultUserAvatarURL: "https://new.matievisthekat.dev/avatars/default.png",
-  supportGuildID: "673605613456195584",
+  defaultUserAvatarURL: 'https://new.matievisthekat.dev/avatars/default.png',
+  supportGuildID: '673605613456195584',
   staff: {
-    ids: ["695287250573066280", "492708936290402305"]
+    ids: ['695287250573066280', '492708936290402305']
   },
   tags: [
     {
-      name: "free hosting",
+      name: 'free hosting',
       content:
         'You may have heard of free hosting services like https://glitch.com and https://heroku.com and thought "Wow, I don\'t have to spend money to keep my bot online??" which is technically true but not ideal.\nFree hosting is not suited to keeping applications online over long periods of time. They are generally not reliable and (some) require some hacky methods to stay online\nIf you are looking to keep your bot (or any application) online you can check out the tag `hosting` for some great, affordable options'
     },
     {
-      name: "token leak",
+      name: 'token leak',
       content:
         'If someone gets hold of your bot\'s token there is no need to panic. Calmly make your way to https://discord.com/developers/applications and click on your bot\'s application. Go to the "Bot" tab and click "Regenerate Token".\nThis will render the leaked token useless and your bot will be safe once again'
     },
     {
-      name: "hosting",
+      name: 'hosting',
       content:
-        "*Please note none of these companies asked to be put here. bort has no obligation to any of these companies*\n\n__**Recommended**__\n[`Servercheap.net`](https://servercheap.net/crm/aff.php?aff=365) Starting at $2.99/month for 1GB ram, 30GB SSD, unmetered bandwidth and 1 CPU core\n\n__**More Options**__\n[`Oxide Hosting`](https://oxide.host) Starting at $4.39/month for 2GB ram, 32GB SSD, 1 CPU core, unmetered bandwidth\n[`Vultr`](https://www.vultr.com/) Starting at $2.50/month for 521MB ram, 10GB SSD, 1 CPU core, 0.50TB bandwidth\n[`Digital Ocean`](https://www.digitalocean.com/) Starting at $5/month for 1GB ram, 25GB SSD, 1TB bandwidth, 1 CPU core\n[`OVH`](https://www.ovhcloud.com/) Starting at $6/month for 2GB ram, 40 GB NVMe, unmetered bandwidth, 1 CPU core\n\n__**Bort uses**__\n[`Servercheap.net`](https://servercheap.net/crm/aff.php?aff=365) $4.82/month for 3GB ram, 60GB SSD, unmetered bandwidth, 2 CPU cores, free DNS management"
+        '*Please note none of these companies asked to be put here. bort has no obligation to any of these companies*\n\n__**Recommended**__\n[`Servercheap.net`](https://servercheap.net/crm/aff.php?aff=365) Starting at $2.99/month for 1GB ram, 30GB SSD, unmetered bandwidth and 1 CPU core\n\n__**More Options**__\n[`Oxide Hosting`](https://oxide.host) Starting at $4.39/month for 2GB ram, 32GB SSD, 1 CPU core, unmetered bandwidth\n[`Vultr`](https://www.vultr.com/) Starting at $2.50/month for 521MB ram, 10GB SSD, 1 CPU core, 0.50TB bandwidth\n[`Digital Ocean`](https://www.digitalocean.com/) Starting at $5/month for 1GB ram, 25GB SSD, 1TB bandwidth, 1 CPU core\n[`OVH`](https://www.ovhcloud.com/) Starting at $6/month for 2GB ram, 40 GB NVMe, unmetered bandwidth, 1 CPU core\n\n__**Bort uses**__\n[`Servercheap.net`](https://servercheap.net/crm/aff.php?aff=365) $4.82/month for 3GB ram, 60GB SSD, unmetered bandwidth, 2 CPU cores, free DNS management'
     }
   ],
   animals: {
     common: [
       {
-        name: "cat",
+        name: 'cat',
         price: 50
       },
       {
-        name: "dog",
+        name: 'dog',
         price: 45
       },
       {
-        name: "mouse",
+        name: 'mouse',
         price: 10
       },
       {
-        name: "chicken",
+        name: 'chicken',
         price: 34
       }
     ],
     uncommon: [
       {
-        name: "bird",
+        name: 'bird',
         price: 76
       },
       {
-        name: "eagle",
+        name: 'eagle',
         price: 100
       }
     ],
     legendary: [
       {
-        name: "dinasour",
+        name: 'dinasour',
         price: 12000
       },
       {
-        name: "electric dog",
+        name: 'electric dog',
         price: 13700
       },
       {
-        name: "ultra chicken",
+        name: 'ultra chicken',
         price: 15050
       }
     ],
     mythical: [
       {
-        name: "ultra dog",
+        name: 'ultra dog',
         price: 30500
       },
       {
-        name: "ultra dinasour",
+        name: 'ultra dinasour',
         price: 36670
       },
       {
-        name: "ultra eagle",
+        name: 'ultra eagle',
         price: 40780
       }
     ]
   },
   fish: [
-    { name: "salmon", price: 30 },
-    { name: "cod", price: 50 },
-    { name: "catfish", price: 40 },
-    { name: "tuna", price: 35 }
+    { name: 'salmon', price: 30 },
+    { name: 'cod', price: 50 },
+    { name: 'catfish', price: 40 },
+    { name: 'tuna', price: 35 }
   ],
   ores: [
     {
-      name: "iron",
+      name: 'iron',
       price: 100
     },
     {
-      name: "gold",
+      name: 'gold',
       price: 120
     },
     {
-      name: "coal",
+      name: 'coal',
       price: 134
     },
     {
-      name: "emerald",
+      name: 'emerald',
       price: 248
     },
     {
-      name: "diamond",
+      name: 'diamond',
       price: 670
     }
   ]
-};
+}

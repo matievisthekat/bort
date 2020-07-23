@@ -1,7 +1,7 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model } = require('mongoose')
 
-const announcementChannel = model(
-  "guild_channels",
+const AnnouncementChannel = model(
+  'guild_channels',
   new Schema({
     guildID: String,
     channelID: String,
@@ -11,18 +11,18 @@ const announcementChannel = model(
     name: String,
     avatarURL: String
   })
-);
+)
 
-const announcementChannels = model(
-  "all_guild_channels",
+const AnnouncementChannels = model(
+  'all_guild_channels',
   new Schema({
     clientID: String,
     channels: [String]
   })
-);
+)
 
-const announcementWebhook = model(
-  "wehooks",
+const AnnouncementWebhook = model(
+  'wehooks',
   new Schema({
     token: String,
     id: String,
@@ -30,32 +30,32 @@ const announcementWebhook = model(
     guildID: String,
     followedChannelID: String
   })
-);
+)
 
-const playlist = model(
-  "playlists",
+const Playlist = model(
+  'playlists',
   new Schema({
     userID: String,
     name: String,
     tracks: Array
   })
-);
+)
 
 module.exports = {
-  announcementChannel,
-  announcementChannels,
-  announcementWebhook,
-  playlist,
-  daily: model("dailies", new Schema({ userID: String })),
-  userLang: model(
-    "user_langs",
+  AnnouncementChannel,
+  AnnouncementChannels,
+  AnnouncementWebhook,
+  Playlist,
+  Daily: model('dailies', new Schema({ userID: String })),
+  UserLang: model(
+    'user_langs',
     new Schema({
       userID: String,
       lang: String
     })
   ),
-  clan: model(
-    "clans",
+  Clan: model(
+    'clans',
     new Schema({
       name: String,
       leaderID: String,
@@ -68,15 +68,15 @@ module.exports = {
       wallLevel: Number
     })
   ),
-  nicknamePrice: model(
-    "nicknames_prices",
+  NicknamePrice: model(
+    'nicknames_prices',
     new Schema({
       guildID: String,
       price: Number
     })
   ),
-  bank: model(
-    "banks",
+  Bank: model(
+    'banks',
     new Schema({
       guildID: String,
       amount: Number,
@@ -86,8 +86,8 @@ module.exports = {
       whitelistedMemberIDs: Array
     })
   ),
-  money: model(
-    "money",
+  Money: model(
+    'money',
     new Schema({
       userID: String,
       wallet: Number,
@@ -97,15 +97,15 @@ module.exports = {
       economyLevel: Number
     })
   ),
-  inv: model(
-    "animals",
+  Inv: model(
+    'animals',
     new Schema({
       userID: String,
       inv: [Object]
     })
   ),
-  rank: model(
-    "ranks",
+  Rank: model(
+    'ranks',
     new Schema({
       guildID: String,
       roleID: String,
@@ -116,23 +116,23 @@ module.exports = {
       setterID: String
     })
   ),
-  blacklist: model(
-    "blacklists",
+  Blacklist: model(
+    'blacklists',
     new Schema({
       id: String,
       reason: String,
       timestamp: String
     })
   ),
-  prefix: model(
-    "prefixes",
+  Prefix: model(
+    'prefixes',
     new Schema({
       guildID: String,
       prefix: String
     })
   ),
-  post: model(
-    "posts",
+  Post: model(
+    'posts',
     new Schema({
       userID: String,
       postMessageID: String,
@@ -140,39 +140,39 @@ module.exports = {
       downvotes: Number
     })
   ),
-  profile: model(
-    "profiles",
+  Profile: model(
+    'profiles',
     new Schema({
       userID: String,
       karma: Number,
       postCount: Number
     })
   ),
-  postChannel: model(
-    "post_channels",
+  PostChannel: model(
+    'post_channels',
     new Schema({
       guildID: String,
       public: Boolean,
       channelID: String
     })
   ),
-  afk: model(
-    "afks",
+  Afk: model(
+    'afks',
     new Schema({
       userID: String,
       reason: String,
       startTime: String
     })
   ),
-  suggestionChannel: model(
-    "suggestion_channels",
+  SuggestionChannel: model(
+    'suggestion_channels',
     new Schema({
       guildID: String,
       channelID: String
     })
   ),
-  suggestion: model(
-    "suggestions",
+  Suggestion: model(
+    'suggestions',
     new Schema({
       guildID: String,
       accepted: Boolean,
@@ -180,8 +180,8 @@ module.exports = {
       messageID: String
     })
   ),
-  reactionrole: model(
-    "reaction_roles",
+  Reactionrole: model(
+    'reaction_roles',
     new Schema({
       guildID: String,
       channelID: String,
@@ -190,4 +190,4 @@ module.exports = {
       emoji: String
     })
   )
-};
+}

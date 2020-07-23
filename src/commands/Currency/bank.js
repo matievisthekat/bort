@@ -1,53 +1,54 @@
-const Command = require("../../structures/base/Command");
+const Command = require('../../structures/base/Command')
 
 module.exports = class Bank extends Command {
-  constructor() {
+  constructor () {
     super({
-      name: "bank",
-      aliases: ["serverbank"],
-      category: "Currency",
+      name: 'bank',
+      aliases: ['serverbank'],
+      category: 'Currency',
       description: "View the current server's bank",
       requiresArgs: false,
       guildOnly: true,
       currency: true
-    });
+    })
   }
 
-  async run(msg, args, flags) {
-    const bank = msg.guild.bank;
-    if (!bank)
+  async run (msg, args, flags) {
+    const bank = msg.guild.bank
+    if (!bank) {
       return await msg.client.errors.custom(
         msg,
         msg.channel,
         `There is no bank loaded for this server! Please contact ${msg.client.config.creators.tags[0]} to fix this!`
-      );
+      )
+    }
 
     const blMembers = bank.blacklistedMemberIDs
       .map((id) => msg.guild.members.cache.get(id))
-      .join(", ");
+      .join(', ')
     const wlMembers = bank.whitelistedMemberIDs
       .map((id) => msg.guild.members.cache.get(id))
-      .join(", ");
+      .join(', ')
 
-    const embed = new msg.client.embed()
+    const embed = new msg.client.Embed()
       .setAuthor(msg.guild.name, msg.guild.iconURL())
       .setFooter(`Requested by ${msg.author.tag}`)
       .setTimestamp()
       .addField(
-        "General",
+        'General',
         `**Amount:** ${bank.amount.toLocaleString()}\n**Max Withdrawal Amount:** ${bank.maxWithdrawAmount.toLocaleString()}`
       )
       .addField(
-        "Information",
+        'Information',
         `**Blacklisted Members:** ${
-          blMembers || "[ None ]"
+          blMembers || '[ None ]'
         }\n**Whitelisted Members:** ${
-          wlMembers || "[ None ]"
+          wlMembers || '[ None ]'
         }\n**Whitelisted Role**: ${
-          msg.guild.roles.cache.get(bank.allowedRoleID) || "[ None ]"
+          msg.guild.roles.cache.get(bank.allowedRoleID) || '[ None ]'
         }`
-      );
+      )
 
-    msg.channel.send(embed);
+    msg.channel.send(embed)
   }
-};
+}

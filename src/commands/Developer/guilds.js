@@ -1,31 +1,31 @@
-const Command = require("../../structures/base/Command"),
-  hastebin = require("hastebin.js");
+const Command = require('../../structures/base/Command')
+const Hastebin = require('hastebin.js')
 
 module.exports = class Guilds extends Command {
-  constructor() {
+  constructor () {
     super({
-      name: "guilds",
-      aliases: ["servers"],
-      category: "Core",
-      description: "View all the servers the bot is in",
+      name: 'guilds',
+      aliases: ['servers'],
+      category: 'Core',
+      description: 'View all the servers the bot is in',
       requiresArgs: false,
       creatorOnly: true
-    });
+    })
   }
 
-  async run(msg, args, flags) {
-    if (msg.deletable) msg.delete();
+  async run (msg, args, flags) {
+    if (msg.deletable) msg.delete()
 
     const guilds = msg.client.guilds.cache
       .array()
       .sort((a, b) => b.members.cache.size - a.members.cache.size)
       .map((g) => `${g.members.cache.size} - ${g.name}`)
-      .join("\n");
+      .join('\n')
 
-    new hastebin()
+    new Hastebin()
       .post(guilds)
       .then((link) =>
         msg.author.send(`**Total Guilds** Ordered by member count: ${link}`)
-      );
+      )
   }
-};
+}

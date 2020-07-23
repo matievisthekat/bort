@@ -1,23 +1,23 @@
-const Command = require("../../structures/base/Command");
-const backups = require("discord-backup");
+const Command = require('../../structures/base/Command')
+const backups = require('discord-backup')
 
 module.exports = class extends Command {
-  constructor() {
+  constructor () {
     super({
-      name: "backup",
+      name: 'backup',
       aliases: [],
-      category: "Backups",
-      description: "Create a backup of this server",
-      cooldown: "30m",
+      category: 'Backups',
+      description: 'Create a backup of this server',
+      cooldown: '30m',
       guildOnlyCooldown: true,
       requiresArgs: false,
-      requiredPerms: ["ADMINISTRATOR"],
-      requiredClientPerms: ["ADMINISTRATOR"]
-    });
+      requiredPerms: ['ADMINISTRATOR'],
+      requiredClientPerms: ['ADMINISTRATOR']
+    })
   }
 
-  async run(msg, args, flags) {
-    const m = await msg.channel.send(msg.loading("Creating backup..."));
+  async run (msg, args, flags) {
+    const m = await msg.channel.send(msg.loading('Creating backup...'))
     backups
       .create(msg.guild, {
         maxMessagesPerChannel: 10
@@ -29,7 +29,7 @@ module.exports = class extends Command {
               false
             )}loadbackup ${data.id}\` to load this backup`
           )
-        );
-      });
+        )
+      })
   }
-};
+}

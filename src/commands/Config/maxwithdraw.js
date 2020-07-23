@@ -1,38 +1,39 @@
-const Command = require("../../structures/base/Command");
+const Command = require('../../structures/base/Command')
 
 module.exports = class MaxWithdraw extends Command {
-  constructor() {
+  constructor () {
     super({
-      name: "maxwithdraw",
+      name: 'maxwithdraw',
       aliases: [
-        "setmaxwithdrawamount",
-        "maxwithamt",
-        "maxwithdrawamt",
-        "maxwith"
+        'setmaxwithdrawamount',
+        'maxwithamt',
+        'maxwithdrawamt',
+        'maxwith'
       ],
-      category: "Config",
+      category: 'Config',
       description: "Set the max withdrawal amount for this guild's bank",
-      usage: "{amount}",
-      examples: ["100", "200"],
-      requiredPerms: ["MANAGE_GUILD"],
-      requiredClientPerms: ["MANAGE_GUILD"],
+      usage: '{amount}',
+      examples: ['100', '200'],
+      requiredPerms: ['MANAGE_GUILD'],
+      requiredClientPerms: ['MANAGE_GUILD'],
       currency: true
-    });
+    })
   }
 
-  async run(msg, args, flags) {
-    const amt = parseInt(args.join(" "));
-    if (!amt)
+  async run (msg, args, flags) {
+    const amt = parseInt(args.join(' '))
+    if (!amt) {
       return await msg.channel.send(
-        msg.warning("You must supply a valid amount!")
-      );
+        msg.warning('You must supply a valid amount!')
+      )
+    }
 
-    await msg.guild.bank.setMaxWithdrawAmount(amt);
+    await msg.guild.bank.setMaxWithdrawAmount(amt)
 
     await msg.channel.send(
       msg.success(
         `Set **${amt.toLocaleString()}** as the max withdrawal amount for this guild bank`
       )
-    );
+    )
   }
-};
+}

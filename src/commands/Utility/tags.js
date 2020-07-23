@@ -1,22 +1,20 @@
-const Command = require("../../structures/base/Command");
+const Command = require('../../structures/base/Command')
 
 module.exports = class Tags extends Command {
-  constructor() {
+  constructor () {
     super({
-      name: "tags",
-      category: "Utility",
-      description: "View available tags",
-      flags: ["embed"],
-      examples: [" --embed", ""],
-      requiresArgs: false,
-      
-    });
+      name: 'tags',
+      category: 'Utility',
+      description: 'View available tags',
+      flags: ['embed'],
+      examples: [' --embed', ''],
+      requiresArgs: false
+
+    })
   }
 
-  async run(msg, args, flags) {
-    const tags = msg.client.config.tags.map((t) => t.name).join(", ");
-    if (flags["embed"])
-      return msg.channel.send(new msg.client.embed().setDescription(tags).setAuthor("Available Tags", msg.client.user.displayAvatarURL()));
-    else return msg.channel.send(`__**Available Tags**__\n${tags}`);
+  async run (msg, args, flags) {
+    const tags = msg.client.config.tags.map((t) => t.name).join(', ')
+    if (flags.embed) { return msg.channel.send(new msg.client.Embed().setDescription(tags).setAuthor('Available Tags', msg.client.user.displayAvatarURL())) } else return msg.channel.send(`__**Available Tags**__\n${tags}`)
   }
-};
+}

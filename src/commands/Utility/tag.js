@@ -1,25 +1,24 @@
-const Command = require("../../structures/base/Command");
+const Command = require('../../structures/base/Command')
 
 module.exports = class Tag extends Command {
-  constructor() {
+  constructor () {
     super({
-      name: "tag",
-      aliases: ["t"],
-      category: "Utility",
-      description: "Use a tag",
-      usage: "{tag name}",
-      examples: ["free hosting", "token leak"],
-      
-    });
+      name: 'tag',
+      aliases: ['t'],
+      category: 'Utility',
+      description: 'Use a tag',
+      usage: '{tag name}',
+      examples: ['free hosting', 'token leak']
+
+    })
   }
 
-  async run(msg, args, flags) {
+  async run (msg, args, flags) {
     const tag = msg.client.config.tags.find(
-      (t) => t.name.toLowerCase() === args.join(" ").toLowerCase()
-    );
-    if (!tag)
-      return msg.channel.send(msg.warning("No tag with that name was found!"));
+      (t) => t.name.toLowerCase() === args.join(' ').toLowerCase()
+    )
+    if (!tag) { return msg.channel.send(msg.warning('No tag with that name was found!')) }
 
-    msg.channel.send(new msg.client.embed().blue.setDescription(tag.content));
+    msg.channel.send(new msg.client.Embed().blue.setDescription(tag.content))
   }
-};
+}

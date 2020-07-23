@@ -1,17 +1,16 @@
-const Event = require("../../structures/base/Event");
+const Event = require('../../structures/base/Event')
 
 module.exports = class extends Event {
-  constructor() {
-    super("messageUpdate");
+  constructor () {
+    super('messageUpdate')
   }
 
-  run(client, oldMsg, newMsg) {
+  run (client, oldMsg, newMsg) {
     if (
       oldMsg.content.toLowerCase() === newMsg.content.toLowerCase() ||
       oldMsg.author.bot
-    )
-      return;
+    ) { return }
 
-    newMsg.run();
+    newMsg.run()
   }
-};
+}

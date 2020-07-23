@@ -1,18 +1,18 @@
-const Command = require("../../structures/base/Command");
+const Command = require('../../structures/base/Command')
 
 module.exports = class Test extends Command {
-  constructor() {
+  constructor () {
     super({
-      name: "test",
-      category: "Developer",
-      description: "Run a test",
-      cooldown: "3s",
+      name: 'test',
+      category: 'Developer',
+      description: 'Run a test',
+      cooldown: '3s',
       requiresArgs: false,
-      creatorOnly: true,
-    });
+      creatorOnly: true
+    })
   }
 
-  run(msg, args, flags) {
-    return msg.channel.send("Test Worked #4!");
+  run (msg, args, flags) {
+    return msg.channel.send('Test Worked #4!')
   }
-};
+}

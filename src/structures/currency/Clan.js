@@ -1,13 +1,13 @@
-const { clan } = require("../../constants/models");
+const { ClanModel } = require('../../constants/models')
 
 module.exports = class Clan {
-  constructor(name, leader) {
-    this.name = name;
-    this.leader = leader;
+  constructor (name, leader) {
+    this.name = name
+    this.leader = leader
   }
 
-  async load() {
-    this.model = new clan({
+  async load () {
+    this.model = new ClanModel({
       name: this.name,
       leaderID: this.leader.id,
       memberIDs: [],
@@ -16,34 +16,34 @@ module.exports = class Clan {
       health: 20,
       maxHealth: 20,
       wallLevel: 1
-    });
+    })
 
-    await this.update();
+    await this.update()
 
-    await this.model.save();
-    return this.model;
+    await this.model.save()
+    return this.model
   }
 
-  async unload() {
-    if (!this.model) return true;
+  async unload () {
+    if (!this.model) return true
 
-    await this.model.delete();
+    await this.model.delete()
 
-    return true;
+    return true
   }
 
-  async update() {
-    if (!this.model) await this.load();
+  async update () {
+    if (!this.model) await this.load()
 
-    this.bank = this.model.bank;
-    this.members = this.model.memberIDs;
-    this.name = this.model.name;
-    this.iconURL = this.model.iconURL;
-    this.wallLevel = this.model.wallLevel;
-    this.pets = this.model.pets;
-    this.health = this.model.health;
-    this.maxHealth = this.model.maxHealth;
+    this.bank = this.model.bank
+    this.members = this.model.memberIDs
+    this.name = this.model.name
+    this.iconURL = this.model.iconURL
+    this.wallLevel = this.model.wallLevel
+    this.pets = this.model.pets
+    this.health = this.model.health
+    this.maxHealth = this.model.maxHealth
 
-    return this;
+    return this
   }
-};
+}

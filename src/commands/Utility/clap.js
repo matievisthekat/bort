@@ -1,19 +1,19 @@
-const Command = require("../../structures/base/Command");
+const Command = require('../../structures/base/Command')
 
 module.exports = class Clap extends Command {
-  constructor() {
+  constructor () {
     super({
-      name: "clap",
-      category: "Utility",
-      description: "Clapify a message!",
-      usage: "{text}",
-      examples: ["o o f", "clapping is nice"],
-      
-    });
+      name: 'clap',
+      category: 'Utility',
+      description: 'Clapify a message!',
+      usage: '{text}',
+      examples: ['o o f', 'clapping is nice']
+
+    })
   }
 
-  async run(msg, args, flags) {
-    const clapped = msg.client.util.clapString(args.join(" "));
-    msg.channel.send(clapped.replace(/@/gi, "@\u200b") || "Nothing to show");
+  async run (msg, args, flags) {
+    const clapped = msg.client.util.clapString(args.join(' '))
+    msg.channel.send(clapped.replace(/@/gi, '@\u200b') || 'Nothing to show')
   }
-};
+}

@@ -1,20 +1,20 @@
-const Command = require("../../structures/base/Command");
+const Command = require('../../structures/base/Command')
 
 module.exports = class Chill extends Command {
-  constructor() {
+  constructor () {
     super({
-      name: "rock",
-      category: "Music",
+      name: 'rock',
+      category: 'Music',
       description:
-        "Play an endless stream of chill music from twitch.tv/rock_radio",
+        'Play an endless stream of chill music from twitch.tv/rock_radio',
       guildOnlyCooldown: true,
       requiresArgs: false,
       guildOnly: true,
       voiceChannelOnly: true
-    });
+    })
   }
 
-  async run(msg, args, flags) {
-    new (require("./genre"))().run(msg, ["rock"], {});
+  async run (msg, args, flags) {
+    new (require('./genre'))().run(msg, ['rock'], {})
   }
-};
+}

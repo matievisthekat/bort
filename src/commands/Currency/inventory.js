@@ -1,32 +1,33 @@
-const Command = require("../../structures/base/Command");
+const Command = require('../../structures/base/Command')
 
 module.exports = class Inventory extends Command {
-  constructor() {
+  constructor () {
     super({
-      name: "inventory",
-      aliases: ["inv"],
-      category: "Currency",
-      description: "View your inventory",
+      name: 'inventory',
+      aliases: ['inv'],
+      category: 'Currency',
+      description: 'View your inventory',
       requiresArgs: false
-    });
+    })
   }
 
-  async run(msg, args, flags) {
-    const data = await msg.client.models.inv.findOne({
+  async run (msg, args, flags) {
+    const data = await msg.client.models.Inv.findOne({
       userID: msg.author.id
-    });
-    if (!data || data.inv.length < 1)
+    })
+    if (!data || data.inv.length < 1) {
       return msg.client.errors.custom(
         msg,
         msg.channel,
         "You don't have anything in your inventory!"
-      );
+      )
+    }
 
-    const embeds = [];
+    const embeds = []
 
     for (let index = 0; index < data.inv.length; index += 7) {
-      const embed = new msg.client.embed();
-      const items = data.inv.slice(index, index + 7);
+      const embed = new msg.client.Embed()
+      const items = data.inv.slice(index, index + 7)
       items.forEach((item) =>
         embed.addField(
           `**${item.name.toProperCase()}**`,
@@ -34,13 +35,13 @@ module.exports = class Inventory extends Command {
             msg.client.emoji.coin
           }${item.price.toLocaleString()}\n- ID: \`${item.name
             .toLowerCase()
-            .replace(/ +/gi, "")}\``
+            .replace(/ +/gi, '')}\``
         )
-      );
-      embeds.push(embed);
+      )
+      embeds.push(embed)
     }
 
-    if (embeds.length > 1) msg.client.util.paginate(msg, embeds);
-    else msg.channel.send(embeds[0]);
+    if (embeds.length > 1) msg.client.util.paginate(msg, embeds)
+    else msg.channel.send(embeds[0])
   }
-};
+}

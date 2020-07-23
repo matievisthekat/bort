@@ -1,41 +1,42 @@
-const Command = require("../../structures/base/Command");
+const Command = require('../../structures/base/Command')
 
 module.exports = class Announce extends Command {
-  constructor() {
+  constructor () {
     super({
-      name: "announce",
-      category: "Announcements",
-      description: "Announce a message to the channels followers",
-      usage: "{message}",
-      examples: ["hi"],
-      flags: ["embed"],
-      cooldown: "10s",
+      name: 'announce',
+      category: 'Announcements',
+      description: 'Announce a message to the channels followers',
+      usage: '{message}',
+      examples: ['hi'],
+      flags: ['embed'],
+      cooldown: '10s',
       guildOnlyCooldown: true
-    });
+    })
   }
 
-  async run(msg, args, flags) {
-    const data = await msg.client.models.announcementChannel.findOne({
+  async run (msg, args, flags) {
+    const data = await msg.client.models.AnnouncementChannel.findOne({
       channelID: msg.channel.id
-    });
-    if (!data)
+    })
+    if (!data) {
       return msg.channel.send(
-        new msg.client.embed().error(
+        new msg.client.Embed().error(
           `This is not an announcement channel! Use \`${await msg.prefix(
             false
           )}setup\` to fix this`
         )
-      );
+      )
+    }
 
-    const content = flags["embed"]
-      ? new msg.client.embed()
-          .setDescription(args.join(" "))
-          .setAuthor(msg.author.tag, msg.author.displayAvatarURL())
-      : args.join(" ");
+    const content = flags.embed
+      ? new msg.client.Embed()
+        .setDescription(args.join(' '))
+        .setAuthor(msg.author.tag, msg.author.displayAvatarURL())
+      : args.join(' ')
 
-    await msg.client.announce(data, content);
+    await msg.client.announce(data, content)
 
-    if (msg.deletable) await msg.delete();
-    msg.channel.send(content);
+    if (msg.deletable) await msg.delete()
+    msg.channel.send(content)
   }
-};
+}

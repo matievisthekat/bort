@@ -1,13 +1,13 @@
 module.exports = class Command {
-  constructor({
+  constructor ({
     name = undefined,
     aliases = undefined,
-    category = "Miscellaneous",
-    description = "No description found",
-    usage = "",
+    category = 'Miscellaneous',
+    description = 'No description found',
+    usage = '',
     examples = undefined,
     flags = undefined,
-    cooldown = "3s",
+    cooldown = '3s',
     guildOnlyCooldown = false,
     requiresArgs = true,
     requiredPerms = undefined,
@@ -18,7 +18,7 @@ module.exports = class Command {
     currency = false,
     disabled = false
   }) {
-    this.disabled = disabled;
+    this.disabled = disabled
 
     this.help = {
       name: name,
@@ -28,7 +28,7 @@ module.exports = class Command {
       usage: usage,
       examples: examples,
       flags: flags
-    };
+    }
 
     this.config = {
       cooldown: cooldown,
@@ -40,10 +40,10 @@ module.exports = class Command {
       creatorOnly: creatorOnly,
       voiceChannelOnly: voiceChannelOnly,
       currency: currency
-    };
+    }
   }
 
-  async run(msg, args, flags) {
-    msg.client.logger.warn("Command not implemented");
+  async run (msg, args, flags) {
+    msg.client.logger.warn('Command not implemented')
   }
-};
+}

@@ -1,11 +1,11 @@
-const Event = require("../../structures/base/Event");
+const Event = require('../../structures/base/Event')
 
 module.exports = class extends Event {
-  constructor() {
-    super("message");
+  constructor () {
+    super('message')
   }
 
-  run(client, msg) {
-    msg.run();
+  run (client, msg) {
+    msg.run()
   }
-};
+}

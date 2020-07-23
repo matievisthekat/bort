@@ -1,20 +1,21 @@
-const Event = require("../../structures/base/Event");
+const Event = require('../../structures/base/Event')
 
 module.exports = class extends Event {
-  constructor() {
-    super("guildDelete");
+  constructor () {
+    super('guildDelete')
   }
 
-  async run(client, guild) {
-    if (!guild.available) return;
-    client.logger.log(`Left ${guild.name}`);
+  async run (client, guild) {
+    if (!guild.available) return
+    client.logger.log(`Left ${guild.name}`)
 
-    const joinLog = client.channels.cache.get(client.config.channels.join);
-    if (joinLog)
+    const joinLog = client.channels.cache.get(client.config.channels.join)
+    if (joinLog) {
       joinLog.send(
-        new client.embed()
+        new client.Embed()
           .setAuthor(guild.name, guild.iconURL())
           .setColor(client.colours.red)
-      );
+      )
+    }
   }
-};
+}

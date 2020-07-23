@@ -1,30 +1,30 @@
-const Command = require("../../structures/base/Command");
+const Command = require('../../structures/base/Command')
 
 module.exports = class Uptime extends Command {
-  constructor() {
+  constructor () {
     super({
-      name: "uptime",
-      category: "Information",
+      name: 'uptime',
+      category: 'Information',
       description:
-        "View the amount of time since the last restart and the uptime of the process",
+        'View the amount of time since the last restart and the uptime of the process',
       requiresArgs: false
-    });
+    })
   }
 
-  async run(msg, args, flags) {
-    const embed = new msg.client.embed()
+  async run (msg, args, flags) {
+    const embed = new msg.client.Embed()
       .addField(
-        "Bot Uptime",
+        'Bot Uptime',
         msg.client.util.ms(msg.client.uptime, { long: true })
       )
       .addField(
-        "Process Uptime",
+        'Process Uptime',
         msg.client.util.ms(
-          msg.client.util.ms(`${process.uptime().toString().split(".")[0]}s`),
+          msg.client.util.ms(`${process.uptime().toString().split('.')[0]}s`),
           { long: true }
         )
-      );
+      )
 
-    msg.channel.send(embed);
+    msg.channel.send(embed)
   }
-};
+}

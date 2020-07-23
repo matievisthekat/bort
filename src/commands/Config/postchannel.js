@@ -1,83 +1,85 @@
-const Command = require("../../structures/base/Command");
+const Command = require('../../structures/base/Command')
 
 module.exports = class PostChannel extends Command {
-  constructor() {
+  constructor () {
     super({
-      name: "postchannel",
-      aliases: ["pc"],
-      category: "Config",
-      description: "Set the channel to receive posts. Default flags: public",
-      usage: "[set | get] <channel>",
+      name: 'postchannel',
+      aliases: ['pc'],
+      category: 'Config',
+      description: 'Set the channel to receive posts. Default flags: public',
+      usage: '[set | get] <channel>',
       examples: [
-        "set #posts --private",
-        "get",
-        "set #posts",
-        "set --public #posts"
+        'set #posts --private',
+        'get',
+        'set #posts',
+        'set --public #posts'
       ],
-      flags: ["public", "private"],
-      requiredPerms: ["MANAGE_CHANNELS"]
-    });
+      flags: ['public', 'private'],
+      requiredPerms: ['MANAGE_CHANNELS']
+    })
   }
 
-  async run(msg, args, flags) {
-    let data = await msg.client.models.postChannel.findOne({
+  async run (msg, args, flags) {
+    let data = await msg.client.models.PostChannel.findOne({
       guildID: msg.guild.id
-    });
+    })
+    let channel
 
     switch (args[0].toLowerCase()) {
-      case "get":
+      case 'get':
         msg.channel.send(
           data !== null
             ? msg.success(
-                `The set post channel is ${
-                  msg.guild.channels.cache.get(data.channelID) || `\`[ None ]\``
-                } with a state of ${data.public ? "`Public`" : "Private"}`
-              )
-            : msg.warning("No post channel data was found for this server")
-        );
-        break;
+              `The set post channel is ${
+              msg.guild.channels.cache.get(data.channelID) || '`[ None ]`'
+              } with a state of ${data.public ? '`Public`' : 'Private'}`
+            )
+            : msg.warning('No post channel data was found for this server')
+        )
+        break
 
-      case "set":
-        const channel = await msg.client.resolve("channel", args[1], msg.guild);
-        if (channel == null)
-          return msg.client.errors.invalidTarget(msg, msg.channel);
+      case 'set':
+        channel = await msg.client.resolve('channel', args[1], msg.guild)
+        if (channel == null) { return msg.client.errors.invalidTarget(msg, msg.channel) }
 
-        if (data === null)
-          data = new msg.client.models.postChannel({
+        if (data === null) {
+          data = new msg.client.models.PostChannel({
             guildID: msg.guild.id
-          });
+          })
+        }
 
-        data.channelID = channel.id;
-        data.public = flags["private"] ? false : true;
+        data.channelID = channel.id
+        data.public = !flags.private
 
         msg.channel.send(
           msg.success(
             `${channel} has been set as the posts channel for this server`
           )
-        );
+        )
 
         data.save().catch((err) => {
-          msg.client.logger.error(err, true);
-          msg.client.errors.saveFailr(msg, msg, err);
-        });
-        break;
+          msg.client.logger.error(err, true)
+          msg.client.errors.saveFailr(msg, msg, err)
+        })
+        break
 
-      case "delete":
-        if (data === null)
+      case 'delete':
+        if (data === null) {
           return await msg.client.errors.custom(
             msg,
             msg.channel,
-            "There is no post channel set!"
-          );
+            'There is no post channel set!'
+          )
+        }
 
-        data.delete();
+        data.delete()
 
-        msg.channel.send(msg.success("The post channel data has been deleted"));
-        break;
+        msg.channel.send(msg.success('The post channel data has been deleted'))
+        break
 
       default:
-        msg.client.errors.invalidArgs(msg, msg.channel, this.help.name);
-        break;
+        msg.client.errors.invalidArgs(msg, msg.channel, this.help.name)
+        break
     }
   }
-};
+}

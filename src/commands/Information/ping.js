@@ -1,56 +1,56 @@
-const Command = require("../../structures/base/Command");
-const mongoose = require("mongoose");
+const Command = require('../../structures/base/Command')
+const mongoose = require('mongoose')
 
 module.exports = class Ping extends Command {
-  constructor() {
+  constructor () {
     super({
-      name: "ping",
-      aliases: ["pong"],
-      category: "Information",
-      description: "View the latency of the bot, database and Discord",
-      requiresArgs: false,
-    });
+      name: 'ping',
+      aliases: ['pong'],
+      category: 'Information',
+      description: 'View the latency of the bot, database and Discord',
+      requiresArgs: false
+    })
   }
 
-  async run(msg, args, flags) {
+  async run (msg, args, flags) {
     msg.channel
       .send(`${msg.client.emoji.generating} Pinging...`)
       .then(async (m) => {
-        const msgPing = m.createdTimestamp - msg.createdTimestamp;
-        const dbConnect = Date.now();
+        const msgPing = m.createdTimestamp - msg.createdTimestamp
+        const dbConnect = Date.now()
 
         await mongoose.connect(msg.client.uri, {
           useNewUrlParser: true,
-          useUnifiedTopology: true,
-        });
+          useUnifiedTopology: true
+        })
 
-        const dbDone = Date.now();
+        const dbDone = Date.now()
 
-        const embed = new msg.client.embed()
-          .setDescription(msg.emojify("pong!"))
+        const embed = new msg.client.Embed()
+          .setDescription(msg.emojify('pong!'))
           .addField(
-            "Message",
+            'Message',
             `\`\`\`ini\n[ ${msg.client.util.ms(msgPing, {
-              long: true,
+              long: true
             })} ]\`\`\``,
             true
           )
           .addField(
-            "Database",
+            'Database',
             `\`\`\`ini\n[ ${msg.client.util.ms(dbDone - dbConnect, {
-              long: true,
+              long: true
             })} ]\`\`\``,
             true
           )
           .addField(
-            "Discord",
+            'Discord',
             `\`\`\`ini\n[ ${msg.client.util.ms(msg.client.ws.ping, {
-              long: true,
+              long: true
             })} ]\`\`\``,
             true
-          );
+          )
 
-        m.edit("", embed);
-      });
+        m.edit('', embed)
+      })
   }
-};
+}

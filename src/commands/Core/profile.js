@@ -1,42 +1,42 @@
-const Command = require("../../structures/base/Command");
+const Command = require('../../structures/base/Command')
 
 module.exports = class Profile extends Command {
-  constructor() {
+  constructor () {
     super({
-      name: "profile",
-      category: "Core",
-      description: "View the profile off someone",
-      usage: "<person>",
-      examples: ["@MatievisTheKat#4975", "492708936290402305", "", "matievis"],
+      name: 'profile',
+      category: 'Core',
+      description: 'View the profile off someone',
+      usage: '<person>',
+      examples: ['@MatievisTheKat#4975', '492708936290402305', '', 'matievis'],
       requiresArgs: false
-    });
+    })
   }
 
-  async run(msg, args, flags) {
-    const m = await msg.channel.send(msg.loading("Fetching user profile..."));
+  async run (msg, args, flags) {
+    const m = await msg.channel.send(msg.loading('Fetching user profile...'))
 
     const target = await msg.client.resolve(
-      "user",
-      args.join(" ") || msg.author.id,
+      'user',
+      args.join(' ') || msg.author.id,
       msg.guild
-    );
-    if (target === null) return m.edit(msg.warning("No target found"));
+    )
+    if (target === null) return m.edit(msg.warning('No target found'))
 
-    const profile = await msg.client.models.profile.findOne({
+    const profile = await msg.client.models.Profile.findOne({
       userID: target.id
-    });
+    })
 
-    const embed = new msg.client.embed()
+    const embed = new msg.client.Embed()
       .setAuthor(target.tag)
       .setThumbnail(
         target.displayAvatarURL({
           size: 512,
           dynamic: true,
-          format: "png"
+          format: 'png'
         })
       )
       .addField(
-        "Posts & Karma",
+        'Posts & Karma',
         `**Total Posts:** ${
           profile !== null ? profile.postCount : 0
         }\n**Karma:** ${profile !== null ? profile.karma : 0}`,
@@ -45,8 +45,8 @@ module.exports = class Profile extends Command {
       .setFooter(
         `Requested by ${msg.author.tag}`,
         msg.author.displayAvatarURL({ dynamic: true })
-      );
+      )
 
-    m.edit("", embed);
+    m.edit('', embed)
   }
-};
+}
