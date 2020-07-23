@@ -9,7 +9,7 @@ module.exports = class Setup extends Command {
       cooldown: "5s",
       requiresArgs: false,
       requiredPerms: ["MANAGE_CHANNELS"],
-      requriedClientPerms: ["MANAGE_WEBHOOKS", "MANAGE_CHANNELS"]
+      requiredClientPerms: ["MANAGE_WEBHOOKS", "MANAGE_CHANNELS"]
     });
   }
 

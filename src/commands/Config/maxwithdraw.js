@@ -15,7 +15,7 @@ module.exports = class MaxWithdraw extends Command {
       usage: "{amount}",
       examples: ["100", "200"],
       requiredPerms: ["MANAGE_GUILD"],
-      requriedClientPerms: ["MANAGE_GUILD"],
+      requiredClientPerms: ["MANAGE_GUILD"],
       currency: true
     });
   }

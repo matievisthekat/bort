@@ -11,7 +11,7 @@ module.exports = class ReactionRole extends Command {
       examples: ["700663316091240478 :clap: Master"],
       cooldown: "5s",
       requiredPerms: ["MANAGE_ROLES"],
-      requriedClientPerms: ["MANAGE_ROLES"]
+      requiredClientPerms: ["MANAGE_ROLES"]
     });
   }
 

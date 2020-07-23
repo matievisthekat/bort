@@ -10,7 +10,7 @@ module.exports = class Follow extends Command {
       examples: ["674347014930038815"],
       cooldown: "5s",
       requiredPerms: ["MANAGE_CHANNELS"],
-      requriedClientPerms: ["MANAGE_WEBHOOKS"]
+      requiredClientPerms: ["MANAGE_WEBHOOKS"]
     });
   }
 

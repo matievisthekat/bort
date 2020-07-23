@@ -11,7 +11,7 @@ module.exports = class Deny extends Command {
       examples: ["703163522917335122 just no", "700663316091240478"],
       cooldown: "5s",
       requiredPerms: ["MANAGE_MESSAGES"],
-      requriedClientPerms: ["MANAGE_MESSAGES"]
+      requiredClientPerms: ["MANAGE_MESSAGES"]
     });
   }
 

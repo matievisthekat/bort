@@ -14,7 +14,7 @@ module.exports = class Accept extends Command {
       ],
       cooldown: "5s",
       requiredPerms: ["MANAGE_MESSAGES"],
-      requriedClientPerms: ["MANAGE_MESSAGES"]
+      requiredClientPerms: ["MANAGE_MESSAGES"]
     });
   }
 

@@ -13,7 +13,7 @@ module.exports = class MentionRole extends Command {
       cooldown: "8s",
       guildOnlyCooldown: true,
       requiredPerms: ["MANAGE_ROLES"],
-      requriedClientPerms: ["MANAGE_ROLES"]
+      requiredClientPerms: ["MANAGE_ROLES"]
     });
   }
 

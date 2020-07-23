@@ -10,7 +10,7 @@ module.exports = class Remove extends Command {
       examples: ["#news", "89634723649871243"],
       cooldown: "5s",
       requiredPerms: ["MANAGE_CHANNELS"],
-      requriedClientPerms: ["MANAGE_CHANNELS"]
+      requiredClientPerms: ["MANAGE_CHANNELS"]
     });
   }
 

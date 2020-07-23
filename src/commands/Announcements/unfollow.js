@@ -9,7 +9,7 @@ module.exports = class Unfollow extends Command {
       usage: "{channel_ID}",
       examples: ["704349050475905124"],
       requiredPerms: ["MANAGE_WEBHOOKS"],
-      requriedClientPerms: ["MANAGE_WEBHOOKS"]
+      requiredClientPerms: ["MANAGE_WEBHOOKS"]
     });
   }
 
