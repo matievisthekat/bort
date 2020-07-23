@@ -46,6 +46,13 @@ module.exports = {
   announcementChannels,
   announcementWebhook,
   playlist,
+  backups: model(
+    "backups",
+    new Schema({
+      guildID: String,
+      data: Object
+    })
+  ),
   daily: model("dailies", new Schema({ userID: String })),
   userLang: model(
     "user_langs",
