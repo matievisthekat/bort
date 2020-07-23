@@ -1,4 +1,5 @@
 module.exports = {
+  backups: ":dividers:",
   x_: "<:xemoji:672073562307297293>",
   check: "<:checkemoji:672073550886338626>",
   coin: "<:coin:682636700648079370>",
