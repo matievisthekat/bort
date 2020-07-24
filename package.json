@@ -5,10 +5,10 @@
   "main": "src/index.js",
   "scripts": {
     "test": "tsc",
-    "start": "tsc && node dist/bot/index.js"
+    "start": "clear && tsc && node dist/bot/index.js"
   },
   "author": "",
-  "license": "ISC",
+  "license": "GPL-3",
   "dependencies": {
     "@types/pg": "^7.14.4",
     "chalk": "^4.0.0",
