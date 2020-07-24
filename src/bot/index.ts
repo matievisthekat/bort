@@ -32,7 +32,26 @@ const client = new Bot(
       database: process.env.PG_DATABASE,
       user: process.env.PG_USER,
       password: process.env.PG_PASSWORD,
-      port: parseInt(process.env.PG_PORT)
+      port: parseInt(process.env.PG_PORT),
+      tables: [
+        {
+          name: "Testing",
+          contraints: ["NOT NULL"],
+          cols: [
+            {
+              name: "user_id",
+              dataType: "TEXT",
+              contraints: ["PRIMARY KEY", "NOT NULL"],
+            },
+            {
+              name: "user_name",
+              dataType: "VARCHAR",
+              length: 50,
+              contraints: ["NOT NULL"]
+            }
+          ]
+        }
+      ]
     }
   }
 );
@@ -40,5 +59,7 @@ const client = new Bot(
 client.cmd.on("ready", (commands) => client.logger.log(`Loaded ${commands.size} commands`));
 client.evnt.on("ready", (events) => client.logger.log(`Loaded ${events.size} events`));
 client.db.on("ready", (connection) => client.logger.log("Connected to database"));
+
+client.db.on("error", (err) => client.logger.error(`DATABASE: ${err}`));
 
 client.load().then(() => client.logger.log("Successfully initialized"));

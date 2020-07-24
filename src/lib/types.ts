@@ -13,6 +13,30 @@ export interface IDatabaseOpts {
   password: string;
   user: string;
   port: number;
+  tables?: Array<IDatabaseTable>;
+}
+
+/*
+NOT NULL      https://www.postgresqltutorial.com/postgresql-not-null-constraint/
+UNIQUE        https://www.postgresqltutorial.com/postgresql-unique-constraint/
+PRIMARY KEY   https://www.postgresqltutorial.com/postgresql-primary-key/
+CHECK         https://www.postgresqltutorial.com/postgresql-check-constraint/
+FOREIGN KEY   https://www.postgresqltutorial.com/postgresql-foreign-key/
+*/
+export type DatabaseContraint = "NOT NULL" | "UNIQUE" | "PRIMARY KEY" | "CHECK" | "FOREIGN KEY";
+
+// https://www.postgresqltutorial.com/postgresql-data-types/
+export type DataType = "bool" | "boolean" | "CHAR" | "VARCHAR" | "TEXT" | "SMALLINT" | "INT" | "SERIAL" | "float" | "real" | "float8" | "numeric" | "DATE" | "TIME" | "TIMESTAMP" | "TIMESTAMPZ" | "INTERVAL" | "JSON" | "JSONB" | "UUID" | "box" | "line" | "point" | "lseg" | "polygon" | "inet" | "macaddr";
+
+export interface IDatabaseTable {
+  name: string;
+  contraints: Array<DatabaseContraint>;
+  cols: Array<{
+    name: string;
+    dataType: DataType;
+    length?: number;
+    contraints: Array<DatabaseContraint>;
+  }>;
 }
 
 export interface ICommandOpts {
@@ -54,6 +78,9 @@ export interface ICommandOptsRun {
 
 export interface IConfig {
   emoji: object;
+  database: {
+    tables: Array<object>;
+  };
   embed: {
     colour: any;
   };
