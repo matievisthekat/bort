@@ -11,7 +11,7 @@ export class Arg {
 export class Command extends EventEmitter {
   public cooldown: Collection<string, number> = new Collection();
 
-  constructor(private client: Bot, public readonly opts: types.ICommand) {
+  constructor(private client: Bot, public readonly opts: types.ICommandOpts) {
     super(...arguments);
 
     this.opts.usage = this.opts.args?.map((a) => `${a.required ? "{" : "<"}${a.name}${a.required ? "}" : ">"}`).join(" ");
@@ -25,7 +25,7 @@ export class Command extends EventEmitter {
    * @param {Object} flags The flags this command was run with
    * @returns A promise
    */
-  async run(msg, { command, args, flags }: types.ICommandRun): Promise<any> {
+  async run(msg, { command, args, flags }: types.ICommandOptsRun): Promise<any> {
     msg.client.logger.warn(`Command without a run method at ${this.opts.__filename}`);
   }
 
