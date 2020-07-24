@@ -7,7 +7,15 @@ export interface IArg {
   required?: boolean;
 }
 
-export interface ICommand {
+export interface IDatabaseOpts {
+  host: string;
+  database: string;
+  password: string;
+  user: string;
+  port: number;
+}
+
+export interface ICommandOpts {
   name: string;
   aliases?: Array<string>;
   description: string;
@@ -27,7 +35,7 @@ export interface IEvent {
   __filename: string;
 }
 
-export interface IBot {
+export interface IBotOpts {
   token: string;
   prefix: string;
   devs: Array<string>;
@@ -35,24 +43,23 @@ export interface IBot {
   command_dir: string;
   config: IConfig;
   mongo_uri: string;
+  database: IDatabaseOpts;
 }
 
-export interface ICommandRun {
+export interface ICommandOptsRun {
   command: Command;
   args: Array<string>;
   flags: any;
 }
 
-export interface IConfigEmbed {
-  colour: any;
-}
-
 export interface IConfig {
   emoji: object;
-  embed: IConfigEmbed;
+  embed: {
+    colour: any;
+  };
 }
 
-export interface ICommandDone {
+export interface ICommandOptsDone {
   done: boolean;
 }
 

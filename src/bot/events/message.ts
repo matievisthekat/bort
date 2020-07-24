@@ -90,7 +90,7 @@ export default class Ready extends CustomEvent {
       }
 
       // Run the command once all checks are complete
-      const res: types.ICommandDone = await command.run(msg, { command, args, flags });
+      const res: types.ICommandOptsDone = await command.run(msg, { command, args, flags });
       if (res && res.done === true) {
         return command.emit("run", msg, { command, args, flags });
       }
