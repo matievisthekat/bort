@@ -17,7 +17,7 @@ export class Logger {
    * @public
    */
   public log(msg: any): void {
-    console.log(`[${chalk.grey(this.date)}] ${chalk.bold(msg)}`);
+    console.log(`${chalk.grey(this.date)}   ${chalk.bold("LOG  ")} ${msg}`);
   }
 
   /**
@@ -26,7 +26,7 @@ export class Logger {
    * @public
    */
   public warn(msg: any): void {
-    console.log(`[${chalk.grey(this.date)}] ${chalk.yellow(msg)}`);
+    console.log(`${chalk.grey(this.date)}   ${chalk.yellow("WARN ")} ${msg}`);
   }
 
   /**
@@ -35,7 +35,7 @@ export class Logger {
    * @public
    */
   public info(msg: any): void {
-    console.log(`[${chalk.grey(this.date)}] ${chalk.green(msg)}`);
+    console.log(`${chalk.grey(this.date)}   ${chalk.green("INFO ")} ${msg}`);
   }
 
   /**
@@ -44,6 +44,6 @@ export class Logger {
    * @public
    */
   public error(msg: any): void {
-    console.log(`[${chalk.grey(this.date)}] ${chalk.red(msg)}`);
+    console.log(`${chalk.grey(this.date)}   ${chalk.red("ERROR")} ${msg}`);
   }
 }
