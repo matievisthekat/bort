@@ -10,7 +10,7 @@ export class Bot extends Client {
   public readonly devs: Array<string>;
   public readonly config: types.IConfig;
 
-  constructor(baseOpts: ClientOptions, opts: types.IBot) {
+  constructor(baseOpts: ClientOptions, opts: types.IBotOpts) {
     super(baseOpts);
 
     this.token = opts.token;
@@ -20,7 +20,7 @@ export class Bot extends Client {
 
     this.evnt = new EventManager(this, opts.event_dir);
     this.cmd = new CommandManager(this, opts.command_dir);
-    this.db = new Database();
+    this.db = new Database(opts.database);
     this.logger = new Logger();
   }
 
