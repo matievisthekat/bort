@@ -14,6 +14,7 @@ export interface IDatabaseOpts {
   user: string;
   port: number;
   tables?: Array<IDatabaseTable>;
+  startUpQuries?: Array<string>;
 }
 
 /*

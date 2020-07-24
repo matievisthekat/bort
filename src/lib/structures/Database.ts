@@ -1,11 +1,13 @@
 import { EventEmitter } from "events";
 import { Client, QueryResult, QueryConfig } from "pg";
-import { IDatabaseOpts } from "../types";
+import { IDatabaseOpts, IDatabaseTable } from "../types";
 import { Logger } from "../";
 
 export class Database extends EventEmitter {
   private client: Client;
   private logger: Logger = new Logger();
+  private tables: Array<IDatabaseTable>;
+  private startUpQuries: Array<string>;
 
   constructor (opts: IDatabaseOpts) {
     super();
@@ -22,20 +24,8 @@ export class Database extends EventEmitter {
     this.client.on("notification", (message) => this.logger.warn(`DATABASE: ${message}`));
     this.client.on("notice", (notice) => this.logger.info(`DATABASE: ${notice.message}`));
 
-    if (opts.tables) {
-      (async () => {
-        for (const table of opts.tables) {
-          const query = `
-            CREATE TABLE IF NOT EXISTS ${table.name} (
-              ${table.cols.map(col => `${col.name} ${col.dataType}${col.length ? `(${col.length})` : ""} ${col.contraints.join(" ")}`).join(",\n")}
-              ${table.contraints.join(" ")}
-            );
-          `;
-
-          await this.query(query);
-        }
-      })();
-    }
+    this.tables = opts.tables;
+    this.startUpQuries = opts.startUpQuries;
   }
 
   /**
@@ -44,6 +34,26 @@ export class Database extends EventEmitter {
    */
   public async load(): Promise<any> {
     const connection = await this.client.connect();
+
+    if (this.tables) {
+      for (const table of this.tables) {
+        const query = `
+            CREATE TABLE IF NOT EXISTS ${table.name} (
+              ${table.cols.map(col => `${col.name} ${col.dataType}${col.length ? `(${col.length})` : ""} ${col.contraints.join(" ")}`).join(",\n")}
+              ${table.contraints.join(" ")}
+            );
+          `;
+
+        await this.query(query);
+      }
+    }
+
+    if (this.startUpQuries) {
+      for (const query of this.startUpQuries) {
+        await this.query(query);
+      }
+    }
+
     this.emit("ready", connection);
   }
 
