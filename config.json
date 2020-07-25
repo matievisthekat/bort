@@ -13,5 +13,10 @@
       "default": ":warning:"
     }
   },
+  "colours": {
+    "green": "#00CC33",
+    "red": "#FF0033",
+    "yellow": "#FFCC33"
+  },
   "onDatabaseStartUp": {}
 }

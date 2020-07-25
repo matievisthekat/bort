@@ -88,17 +88,26 @@ export interface ICommandOptsRun {
 
 export interface IConfig {
   emoji: object;
-  database: {
-    tables: Array<object>;
+  colours: {
+    default: string;
+    green: string;
+    red: string;
+    yellow: string;
   };
-  embed: {
-    colour: any;
-  };
+  onDatabaseStartUp?: object;
 }
 
 export interface ICommandOptsDone {
   done: boolean;
 }
+
+export interface IExecuteResult {
+  stdin: string,
+  stdout: string,
+  stderr: string,
+  error: Error | string;
+}
+
 
 declare module "discord.js" {
   interface Client {
@@ -111,6 +120,6 @@ declare module "discord.js" {
   interface Message {
     warn(msg: string | MessageEmbed, channel?: TextChannel | DMChannel | NewsChannel): Promise<any>;
     success(msg: string | MessageEmbed, channel?: TextChannel | DMChannel | NewsChannel): Promise<any>;
-    embed: Embed;
+    embed(): Embed;
   }
 }
