@@ -1,8 +1,6 @@
 import { config } from "dotenv";
 import { Bot } from "../lib";
-import { join, parse } from "path";
-
-require("../lib/structures/extend/Message");
+import { join } from "path";
 
 config({
   path: join(__dirname, "../../", ".env")
@@ -33,25 +31,33 @@ const client = new Bot(
       user: process.env.PG_USER,
       password: process.env.PG_PASSWORD,
       port: parseInt(process.env.PG_PORT),
-      tables: [
-        {
-          name: "Testing",
-          contraints: ["NOT NULL"],
-          cols: [
+      onStartUp: {
+        tables: {
+          create: [
             {
-              name: "user_id",
-              dataType: "TEXT",
-              contraints: ["PRIMARY KEY", "NOT NULL"],
-            },
-            {
-              name: "user_name",
-              dataType: "VARCHAR",
-              length: 50,
-              contraints: ["NOT NULL"]
+              name: "testing",
+              contraints: ["NOT NULL"],
+              cols: [
+                {
+                  name: "user_id",
+                  dataType: "TEXT",
+                  contraints: ["PRIMARY KEY", "NOT NULL"],
+                },
+                {
+                  name: "user_name",
+                  dataType: "VARCHAR",
+                  length: 50,
+                  contraints: ["NOT NULL"]
+                }
+              ]
             }
           ]
-        }
-      ]
+        },
+        quries: [
+          "INSERT INTO testing(user_id, user_name) VALUES(12345678, 'matievisthekat')",
+          "SELECT * FROM testing"
+        ]
+      },
     }
   }
 );
@@ -59,7 +65,6 @@ const client = new Bot(
 client.cmd.on("ready", (commands) => client.logger.log(`Loaded ${commands.size} commands`));
 client.evnt.on("ready", (events) => client.logger.log(`Loaded ${events.size} events`));
 client.db.on("ready", (connection) => client.logger.log("Connected to database"));
-
 client.db.on("error", (err) => client.logger.error(`DATABASE: ${err}`));
 
 client.load().then(() => client.logger.log("Successfully initialized"));
