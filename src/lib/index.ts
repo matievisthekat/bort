@@ -1,5 +1,4 @@
-require("./structures/extend/String");
-require("./structures/extend/Message");
+["String", "User", "Message"].forEach(extension => require(`./structures/extend/${extension}`));
 
 export * from "./structures/Client";
 export * from "./structures/base/Command";
@@ -10,4 +9,4 @@ export * from "./structures/Database";
 export * from "./structures/Logger";
 export * from "./structures/Embed";
 export * as types from "./types";
-export { Util } from "./structures/Util";
+export * from "./structures/Util";

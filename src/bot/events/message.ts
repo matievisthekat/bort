@@ -51,7 +51,7 @@ export default class Ready extends CustomEvent {
       }
 
       // If the author is not a developer and the command is locked to devOnly send an error
-      if (command.opts.devOnly && !client.devs.includes(msg.author.id)) {
+      if (command.opts.devOnly && !msg.author.developer) {
         return await msg.warn("That command is locked to developers only!");
       }
 
@@ -90,7 +90,7 @@ export default class Ready extends CustomEvent {
       }
 
       // Run the command once all checks are complete
-      const res: types.ICommandOptsDone = await command.run(msg, { command, args, flags });
+      const res = await command.run(msg, { command, args, flags });
       if (res && res.done === true) {
         return command.emit("run", msg, { command, args, flags });
       }

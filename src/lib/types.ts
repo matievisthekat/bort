@@ -1,6 +1,8 @@
 import { CommandManager, EventManager, Command } from "./";
 import { PermissionString } from "discord.js";
 import { Embed } from "./structures/Embed";
+import { User } from "discord.js";
+import { UserResolvable } from "discord.js";
 
 export interface IArg {
   name: string;
@@ -115,6 +117,7 @@ declare module "discord.js" {
     cmd: CommandManager;
     evnt: EventManager;
     config: IConfig;
+    devs: Array<UserResolvable>;
   }
 
   interface Message {
@@ -122,5 +125,9 @@ declare module "discord.js" {
     success(msg: string | MessageEmbed, channel?: TextChannel | DMChannel | NewsChannel): Promise<any>;
     embed(): Embed;
     emoji(type: string): string;
+  }
+
+  interface User {
+    developer: boolean;
   }
 }

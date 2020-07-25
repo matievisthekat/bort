@@ -1,5 +1,6 @@
 import { Client, ClientOptions } from "discord.js";
-import { CommandManager, EventManager, Logger, types, Database, Embed } from "../";
+import { CommandManager, EventManager, Logger, types, Database } from "../";
+import { UserResolvable } from "discord.js";
 
 export class Bot extends Client {
   public evnt: EventManager;
@@ -7,7 +8,7 @@ export class Bot extends Client {
   public logger: Logger;
   public db: Database;
   public readonly prefix: string;
-  public readonly devs: Array<string>;
+  public readonly devs: Array<UserResolvable>;
   public readonly config: types.IConfig;
 
   constructor(baseOpts: ClientOptions, opts: types.IBotOpts) {
