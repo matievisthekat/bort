@@ -63,7 +63,7 @@ Structures.extend("Message", (Message) => class extends Message {
    * @returns {Embed} A new embed
    * @public
    */
-  public get embed() {
+  public embed() {
     return new Embed();
   }
 });

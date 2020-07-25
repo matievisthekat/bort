@@ -10,4 +10,4 @@ export * from "./structures/Database";
 export * from "./structures/Logger";
 export * from "./structures/Embed";
 export * as types from "./types";
-export * as util from "./structures/util/util";
+export { Util } from "./structures/Util";

@@ -27,6 +27,7 @@ export default class extends Command {
    */
   public async run(msg: Message, { command, args, flags }: types.ICommandOptsRun): Promise<types.ICommandOptsDone> {
     const commands = msg.client.cmd.commands;
+    const embed = msg.embed();
 
     if (!args[0]) {
       const categories: Array<string> = [... new Set(commands.map(cmd => cmd.opts.category.toLowerCase()))];
@@ -34,12 +35,13 @@ export default class extends Command {
         const categoryCommands = commands.filter(cmd => cmd.opts.category.toLowerCase() === category);
         if (!categoryCommands) continue;
 
-        
+        embed.addField(category, categoryCommands.map(c => `\`${c.opts.name}\``).join(", "));
       }
+
+      await msg.channel.send(embed);
+      return { done: true };
     } else {
 
     }
-
-    return { done: true };
   }
 }
