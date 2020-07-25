@@ -1,10 +1,12 @@
-import { config } from "dotenv";
+import { config as dotenv } from "dotenv";
 import { Bot } from "../lib";
 import { join } from "path";
 
-config({
+dotenv({
   path: join(__dirname, "../../", ".env")
 });
+
+const config = require(join(__dirname, "../..", "config.json"));
 
 const client = new Bot(
   {
@@ -24,40 +26,14 @@ const client = new Bot(
     devs: ["492708936290402305"],
     event_dir: join(__dirname, "events"),
     command_dir: join(__dirname, "commands"),
-    config: require(join(__dirname, "../..", "config.json")),
+    config,
     database: {
       host: process.env.PG_HOST,
       database: process.env.PG_DATABASE,
       user: process.env.PG_USER,
       password: process.env.PG_PASSWORD,
       port: parseInt(process.env.PG_PORT),
-      onStartUp: {
-        tables: {
-          create: [
-            {
-              name: "testing",
-              contraints: ["NOT NULL"],
-              cols: [
-                {
-                  name: "user_id",
-                  dataType: "TEXT",
-                  contraints: ["PRIMARY KEY", "NOT NULL"],
-                },
-                {
-                  name: "user_name",
-                  dataType: "VARCHAR",
-                  length: 50,
-                  contraints: ["NOT NULL"]
-                }
-              ]
-            }
-          ]
-        },
-        quries: [
-          "INSERT INTO testing(user_id, user_name) VALUES(12345678, 'matievisthekat')",
-          "SELECT * FROM testing"
-        ]
-      },
+      onStartUp: config.onDatabaseStartUp
     }
   }
 );

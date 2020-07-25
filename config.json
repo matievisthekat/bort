@@ -12,5 +12,32 @@
       "custom": "<:warn:733277985133690881>",
       "default": ":warning:"
     }
+  },
+  "onDatabaseStartUp": {
+    "tables": {
+      "create": [
+        {
+          "name": "testing",
+          "contraints": ["NOT NULL"],
+          "cols": [
+            {
+              "name": "user_id",
+              "dataType": "TEXT",
+              "contraints": ["PRIMARY KEY", "NOT NULL"]
+            },
+            {
+              "name": "user_name",
+              "dataType": "VARCHAR",
+              "length": 50,
+              "contraints": ["NOT NULL"]
+            }
+          ]
+        }
+      ]
+    },
+    "quries": [
+      "INSERT INTO testing(user_id, user_name) VALUES(12345678, 'matievisthekat')",
+      "SELECT * FROM testing"
+    ]
   }
 }
