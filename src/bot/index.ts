@@ -45,4 +45,4 @@ client.db.on("error", (err) => client.logger.error(err));
 client.db.on("notice", (notice) => client.logger.info(notice.message));
 client.db.on("notification", (message) => client.logger.warn(message));
 
-client.load().then(() => client.logger.log("Successfully initialized"));
+client.load().then(() => client.logger.log("Successfully initialized")).catch((err) => client.logger.error(`Failed to initialize: ${err.message}`));
