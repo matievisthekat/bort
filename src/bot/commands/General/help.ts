@@ -2,10 +2,11 @@ import { Command, Arg, Bot, types } from "../../../lib";
 import { Message } from "discord.js";
 
 export default class extends Command {
-  constructor(client: Bot) {
+  constructor (client: Bot) {
     super(client, {
       name: "help",
       aliases: ["commands", "cmds"],
+      category: "General",
       description: "View all the commands for this bot",
       examples: ["ping", "Music"],
       args: [new Arg("command|category", "The command or category to search for")],
@@ -25,6 +26,20 @@ export default class extends Command {
    * @public
    */
   public async run(msg: Message, { command, args, flags }: types.ICommandOptsRun): Promise<types.ICommandOptsDone> {
+    const commands = msg.client.cmd.commands;
+
+    if (!args[0]) {
+      const categories: Array<string> = [... new Set(commands.map(cmd => cmd.opts.category.toLowerCase()))];
+      for (const category of categories) {
+        const categoryCommands = commands.filter(cmd => cmd.opts.category.toLowerCase() === category);
+        if (!categoryCommands) continue;
+
+        
+      }
+    } else {
+
+    }
+
     return { done: true };
   }
 }

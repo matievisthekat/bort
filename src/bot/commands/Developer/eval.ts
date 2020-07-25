@@ -7,6 +7,7 @@ export default class extends Command {
     super(client, {
       name: "eval",
       aliases: ["evaluate", "ev"],
+      category: "Developer",
       description: "Evaluate some code",
       examples: ['msg.client.emit("ready");'],
       args: [new Arg("code", "The code to evaluate", true)],

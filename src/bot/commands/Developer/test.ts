@@ -2,9 +2,10 @@ import { Command, Bot, types, Arg } from "../../../lib/";
 import { Message } from "discord.js";
 
 export default class extends Command {
-  constructor(client: Bot) {
+  constructor (client: Bot) {
     super(client, {
       name: "test",
+      category: "Developer",
       description: "A test command",
       botPerms: ["SEND_MESSAGES", "MANAGE_CHANNELS"],
       userPerms: ["SEND_MESSAGES"],

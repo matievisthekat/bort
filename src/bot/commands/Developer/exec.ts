@@ -6,6 +6,7 @@ export default class extends Command {
     super(client, {
       name: "exec",
       aliases: ["execute"],
+      category: "Developer",
       description: "Execute a terminal command",
       examples: ["node -v"],
       args: [new Arg("command", "The command(s) to execute", true)],
