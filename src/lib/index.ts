@@ -1,4 +1,5 @@
-import "./structures/extend/String";
+require("./structures/extend/String");
+require("./structures/extend/Message");
 
 export * from "./structures/Client";
 export * from "./structures/base/Command";

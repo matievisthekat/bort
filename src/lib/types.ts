@@ -13,8 +13,15 @@ export interface IDatabaseOpts {
   password: string;
   user: string;
   port: number;
-  tables?: Array<IDatabaseTable>;
-  startUpQuries?: Array<string>;
+  onStartUp: IDatabaseStartUp;
+}
+
+export interface IDatabaseStartUp {
+  tables?: {
+    create?: Array<IDatabaseTable>;
+    drop?: Array<string>;
+  };
+  quries?: Array<string>;
 }
 
 /*

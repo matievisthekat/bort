@@ -20,7 +20,7 @@ export class Bot extends Client {
 
     this.evnt = new EventManager(this, opts.event_dir);
     this.cmd = new CommandManager(this, opts.command_dir);
-    this.db = new Database(opts.database);
+    this.db = new Database(opts.database, opts.database.onStartUp);
     this.logger = new Logger();
   }
 
