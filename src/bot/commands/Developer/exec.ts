@@ -1,4 +1,4 @@
-import { Command, Arg, Bot, util, types } from "../../../lib";
+import { Command, Arg, Bot, Util, types } from "../../../lib";
 import { Message } from "discord.js";
 
 export default class extends Command {
@@ -34,7 +34,7 @@ export default class extends Command {
       }
     };
 
-    const res = await util.execute(args.join(" "));
+    const res = await Util.execute(args.join(" "));
 
     for (const output of Object.entries(res)) {
       if (output[1]) await msg.channel.send(`**${output[0].title()}**\n\`\`\`\n${output[1]}\`\`\``, options);
