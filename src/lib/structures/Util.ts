@@ -49,7 +49,7 @@ export class Util {
       const stat = fs.statSync(inner_dir);
 
       if (stat.isDirectory())
-        results = results.concat(this.findNested(inner_dir, pattern));
+        results = results.concat(Util.findNested(inner_dir, pattern));
 
       if (stat.isFile() && inner_dir.split(".").pop() === pattern)
         results.push(inner_dir);
