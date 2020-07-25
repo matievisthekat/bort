@@ -1,5 +1,6 @@
 import { CommandManager, EventManager, Command } from "./";
 import { PermissionString } from "discord.js";
+import { Embed } from "./structures/Embed";
 
 export interface IArg {
   name: string;
@@ -110,5 +111,6 @@ declare module "discord.js" {
   interface Message {
     warn(msg: string | MessageEmbed, channel?: TextChannel | DMChannel | NewsChannel): Promise<any>;
     success(msg: string | MessageEmbed, channel?: TextChannel | DMChannel | NewsChannel): Promise<any>;
+    embed: Embed;
   }
 }

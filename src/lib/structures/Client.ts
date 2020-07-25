@@ -1,5 +1,5 @@
 import { Client, ClientOptions } from "discord.js";
-import { CommandManager, EventManager, Logger, types, Database } from "../";
+import { CommandManager, EventManager, Logger, types, Database, Embed } from "../";
 
 export class Bot extends Client {
   public evnt: EventManager;
@@ -25,7 +25,6 @@ export class Bot extends Client {
   }
 
   /**
-   * load
    * @returns The result of logging in
    * @public
    */

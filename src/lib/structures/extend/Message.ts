@@ -1,8 +1,11 @@
 import { Bot } from "../Client";
 import { TextChannel, DMChannel, NewsChannel, MessageEmbed, Structures, Client, PermissionString, Message } from "discord.js";
+import { Embed } from "../Embed";
 
-class CustomMessage extends Message {
-  constructor(client: Bot | Client, data: object, channel: TextChannel | DMChannel) {
+
+
+Structures.extend("Message", (Message) => class extends Message {
+  constructor (client: Bot | Client, data: object, channel: TextChannel | DMChannel) {
     super(client, data, channel);
   }
 
@@ -55,6 +58,12 @@ class CustomMessage extends Message {
 
     return external ? emoji.custom || emoji.default : emoji.default;
   }
-}
 
-Structures.extend("Message", (Message) => CustomMessage);
+  /**
+   * @returns {Embed} A new embed
+   * @public
+   */
+  public get embed() {
+    return new Embed();
+  }
+});
