@@ -1,6 +1,6 @@
 import { EventEmitter } from "events";
 import { Collection, Message } from "discord.js";
-import { util, Command, Bot, types } from "../../";
+import { Util, Command, Bot, types } from "../../";
 
 export class CommandManager extends EventEmitter {
   public commands: Collection<string, Command> = new Collection();
@@ -26,7 +26,7 @@ export class CommandManager extends EventEmitter {
    * @public
    */
   public load(): Collection<string, Command> {
-    const files = util.findNested(this.dir);
+    const files = Util.findNested(this.dir);
     for (const file of files) this.loadCommand(file);
 
     this.emit("ready", this.commands);

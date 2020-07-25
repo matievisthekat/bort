@@ -1,7 +1,5 @@
 import { EventEmitter } from "events";
-import { Bot } from "../Client";
-import { CustomEvent } from "../base/Event";
-import { findNested } from "../util/findNested";
+import { Util, CustomEvent, Bot } from "../../"
 import { Collection } from "discord.js";
 
 export class EventManager extends EventEmitter {
@@ -17,7 +15,7 @@ export class EventManager extends EventEmitter {
    * @public
    */
   public load(): Collection<string, CustomEvent> {
-    const files = findNested(this.dir);
+    const files = Util.findNested(this.dir);
     for (const file of files) this.loadEvent(file);
 
     this.emit("ready", this.events);
