@@ -19,8 +19,8 @@ export class Database extends EventEmitter {
     });
 
     this.client.on("error", (err) => this.emit("error", err));
-    this.client.on("notification", (message) => this.logger.warn(`DATABASE: ${message}`));
-    this.client.on("notice", (notice) => this.logger.info(`DATABASE: ${notice.message}`));
+    this.client.on("notification", (message) => this.emit("notification", message));
+    this.client.on("notice", (notice) => this.emit("notice", notice));
   }
 
   /**
