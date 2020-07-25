@@ -1,4 +1,4 @@
-import { Command, Arg, Bot, types } from "../../../lib";
+import { Command, Arg, Bot, types, Util } from "../../../lib";
 import { Message } from "discord.js";
 
 export default class extends Command {
@@ -35,7 +35,7 @@ export default class extends Command {
         const categoryCommands = commands.filter(cmd => cmd.opts.category.toLowerCase() === category);
         if (!categoryCommands) continue;
 
-        embed.addField(category, categoryCommands.map(c => `\`${c.opts.name}\``).join(", "));
+        embed.addField(`${msg.emoji(category)} ${Util.capitalise(category)}`, categoryCommands.map(c => `\`${c.opts.name}\``).join(", "));
       }
 
       await msg.channel.send(embed);

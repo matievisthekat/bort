@@ -40,7 +40,6 @@ Structures.extend("Message", (Message) => class extends Message {
   }
 
   /**
-   * emoji
    * @param {string} type The type of emoji to search for
    * @returns {string} The emoji string
    * @public
@@ -63,7 +62,7 @@ Structures.extend("Message", (Message) => class extends Message {
    * @returns {Embed} A new embed
    * @public
    */
-  public embed() {
+  public embed(): Embed {
     return new Embed();
   }
 });

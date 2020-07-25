@@ -11,9 +11,17 @@
     "warn": {
       "custom": "<:warn:733277985133690881>",
       "default": ":warning:"
+    },
+    "general": {
+      "default": ":gear:"
+    },
+    "developer": {
+      "custom": "<:bot:704365810076090468>",
+      "default": ":hammer:"
     }
   },
   "colours": {
+    "default": "#0099FF",
     "green": "#00CC33",
     "red": "#FF0033",
     "yellow": "#FFCC33"

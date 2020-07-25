@@ -121,5 +121,6 @@ declare module "discord.js" {
     warn(msg: string | MessageEmbed, channel?: TextChannel | DMChannel | NewsChannel): Promise<any>;
     success(msg: string | MessageEmbed, channel?: TextChannel | DMChannel | NewsChannel): Promise<any>;
     embed(): Embed;
+    emoji(type: string): string;
   }
 }
