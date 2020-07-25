@@ -1,24 +1,26 @@
-import { types, Bot } from "../../";
+import { types, Bot, Util } from "../../";
 import { Collection } from "discord.js";
 import { EventEmitter } from "events";
 
 export class Arg {
-  constructor(public name: string, public desc: string, public required?: boolean) {}
+  public name: string;
 
-  // Gonna add more methods in here
+  constructor (name: string, public desc: string, public required?: boolean) {
+    this.name = name.replace(/ +/gi, "_");
+  }
 }
 
 export class Command extends EventEmitter {
   public cooldown: Collection<string, number> = new Collection();
 
-  constructor(private client: Bot, public readonly opts: types.ICommandOpts) {
+  constructor (private client: Bot, public readonly opts: types.ICommandOpts) {
     super(...arguments);
 
-    this.opts.usage = this.opts.args?.map((a) => `${a.required ? "{" : "<"}${a.name}${a.required ? "}" : ">"}`).join(" ");
+    this.opts.usage = this.opts.args?.map((a) => `${Util.formatArg(a)}`).join(" ");
+    if (!this.opts.cooldown) this.opts.cooldown = "3s";
   }
 
   /**
-   * run
    * @param {Message} msg The message that triggered this command
    * @param {Command} command The command that was triggered
    * @param {Array<String>} args The arguments this command was run with
@@ -30,7 +32,6 @@ export class Command extends EventEmitter {
   }
 
   /**
-   * unload
    * @returns The success status of unloading the command
    * @public
    */
@@ -40,7 +41,6 @@ export class Command extends EventEmitter {
   }
 
   /**
-   * reload
    * @returns The reloaded command or the sucess status of reloading the command
    * @public
    */

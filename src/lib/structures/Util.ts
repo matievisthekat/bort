@@ -3,6 +3,7 @@ import { promisify } from "util";
 import { exec } from "child_process";
 import * as fs from "fs";
 import * as path from "path";
+import { Arg } from "./base/Command";
 
 const realExec = promisify(exec);
 
@@ -56,5 +57,9 @@ export class Util {
     });
 
     return results;
+  }
+
+  public static formatArg(a: Arg) {
+    return `${a.required ? "{" : "<"}${a.name}${a.required ? "}" : ">"}`;
   }
 }

@@ -10,6 +10,9 @@ export default class extends Command {
       botPerms: ["SEND_MESSAGES", "MANAGE_CHANNELS"],
       userPerms: ["SEND_MESSAGES"],
       args: [new Arg("test", "A test"), new Arg("another test", "another test arg", true)],
+      examples: [
+        "hi there"
+      ],
       cooldown: "10s",
       __filename
     });
