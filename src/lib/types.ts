@@ -50,6 +50,7 @@ export interface IDatabaseTable {
 export interface ICommandOpts {
   name: string;
   aliases?: Array<string>;
+  category: string;
   description: string;
   examples?: Array<string>;
   args?: Array<IArg>;
