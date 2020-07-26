@@ -19,7 +19,6 @@ export default class extends Command {
   }
 
   /**
-   * run
    * @param {Message} msg The message that fired this command
    * @param {object} commandArgs The arguments run with every command
    * @param {Command} commandArgs.command The command that was run
