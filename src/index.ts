@@ -7,7 +7,6 @@ dotenv({
 });
 
 const config = require(join(__dirname, "../..", "config.json"));
-
 const client = new Bot(
   {
     presence: {
@@ -34,6 +33,11 @@ const client = new Bot(
       password: process.env.PG_PASSWORD,
       port: parseInt(process.env.PG_PORT),
       onStartUp: config.onDatabaseStartUp
+    },
+    api: {
+      port: 3000,
+      development: true,
+      auth: "dev"
     }
   }
 );
