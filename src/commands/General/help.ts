@@ -1,6 +1,6 @@
 import { Command, Arg, Bot, types, Util } from "../../../lib";
 import { Message } from "discord.js";
-import * as ms from "ms";
+import ms from "ms";
 import { PermissionString } from "discord.js";
 
 export default class extends Command {

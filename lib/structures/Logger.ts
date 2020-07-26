@@ -1,9 +1,8 @@
-import * as chalk from "chalk";
-import * as moment from "moment";
+import chalk from "chalk";
+import moment from "moment";
 
 export class Logger {
   /**
-   * date
    * @returns A string
    * @private
    */
@@ -12,7 +11,6 @@ export class Logger {
   }
 
   /**
-   * log
    * @param {*} msg The message to log
    * @public
    */
@@ -21,7 +19,6 @@ export class Logger {
   }
 
   /**
-   * warn
    * @param {*} msg The message to log
    * @public
    */
@@ -30,7 +27,6 @@ export class Logger {
   }
 
   /**
-   * info
    * @param {*} msg The message to log
    * @public
    */
@@ -39,7 +35,6 @@ export class Logger {
   }
 
   /**
-   * error
    * @param {*} msg The message to log
    * @public
    */
