@@ -5,11 +5,12 @@ import { Router } from "express";
 export default class extends Route {
   constructor (client: Bot) {
     super(client, {
-      path: "/"
+      path: "/commands"
     });
   }
 
   public load(router: Router): Router {
+    router.get("/", (req, res) => res.json({ message: "HI" }));
     return router;
   }
 }

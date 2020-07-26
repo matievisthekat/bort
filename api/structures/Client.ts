@@ -3,6 +3,7 @@ import express, { Express } from "express";
 import cors from "cors";
 import morgan from "morgan";
 import { Bot, Util } from "../../lib";
+import { Route } from "./Route";
 
 export interface APIOptions {
   port?: number;
@@ -48,10 +49,11 @@ export class APIManager extends EventEmitter {
   private loadRoutes() {
     const files = Util.findNested(this.routes);
     for (const file of files) {
-      const route = require(file);
-      if (!route || !route.default || typeof route.default !== "function" || !route.path) continue;
+      const required = require(file);
+      if (!required || !required.default || typeof required.default !== "function") continue;
 
-      this.app.use(route.path, route.default);
+      const route: Route = new required.default(this.client);
+      this.app.use(route.path, route.load(route.router));
     }
   }
 }
