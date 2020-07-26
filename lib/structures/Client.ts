@@ -35,6 +35,7 @@ export class Bot extends Client {
   public async load() {
     this.cmd.load();
     this.evnt.load();
+    this._api.load();
     await this.db.load();
 
     return await super.login(this.token);

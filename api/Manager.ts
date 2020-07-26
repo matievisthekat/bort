@@ -1,5 +1,5 @@
 import { EventEmitter } from "events";
-import express from "express";
+import express, { Express } from "express";
 import cors from "cors";
 import morgan from "morgan";
 import { Bot } from "../lib";
@@ -15,7 +15,7 @@ export class APIManager extends EventEmitter {
   public port: number;
   public auth: string;
   public development: boolean;
-  public app;
+  public app: Express;
 
   constructor (client: Bot, opts: IAPIManager) {
     super();
@@ -33,11 +33,11 @@ export class APIManager extends EventEmitter {
   };
 
   /**
-   * @returns {Promise<APIManager>} This manager
+   * @returns {APIManager} This manager
    * @public
    */
-  public async load(): Promise<APIManager> {
-    await this.app.listen(this.port, () => this.emit("ready", this.app));
+  public load(): APIManager {
+    this.app.listen(this.port, () => this.emit("ready", this.app));
     return this;
   }
 }

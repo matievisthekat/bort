@@ -44,6 +44,7 @@ const client = new Bot(
 
 client.cmd.on("ready", (commands) => client.logger.log(`Loaded ${commands.size} commands`));
 client.evnt.on("ready", (events) => client.logger.log(`Loaded ${events.size} events`));
+client._api.on("ready", (app) => client.logger.log(`API listening on port ${client._api.port}`));
 client.db.on("ready", (connection) => client.logger.log("Connected to database"));
 client.db.on("error", (err) => client.logger.error(err));
 client.db.on("notice", (notice) => client.logger.info(notice.message));
