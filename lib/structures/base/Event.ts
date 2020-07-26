@@ -2,9 +2,7 @@ import { Bot } from "../Client";
 import { IEvent } from "../../types";
 
 export class CustomEvent {
-  constructor(private client: Bot, public readonly opts: IEvent) {
-    this.opts = opts;
-  }
+  constructor(private client: Bot, public readonly opts: IEvent) {}
 
   /**
    * run

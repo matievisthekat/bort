@@ -1,4 +1,4 @@
-import { CustomEvent, Bot, types } from "../../lib";
+import { CustomEvent, Bot } from "../../lib";
 import { Message } from "discord.js";
 import ms from "ms";
 
