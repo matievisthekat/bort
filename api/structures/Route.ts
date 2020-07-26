@@ -6,7 +6,7 @@ export interface RouteOptions {
 }
 
 export class Route {
-  private client: Bot;
+  public client: Bot;
   public router: Router;
   public path: string;
 

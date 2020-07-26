@@ -13,7 +13,7 @@ export class Arg {
 export class Command extends EventEmitter {
   public cooldown: Collection<string, number> = new Collection();
 
-  constructor (private client: Bot, public readonly opts: types.ICommandOpts) {
+  constructor (public client: Bot, public readonly opts: types.ICommandOpts) {
     super(...arguments);
 
     this.opts.usage = this.opts.args?.map((a) => `${Util.formatArg(a)}`).join(" ");
