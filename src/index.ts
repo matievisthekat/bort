@@ -37,7 +37,8 @@ const client = new Bot(
     api: {
       port: 3000,
       development: true,
-      auth: "dev"
+      auth: "dev",
+      routes: join(__dirname, "../api/routes")
     }
   }
 );

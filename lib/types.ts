@@ -1,7 +1,7 @@
 import { CommandManager, EventManager, Command } from "./";
 import { PermissionString } from "discord.js";
 import { Embed } from "./structures/Embed";
-import { IAPIManager } from "../api";
+import { APIOptions } from "../api";
 
 export interface IArg {
   name: string;
@@ -80,12 +80,6 @@ export interface IBotOpts {
   mongo_uri: string;
   database: IDatabaseOpts;
   api: APIOptions;
-}
-
-export interface APIOptions {
-  port?: number;
-  development?: boolean;
-  auth: string;
 }
 
 export interface ICommandOptsRun {

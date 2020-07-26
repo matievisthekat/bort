@@ -1,1 +1,1 @@
-export * from "./Manager";
+export * from "./structures/Client";
