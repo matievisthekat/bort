@@ -11,14 +11,20 @@
   "license": "GPL-3",
   "dependencies": {
     "chalk": "^4.0.0",
+    "cors": "^2.8.5",
     "discord.js": "^12.0.1",
     "dotenv": "^8.2.0",
+    "express": "^4.17.1",
     "moment": "^2.27.0",
+    "morgan": "^1.10.0",
     "ms": "^2.1.2",
     "pg": "^8.3.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.6",
+    "@types/express": "^4.17.7",
     "@types/moment": "^2.13.0",
+    "@types/morgan": "^1.9.1",
     "@types/ms": "^0.7.31",
     "@types/node": "^14.0.23",
     "@types/pg": "^7.14.4"
