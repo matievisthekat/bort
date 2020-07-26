@@ -10,7 +10,6 @@ export class EventManager extends EventEmitter {
   }
 
   /**
-   * load
    * @retruns A collection of events
    * @public
    */
@@ -23,7 +22,6 @@ export class EventManager extends EventEmitter {
   }
 
   /**
-   * unloadEvent
    * @param {String} path The file path of the event
    * @returns The success status of unloading the event
    * @public
@@ -40,7 +38,6 @@ export class EventManager extends EventEmitter {
   }
 
   /**
-   * loadEvent
    * @param {String} path The file poth of the event
    * @returns The loaded command or the sucess status of loading the event
    * @public

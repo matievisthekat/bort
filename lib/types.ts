@@ -1,8 +1,6 @@
 import { CommandManager, EventManager, Command } from "./";
 import { PermissionString } from "discord.js";
 import { Embed } from "./structures/Embed";
-import { User } from "discord.js";
-import { UserResolvable } from "discord.js";
 
 export interface IArg {
   name: string;
