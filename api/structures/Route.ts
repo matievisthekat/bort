@@ -1,9 +1,18 @@
-import { Bot } from "../../lib";
+import { Bot, util } from "../../lib";
 import { Router } from "express";
 
 export interface RouteOptions {
   path: string;
 }
+
+export interface Response {
+  statusCode: util.HTTPStatusCode;
+  status: string;
+  error?: any;
+  message?: string;
+  data?: any;
+}
+
 
 export class Route {
   public client: Bot;
