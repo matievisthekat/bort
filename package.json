@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "tsc",
-    "start": "clear && tsc && node dist/bot/index.js"
+    "start": "clear && tsc && node dist/src/index.js"
   },
   "author": "",
   "license": "GPL-3",

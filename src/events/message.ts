@@ -1,6 +1,6 @@
 import { CustomEvent, Bot, types } from "../../lib";
 import { Message } from "discord.js";
-import * as ms from "ms";
+import ms from "ms";
 
 export default class Ready extends CustomEvent {
   constructor(client: Bot) {
