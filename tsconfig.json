@@ -7,5 +7,5 @@
     "jsx": "react",
     "esModuleInterop": true,
   },
-  "exclude": ["templates", "client"]
+  "exclude": ["templates"]
 }
