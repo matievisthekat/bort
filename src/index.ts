@@ -35,8 +35,8 @@ const client = new Bot(
       onStartUp: config.onDatabaseStartUp
     },
     api: {
-      port: 3000,
-      development: true,
+      port: config.api.port,
+      development: config.api.developmentMode,
       auth: "dev",
       routes: join(__dirname, "../api/routes")
     }

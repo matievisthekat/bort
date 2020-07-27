@@ -12,7 +12,7 @@ export interface APIOptions {
   routes: string;
 }
 
-export class APIManager extends EventEmitter {
+export class APIClient extends EventEmitter {
   private client: Bot;
   private routes: string;
   public port: number;
@@ -40,7 +40,7 @@ export class APIManager extends EventEmitter {
    * @returns {APIManager} This manager
    * @public
    */
-  public load(): APIManager {
+  public load(): this {
     this.app.listen(this.port, () => this.emit("ready", this.app));
     this.loadRoutes();
     return this;

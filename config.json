@@ -26,5 +26,10 @@
     "red": "#FF0033",
     "yellow": "#FFCC33"
   },
+  "api": {
+    "port": 3000,
+    "host": "localhost",
+    "developmentMode": true
+  },
   "onDatabaseStartUp": {}
 }
