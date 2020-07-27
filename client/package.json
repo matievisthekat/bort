@@ -17,9 +17,12 @@
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-helmet": "^6.1.0"
+    "react-helmet": "^6.1.0",
+    "react-highlight.js": "^1.0.7"
   },
   "devDependencies": {
+    "@types/react-helmet": "^6.0.0",
+    "@types/react-highlight.js": "^1.0.0",
     "prettier": "2.0.5"
   },
   "keywords": [
@@ -33,7 +36,8 @@
     "start": "clear && npm run develop",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
+    "restart": "clear && npm run clean && npm run start"
   },
   "repository": {
     "type": "git",

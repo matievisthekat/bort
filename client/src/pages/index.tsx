@@ -8,12 +8,12 @@ import { ICommandOpts } from "../../../lib/types";
 
 const config = require("../../../config.json");
 
-interface CommandsState {
+interface IndexState {
   commands: Array<{ opts: ICommandOpts }>;
   error: string;
 }
 
-export default class Comamnds extends React.Component<{}, CommandsState> {
+export default class Index extends React.Component<{}, IndexState> {
   constructor(props: Readonly<{}>) {
     super(props);
 
@@ -37,7 +37,7 @@ export default class Comamnds extends React.Component<{}, CommandsState> {
 
   public render() {
     return (
-      <Layout path="commands">
+      <Layout path="home">
         <SEO title="Commands" />
         <div className="container text-danger text-center">
           {this.state.error}
