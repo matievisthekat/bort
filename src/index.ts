@@ -9,6 +9,12 @@ dotenv({
 const config = require(join(__dirname, "../..", "config.json"));
 const client = new Bot(
   {
+    ws: {
+      ///@ts-ignore
+      properties: {
+        $browser: "Discord iOS"
+      }
+    },
     presence: {
       activity: {
         name: "you sleep",
@@ -36,7 +42,7 @@ const client = new Bot(
     },
     api: {
       port: config.api.port,
-      development: config.api.developmentMode,
+      development: config.api.development,
       auth: "dev",
       routes: join(__dirname, "../api/routes")
     }
