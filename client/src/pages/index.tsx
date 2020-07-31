@@ -38,13 +38,10 @@ export default class Index extends React.Component<{}, IndexState> {
   public render() {
     return (
       <Layout path="home">
-        <SEO title="Commands" />
+        <SEO title="Home" />
         <div className="container text-danger text-center">
-          {this.state.error}
+          Home
         </div>
-        {this.state.commands.map((cmd, i) => (
-          <Command key={i} opts={cmd.opts} />
-        ))}
       </Layout>
     );
   }

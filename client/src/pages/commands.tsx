@@ -42,9 +42,11 @@ export default class Comamnds extends React.Component<{}, CommandsState> {
         <div className="container text-danger text-center">
           {this.state.error}
         </div>
-        {this.state.commands.map((cmd, i) => (
-          <Command key={i} opts={cmd.opts} />
-        ))}
+        <div className="container center">
+          {this.state.commands.map((cmd, i) => (
+            <Command key={i} opts={cmd.opts} />
+          ))}
+        </div>
       </Layout>
     );
   }

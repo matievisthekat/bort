@@ -17,21 +17,19 @@ export default class Command extends React.Component<CommandProps> {
 
   public render() {
     return (
-      <>
-        <div className="container">
-          <div className="row text-light elegant-color">
-            <div className="col-1 border-right">{this.opts.name}</div>
-            <div className="col-4 border-right">{this.opts.description}</div>
-            <div className="col-4">
-              <div className="bg-dark">
-                <Highlight language="dust">
-                  {this.opts.name} {this.opts.usage}
-                </Highlight>
-              </div>
+      <div className="container">
+        <div className="row text-center text-light elegant-color">
+          <div className="col-2 border-right">{this.opts.name}</div>
+          <div className="col-5 border-right">{this.opts.description}</div>
+          <div className="col-5">
+            <div className="bg-dark">
+              <Highlight language="dust">
+                {this.opts.name} {this.opts.usage}
+              </Highlight>
             </div>
           </div>
         </div>
-      </>
+      </div>
     );
   }
 }

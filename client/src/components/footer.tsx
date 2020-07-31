@@ -8,17 +8,12 @@ export default class Footer extends React.Component {
 
   public render() {
     return (
-      <>
-        <footer className="page-footer font-small elegant-color-dark fixed-bottom">
-          <div className="footer-copyright text-center py-3">
-            © 2020 Copyright:
-            <a href="https://bortondiscord.xyz/"> bort</a>
-          </div>
-        </footer>
-        <Helmet>
-          <script src="/jquery.js" type="text/javascript" />
-        </Helmet>
-      </>
+      <footer className="page-footer font-small elegant-color-dark fixed-bottom">
+        <div className="footer-copyright text-center py-3">
+          © 2020 Copyright:
+          <a href="https://bortondiscord.xyz/"> bort</a>
+        </div>
+      </footer>
     );
   }
 }
