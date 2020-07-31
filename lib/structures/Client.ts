@@ -1,5 +1,5 @@
 import { Client, ClientOptions } from "discord.js";
-import { CommandManager, EventManager, Logger, types, Database } from "../";
+import { CommandManager, EventManager, Logger, Database, IConfig, BotOptions } from "../";
 import { UserResolvable } from "discord.js";
 import { APIClient } from "../../api";
 import { Util } from "./Util";

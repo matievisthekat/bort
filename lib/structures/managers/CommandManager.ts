@@ -1,6 +1,6 @@
 import { EventEmitter } from "events";
 import { Collection, Message } from "discord.js";
-import { Util, Command, Bot, types } from "../../";
+import { Util, Command, Bot, CommandRunOptions } from "../../";
 
 export class CommandManager extends EventEmitter {
   public commands: Collection<string, Command> = new Collection();
