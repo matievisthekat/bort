@@ -1,15 +1,12 @@
 import React from "react";
-import Axios from "axios";
 
-import Layout from "../components/layout";
-import SEO from "../components/seo";
-import Command from "../components/command";
+import Layout from "../components/Layout";
+import SEO from "../components/SEO";
 import { CommandOptions } from "../../../lib/types";
 
 const config = require("../../../config.json");
 
 interface IndexState {
-  commands: Array<{ opts: CommandOptions }>;
   error: string;
 }
 
@@ -18,30 +15,15 @@ export default class Index extends React.Component<{}, IndexState> {
     super(props);
 
     this.state = {
-      commands: [],
       error: "",
     };
-  }
-
-  public async componentDidMount() {
-    try {
-      const res = await Axios.get(
-        `http://${config.api.host}:${config.api.port}/commands`
-      );
-      if (res.data.statusCode === 200)
-        this.setState({ commands: res.data.data });
-    } catch (err) {
-      this.setState({ error: err.message });
-    }
   }
 
   public render() {
     return (
       <Layout path="home">
         <SEO title="Home" />
-        <div className="container text-danger text-center">
-          Home
-        </div>
+        <div className="container text-danger text-center">Home</div>
       </Layout>
     );
   }
