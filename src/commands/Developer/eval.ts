@@ -1,4 +1,4 @@
-import { Command, Arg, Bot, types } from "../../../lib";
+import { Command, Arg, Bot, CommandRunOptions, CommandResult } from "../../../lib";
 import { inspect } from "util";
 import { Message } from "discord.js";
 
@@ -21,10 +21,10 @@ export default class extends Command {
    * @param {Command} commandArgs.command The command that was run
    * @param {Array<string>} commandArgs.args The arguments run with the command
    * @param {object} commandArgs.flags The flags run for the command
-   * @returns {Promise<types.CommandResult>} The success status object
+   * @returns {Promise<CommandResult>} The success status object
    * @public
    */
-  public async run(msg: Message, { command, args, flags }: types.CommandRunOptions): Promise<types.CommandResult> {
+  public async run(msg: Message, { command, args, flags }: CommandRunOptions): Promise<CommandResult> {
     const options = {
       split: {
         char: "\n",

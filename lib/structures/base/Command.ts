@@ -1,4 +1,4 @@
-import { types, Bot, Util } from "../../";
+import { Bot, Util, CommandOptions, CommandRunOptions } from "../../";
 import { Collection } from "discord.js";
 import { EventEmitter } from "events";
 
@@ -13,7 +13,7 @@ export class Arg {
 export class Command extends EventEmitter {
   public cooldown: Collection<string, number> = new Collection();
 
-  constructor (public client: Bot, public readonly opts: types.CommandOptions) {
+  constructor (public client: Bot, public readonly opts: CommandOptions) {
     super(...arguments);
 
     this.opts.usage = this.opts.args?.map((a) => `${Util.formatArg(a)}`).join(" ");
@@ -27,7 +27,7 @@ export class Command extends EventEmitter {
    * @param {Object} flags The flags this command was run with
    * @returns A promise
    */
-  async run(msg, { command, args, flags }: types.CommandRunOptions): Promise<any> {
+  async run(msg, { command, args, flags }: CommandRunOptions): Promise<any> {
     msg.client.logger.warn(`Command without a run method at ${this.opts.__filename}`);
   }
 

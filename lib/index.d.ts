@@ -1,4 +1,4 @@
-import { CommandManager, EventManager, Command } from "./";
+import { CommandManager, EventManager, Command } from ".";
 import { PermissionString } from "discord.js";
 import { Embed } from "./structures/Embed";
 import { APIOptions } from "../api";

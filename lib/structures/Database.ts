@@ -1,6 +1,6 @@
 import { EventEmitter } from "events";
 import { Client, QueryResult, QueryConfig } from "pg";
-import { DatabaseOptions, DatabaseStartUpOptions } from "../types";
+import { DatabaseOptions, DatabaseStartUpOptions } from "..";
 import { Logger } from "../";
 
 export class Database extends EventEmitter {

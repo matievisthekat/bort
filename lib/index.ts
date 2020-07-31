@@ -8,6 +8,6 @@ export * from "./structures/managers/EventManager";
 export * from "./structures/Database";
 export * from "./structures/Logger";
 export * from "./structures/Embed";
-export * as types from "./types";
+export * from "./index.d";
 export * as util from "./structures/Util";
 export { Util } from "./structures/Util";

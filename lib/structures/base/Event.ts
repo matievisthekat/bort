@@ -1,5 +1,5 @@
 import { Bot } from "../Client";
-import { EventOptions } from "../../types";
+import { EventOptions } from "../..";
 
 export class CustomEvent {
   constructor(private client: Bot, public readonly opts: EventOptions) {}

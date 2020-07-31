@@ -1,4 +1,4 @@
-import { types } from "../";
+import { ExecuteResult } from "../";
 import { promisify } from "util";
 import { exec } from "child_process";
 import * as fs from "fs";
@@ -22,11 +22,11 @@ export class Util {
 
   /**
    * @param {String} command The command to execute
-   * @returns {Promise<types.ExecuteResult>} The result of executing the command
+   * @returns {Promise<ExecuteResult>} The result of executing the command
    * @public
    * @static
    */
-  public static async execute(command: string): Promise<types.ExecuteResult> {
+  public static async execute(command: string): Promise<ExecuteResult> {
     let error = null;
     const result = await realExec(command).catch((err) => (error = err));
     return {
