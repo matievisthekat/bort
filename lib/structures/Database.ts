@@ -1,13 +1,13 @@
 import { EventEmitter } from "events";
 import { Client, QueryResult, QueryConfig } from "pg";
-import { IDatabaseOpts, IDatabaseStartUp } from "../types";
+import { DatabaseOptions, DatabaseStartUpOptions } from "../types";
 import { Logger } from "../";
 
 export class Database extends EventEmitter {
   private client: Client;
   private logger: Logger = new Logger();
 
-  constructor (opts: IDatabaseOpts, private onStartUp: IDatabaseStartUp) {
+  constructor (opts: DatabaseOptions, private onStartUp: DatabaseStartUpOptions) {
     super();
 
     this.client = new Client({

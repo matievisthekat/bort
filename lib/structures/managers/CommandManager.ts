@@ -64,7 +64,7 @@ export class CommandManager extends EventEmitter {
     if (!cmd.opts.name) return false;
 
     this.commands.set(cmd.opts.name, cmd);
-    cmd.on("run", (msg: Message, { command, args, flags }: types.ICommandOptsRun) => {
+    cmd.on("run", (msg: Message, { command, args, flags }: types.CommandRunOptions) => {
       command.cooldown.set(msg.author.id, Date.now());
     });
 

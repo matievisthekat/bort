@@ -24,10 +24,10 @@ export default class extends Command {
    * @param {Command} commandArgs.command The command that was run
    * @param {Array<string>} commandArgs.args The arguments run with the command
    * @param {object} commandArgs.flags The flags run for the command
-   * @returns {Promise<types.ICommandOptsDone>} The success status object
+   * @returns {Promise<types.CommandResult>} The success status object
    * @public
    */
-  public async run(msg: Message, { command, args, flags }: types.ICommandOptsRun): Promise<types.ICommandOptsDone> {
+  public async run(msg: Message, { command, args, flags }: types.CommandRunOptions): Promise<types.CommandResult> {
     await msg.channel.send("Test Worked!");
 
     return { done: true };

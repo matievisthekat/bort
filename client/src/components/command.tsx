@@ -1,13 +1,13 @@
 import React from "react";
 import Highlight from "react-highlight.js";
-import { ICommandOpts } from "../../../lib/types";
+import { CommandOptions } from "../../../lib/types";
 
 interface CommandProps {
-  opts: ICommandOpts;
+  opts: CommandOptions;
 }
 
 export default class Command extends React.Component<CommandProps> {
-  private opts: ICommandOpts;
+  private opts: CommandOptions;
 
   constructor(props: Readonly<CommandProps>) {
     super(props);

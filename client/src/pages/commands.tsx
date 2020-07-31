@@ -4,12 +4,12 @@ import Axios from "axios";
 import Layout from "../components/layout";
 import SEO from "../components/seo";
 import Command from "../components/command";
-import { ICommandOpts } from "../../../lib/types";
+import { CommandOptions } from "../../../lib/types";
 
 const config = require("../../../config.json");
 
 interface CommandsState {
-  commands: Array<{ opts: ICommandOpts }>;
+  commands: Array<{ opts: CommandOptions }>;
   error: string;
 }
 

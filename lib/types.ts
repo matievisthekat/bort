@@ -3,24 +3,24 @@ import { PermissionString } from "discord.js";
 import { Embed } from "./structures/Embed";
 import { APIOptions } from "../api";
 
-export interface IArg {
+export interface ArgOptions {
   name: string;
   desc: string;
   required?: boolean;
 }
 
-export interface IDatabaseOpts {
+export interface DatabaseOptions {
   host: string;
   database: string;
   password: string;
   user: string;
   port: number;
-  onStartUp: IDatabaseStartUp;
+  onStartUp: DatabaseStartUpOptions;
 }
 
-export interface IDatabaseStartUp {
+export interface DatabaseStartUpOptions {
   tables?: {
-    create?: Array<IDatabaseTable>;
+    create?: Array<DatabaseTableOptions>;
     drop?: Array<string>;
   };
   quries?: Array<string>;
@@ -38,7 +38,7 @@ export type DatabaseContraint = "NOT NULL" | "UNIQUE" | "PRIMARY KEY" | "CHECK" 
 // https://www.postgresqltutorial.com/postgresql-data-types/
 export type DataType = "bool" | "boolean" | "CHAR" | "VARCHAR" | "TEXT" | "SMALLINT" | "INT" | "SERIAL" | "float" | "real" | "float8" | "numeric" | "DATE" | "TIME" | "TIMESTAMP" | "TIMESTAMPZ" | "INTERVAL" | "JSON" | "JSONB" | "UUID" | "box" | "line" | "point" | "lseg" | "polygon" | "inet" | "macaddr";
 
-export interface IDatabaseTable {
+export interface DatabaseTableOptions {
   name: string;
   contraints: Array<DatabaseContraint>;
   cols: Array<{
@@ -49,13 +49,13 @@ export interface IDatabaseTable {
   }>;
 }
 
-export interface ICommandOpts {
+export interface CommandOptions {
   name: string;
   aliases?: Array<string>;
   category: string;
   description: string;
   examples?: Array<string>;
-  args?: Array<IArg>;
+  args?: Array<ArgOptions>;
   usage?: string;
   devOnly?: boolean;
   botPerms?: Array<PermissionString>;
@@ -64,13 +64,13 @@ export interface ICommandOpts {
   __filename: string;
 }
 
-export interface IEvent {
+export interface EventOptions {
   name: string;
   disabled?: boolean;
   __filename: string;
 }
 
-export interface IBotOpts {
+export interface BotOptions {
   token: string;
   prefix: string;
   devs: Array<string>;
@@ -78,11 +78,11 @@ export interface IBotOpts {
   command_dir: string;
   config: IConfig;
   mongo_uri: string;
-  database: IDatabaseOpts;
+  database: DatabaseOptions;
   api: APIOptions;
 }
 
-export interface ICommandOptsRun {
+export interface CommandRunOptions {
   command: Command;
   args: Array<string>;
   flags: any;
@@ -99,11 +99,11 @@ export interface IConfig {
   onDatabaseStartUp?: object;
 }
 
-export interface ICommandOptsDone {
+export interface CommandResult {
   done: boolean;
 }
 
-export interface IExecuteResult {
+export interface ExecuteResult {
   stdin: string,
   stdout: string,
   stderr: string,

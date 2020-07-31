@@ -22,11 +22,11 @@ export class Util {
 
   /**
    * @param {String} command The command to execute
-   * @returns {Promise<types.IExecuteResult>} The result of executing the command
+   * @returns {Promise<types.ExecuteResult>} The result of executing the command
    * @public
    * @static
    */
-  public static async execute(command: string): Promise<types.IExecuteResult> {
+  public static async execute(command: string): Promise<types.ExecuteResult> {
     let error = null;
     const result = await realExec(command).catch((err) => (error = err));
     return {

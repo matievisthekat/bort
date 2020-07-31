@@ -15,7 +15,7 @@ export class Bot extends Client {
   public readonly devs: Array<UserResolvable>;
   public readonly config: types.IConfig;
 
-  constructor (baseOpts: ClientOptions, opts: types.IBotOpts) {
+  constructor (baseOpts: ClientOptions, opts: types.BotOptions) {
     super(baseOpts);
 
     this.token = opts.token;
