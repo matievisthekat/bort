@@ -58,24 +58,42 @@ export default class Comamnds extends React.Component<{}, CommandsState> {
     return (
       <Layout path="commands">
         <SEO title="Commands" />
-        <div className="container text-danger text-center">
-          {this.state.error ? (
-            <div className="container text-center">
+
+        {this.state.error ? (
+          <>
+            <div className="container text-danger text-center">
+              <Back button={false} text="Go back?" />
+              {this.state.error}
+            </div>
+            <br />
+          </>
+        ) : (
+          ""
+        )}
+
+        {this.state.command ? (
+          <>
+            <div className="text-center">
               <Back button={false} text="Go back?" />
             </div>
-          ) : (
-            ""
-          )}
-        </div>
-        <br />
-        {this.state.command ? (
-          <Command opts={this.state.command.opts} />
+            <br />
+            <Command opts={this.state.command.opts} extended={true} />
+          </>
         ) : (
-          <div className="container center">
+          <table className="container center table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Category</th>
+                <th scope="col">Usage</th>
+              </tr>
+            </thead>
+
             {this.state.commands.map((cmd, i) => (
               <Command key={i} opts={cmd.opts} />
             ))}
-          </div>
+          </table>
         )}
       </Layout>
     );
