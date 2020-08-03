@@ -50,7 +50,7 @@ export class Bot extends Client {
     if (!value) return null;
 
     value = value.toLowerCase();
-    switch (type.toLowerCase()) {
+    switch (type) {
       case "user":
         let user: void | User = this.users.cache.find(
           u =>
