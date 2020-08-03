@@ -13,6 +13,7 @@ export class Util {
   public static config: IConfig = require("../../../config.json");
 
   /**
+   * Capitalise a string or words
    * @param {String} str The string to capitalise
    * @returns {String} The capitalised string
    * @public
@@ -26,6 +27,7 @@ export class Util {
   }
 
   /**
+   * Execute a terminal command
    * @param {String} command The command to execute
    * @returns {Promise<ExecuteResult>} The result of executing the command
    * @public
@@ -43,6 +45,7 @@ export class Util {
   }
 
   /**
+   * Find all files in a certain directory (nested)
    * @param {String} dir The directory to read
    * @param {String} pattern The file type to look for
    * @returns {Array<string>} An array of file paths
@@ -66,6 +69,14 @@ export class Util {
     return results;
   }
 
+  /**
+   * Request the image api with certain queries
+   * @param {String} endpoint The endpoint to request
+   * @param {Record<String, String>} query The queries to request with
+   * @returns {Promise<any>} The response from requesting the API
+   * @public
+   * @static
+   */
   public static getImg(endpoint: ImageAPIEndpoint, query: Record<string, string>): Promise<any> {
     return new Promise((resolve, reject) => {
       const password = Util.config.imageAPI.password;
