@@ -10,7 +10,7 @@ function clean_client() {
 }
 
 function clean_img() {
-    (cd api/image && rm main)
+    (cd api/image && rm -rf main)
 }
 
 if [ $1 == "bot" ]; then
