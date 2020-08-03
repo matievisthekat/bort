@@ -9,7 +9,6 @@ Structures.extend("Message", (Message) => class extends Message {
   }
 
   /**
-   * warn
    * @param {String|MessageEmbed} msg The message to send
    * @returns {Promise<Message>} The message that was sent
    * @public
@@ -19,7 +18,6 @@ Structures.extend("Message", (Message) => class extends Message {
   }
 
   /**
-   * success
    * @param {String|MessageEmbed} msg The message to send
    * @returns {Promise<Message>} The message that was sent
    * @public
@@ -29,7 +27,6 @@ Structures.extend("Message", (Message) => class extends Message {
   }
 
   /**
-   * error
    * @param {String|MessageEmbed} msg The message to send
    * @returns {Promise<Message>} The message that was sent
    * @public
