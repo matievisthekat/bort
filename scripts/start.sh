@@ -1,5 +1,5 @@
 if [ $1 == "bot" ]; then
-    if [ -d "./dist/src" && -d "./dist/lib" && -d "./dist/api" && -f "./dist/src/index.js" ]; then
+    if [ -d "./dist/" ]; then
         node dist/src/index.js
     else
         ./scripts/build.sh bot
