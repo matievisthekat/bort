@@ -1,5 +1,5 @@
 # bort
-Version 2 of bort in Typescript yeet
+Version 2 of bort in Typescript yeet. If you would like to view the current version: [here you go](https://github.com/MatievisTheKat/bort/tree/master)
 
 ![DeepScan grade](https://deepscan.io/api/teams/10306/projects/13030/branches/212991/badge/grade.svg)
 ![Known Vulnerabilities](https://snyk.io/test/github/MatievisTheKat/bort/badge.svg)
