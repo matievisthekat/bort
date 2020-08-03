@@ -46,7 +46,7 @@ export default class extends Command {
       return { done: true };
     } catch (err) {
       msg.client.logger.error(err);
-      await msg.warn(`Unexpected error: ${err.message}`);
+      await msg.warn(`Unexpected error: ${JSON.parse(err).message}`);
     }
   }
 }

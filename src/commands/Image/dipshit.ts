@@ -6,9 +6,9 @@ export default class extends Command {
   constructor (client: Bot) {
     super(client, {
       name: "dipshit",
-      description: "",
+      description: "Get an image correcting your Google search to 'dipshit'. *Did you mean: dipshit*",
       category: "Image",
-      examples: ["Text content weee"],
+      examples: ["Creator of TikTok"],
       args: [new Arg("text", "The text content for the image", true)],
       botPerms: ["ATTACH_FILES"],
       cooldown: "15s",
@@ -47,7 +47,7 @@ export default class extends Command {
       return { done: true };
     } catch (err) {
       msg.client.logger.error(err);
-      await msg.warn(`Unexpected error: ${err.message}`);
+      await msg.warn(`Unexpected error: ${JSON.parse(err).message}`);
     }
   }
 }
