@@ -32,7 +32,7 @@ export default class extends Command {
 
     try {
       const res = await Util.getImg("father", {
-        avatar: msg.author.displayAvatarURL({ size: 64, format: "png" }),
+        avatar: msg.author.displayAvatarURL({ size: 256, format: "png" }),
         text
       }).catch(async (err) => {
         msg.client.logger.error(err);
@@ -43,7 +43,7 @@ export default class extends Command {
       await msg.channel.send("", {
         files: [
           {
-            name: "Achievement.png",
+            name: "Father.png",
             attachment: res
           }
         ]
