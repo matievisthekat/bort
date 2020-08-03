@@ -1,7 +1,8 @@
 import { Client, ClientOptions, Guild, Role, User, GuildMember, UserResolvable } from "discord.js";
-import { CommandManager, EventManager, Logger, Database, BotOptions, TargetType, TargetResult } from "../";
+import { CommandManager, EventManager, Logger, Database, BotOptions, TargetType, TargetResult, Embed } from "../";
 import { APIClient } from "../../api";
 import { Util } from "./Util";
+import { Constructable } from "discord.js";
 
 export class Bot extends Client {
   public evnt: EventManager;
@@ -12,6 +13,7 @@ export class Bot extends Client {
   public readonly Util = Util;
   public readonly prefix: string;
   public readonly devs: Array<UserResolvable>;
+  public readonly Embed: Constructable<Embed> = Embed;
 
   constructor (baseOpts: ClientOptions, opts: BotOptions) {
     super(baseOpts);

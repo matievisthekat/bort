@@ -131,7 +131,7 @@ declare module "discord.js" {
     config: IConfig;
     devs: Array<UserResolvable>;
     logger: Logger;
-    embed: Constructable<Embed>;
+    Embed: Constructable<Embed>;
 
     resolve(type: TargetType, value: string, guild?: Guild): Promise<TargetResult>;
   }

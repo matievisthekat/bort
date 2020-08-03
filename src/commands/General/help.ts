@@ -31,7 +31,7 @@ export default class extends Command {
     const aliases = msg.client.cmd.aliases;
 
     if (!args[0]) {
-      const embed = new msg.client.embed();
+      const embed = new msg.client.Embed();
       const categories: Array<string> = [... new Set(commands.map(cmd => cmd.opts.category.toLowerCase()))];
 
       for (const category of categories) {
@@ -50,7 +50,7 @@ export default class extends Command {
       const formatPerms = (perms: Array<PermissionString>) => perms?.map((perm) => Util.capitalise(perm.replace(/_+/gi, " "))).join(", ") || "None";
 
       const opts = command.opts;
-      const embed = new msg.client.embed()
+      const embed = new msg.client.Embed()
         .addField(Util.capitalise(`${opts.category}: ${opts.name}`), `\`\`\`dust\n${msg.client.prefix}${opts.name} ${opts.usage}\`\`\`${opts.description}`)
         .addField("Options", `\`\`\`md\n- Aliases: ${opts.aliases?.join(", ") || "None"}\n- Cooldown: ${ms(ms(opts.cooldown), { long: true })}\n- Developer Only: ${opts.devOnly ? "Yes" : "No"}\`\`\``)
         .addField("User Permissions", formatPerms(opts.userPerms))
