@@ -25,7 +25,7 @@ export default class extends Command {
    * @public
    */
   public async run(msg: Message, { command, args, flags }: CommandRunOptions): Promise<CommandResult> {
-    const text = args[0];
+    const text = args.join(" ");
     if (text.length > 165) return await msg.warn("Maximum length exceded! Please keep your text to less than 165 characters");
 
     try {
