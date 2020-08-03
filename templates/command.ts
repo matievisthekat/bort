@@ -3,14 +3,14 @@ import { Command, Arg, Bot, CommandRunOptions, CommandResult } from "../../../li
 import { Message } from "discord.js";
 
 export default class extends Command {
-  constructor(client: Bot) {
+  constructor (client: Bot) {
     super(client, {
       name: "",
       aliases: [],
       description: "",
       category: "",
       examples: [],
-      args: [],
+      args: [new Arg("", "", true)],
       devOnly: false,
       botPerms: [],
       userPerms: [],
