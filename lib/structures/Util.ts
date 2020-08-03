@@ -4,10 +4,10 @@ import { exec } from "child_process";
 import * as fs from "fs";
 import * as path from "path";
 import { Arg } from "./base/Command";
+import http from "http";
+import querystring from "querystring";
 
 const realExec = promisify(exec);
-
-export type HTTPStatusCode = 100 | 101 | 102 | 200 | 201 | 202 | 203 | 204 | 205 | 206 | 207 | 208 | 226 | 300 | 301 | 302 | 303 | 304 | 305 | 307 | 308 | 400 | 401 | 402 | 403 | 404 | 405 | 406 | 407 | 408 | 409 | 410 | 411 | 412 | 413 | 414 | 415 | 416 | 417 | 418 | 421 | 422 | 423 | 424 | 426 | 428 | 429 | 431 | 444 | 451 | 499 | 500 | 501 | 502 | 503 | 504 | 505 | 506 | 507 | 508 | 509 | 510 | 511 | 599;
 
 export class Util {
   /**
@@ -17,7 +17,12 @@ export class Util {
    * @static
    */
   public static capitalise(str: string): string {
-    return str.split(/ +/gi).map((word: string) => word[0].toUpperCase() + word.slice(1).toLowerCase()).join(" ");
+    return str
+      .split(/ +/gi)
+      .map(
+        (word: string) => word[0].toUpperCase() + word.slice(1).toLowerCase()
+      )
+      .join(" ");
   }
 
   /**
@@ -33,17 +38,17 @@ export class Util {
       stdin: result?.stdin,
       stdout: result?.stdout,
       stderr: result?.stderr,
-      error
+      error,
     };
   }
 
   /**
-  * @param {String} dir The directory to read
-  * @param {String} pattern The file type to look for
-  * @returns {Array<string>} An array of file paths
-  * @public
-  * @static
-  */
+   * @param {String} dir The directory to read
+   * @param {String} pattern The file type to look for
+   * @returns {Array<string>} An array of file paths
+   * @public
+   * @static
+   */
   public static findNested(dir: string, pattern: string = "js"): Array<string> {
     let results: Array<string> = [];
 
@@ -61,6 +66,45 @@ export class Util {
     return results;
   }
 
+  public static getImg(
+    endpoint: ImageAPIEndpoint,
+    query: Record<string, string>
+  ): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const password = null;
+      const host = "localhost";
+      const port = 3030;
+
+      const options: any = {};
+      if (password) options.headers = { Authorization: password };
+
+      const req = http.get(
+        `http://${host}:${port}${endpoint}?${querystring.stringify(query)}`,
+        options
+      );
+
+      req
+        .once("response", (res) => {
+          const body = [];
+          return res
+            .on("data", (chunk) => body.push(chunk))
+            .once("error", (err) => reject(err))
+            .once("end", () => {
+              if (res.statusCode !== 200) return reject(body);
+              return resolve(Buffer.concat(body));
+            });
+        })
+        .once("error", (err) => reject(err))
+        .once("abort", () => reject(new Error("Request Aborted.")));
+
+      return req.end();
+    });
+  }
+
+  /**
+   * Format an argument instance
+   * @param {Arg} a The argument instance to format
+   */
   public static formatArg(a: Arg) {
     return `${a.required ? "{" : "<"}${a.name}${a.required ? "}" : ">"}`;
   }
@@ -139,3 +183,95 @@ export class Util {
     599: "Network Connect Timeout Error",
   };
 }
+
+export type ImageAPIQuery = "avatar" | "color" | "text" | "target";
+
+export type ImageAPIEndpoint =
+  | "religion" // Image url: 512x
+  | "beautiful" // Image url: 256x
+  | "fear" // Image url: 256x
+  | "sacred" // Image url: 512x
+  | "painting" // Image url: 512x
+  | "color?color={NAME_OR_HEX}" //
+  | "delete?" //  Image url: 256x
+  | "garbage" // Image url: 512x
+  | "tom" // Image url: 256x
+  | "bed" // Image url: 128x | Image url: 128x
+  | "crush" // Image url: 512x | Image url: 512x
+  | "patrick" // Image url: 512x
+  | "respect" // Image url: 128x
+  | "dipshit" // Text: 33
+  | "picture" // Image url: 256x
+  | "tweet" // Text: 165
+  | "truth" // Image url: 256x
+  | "bobross" // Image url: 512x
+  | "mask" // Image url: 512x
+  | "father" // Image url: 256x | Text: 42
+  | "achievement" // Image url: 64x | Text: 21
+  | "dominantColor"; // Image url: any size
+
+export type HTTPStatusCode =
+  | 100
+  | 101
+  | 102
+  | 200
+  | 201
+  | 202
+  | 203
+  | 204
+  | 205
+  | 206
+  | 207
+  | 208
+  | 226
+  | 300
+  | 301
+  | 302
+  | 303
+  | 304
+  | 305
+  | 307
+  | 308
+  | 400
+  | 401
+  | 402
+  | 403
+  | 404
+  | 405
+  | 406
+  | 407
+  | 408
+  | 409
+  | 410
+  | 411
+  | 412
+  | 413
+  | 414
+  | 415
+  | 416
+  | 417
+  | 418
+  | 421
+  | 422
+  | 423
+  | 424
+  | 426
+  | 428
+  | 429
+  | 431
+  | 444
+  | 451
+  | 499
+  | 500
+  | 501
+  | 502
+  | 503
+  | 504
+  | 505
+  | 506
+  | 507
+  | 508
+  | 509
+  | 510
+  | 511
+  | 599;
