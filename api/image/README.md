@@ -2,7 +2,10 @@
 This API was made by [Ravener](https://github.com/ravener). Make sure to give their [repo](https://github.com/ravener/img-api) a star :)
 
 ---
-_Everything below was written by [Ravener](https://github.com/ravener)_
+
+_Everything below was written by [Ravener](https://github.com/ravener). I take no credit for this api_
+
+---
 
 This is an API written in Golang for image manipulation commands, primarily targets usage from [Discord](https://discord.com) Bots.
 It is used in my bot [Miyako](https://github.com/ravener/miyako) and anyone is free to use this.
