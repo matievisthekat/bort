@@ -78,7 +78,8 @@ export class Util {
     useColour?: boolean,
     useText?: boolean,
     useTarget?: boolean,
-    maxLength?: number
+    maxLength?: number,
+    avatarTarget?: boolean
   ) {
     const text = args.join(" ");
     const color = args.join(" ");
@@ -91,7 +92,7 @@ export class Util {
 
     const res = await Util.getImg(endpoint, {
       text,
-      avatar,
+      avatar: avatarTarget ? target.displayAvatarURL({ size: avatarSize, format: "png" }) : avatar,
       target: target ? target.displayAvatarURL({ size: avatarSize, format: "png" }) : null,
       color
     }).catch(err => error = JSON.parse(err));
@@ -101,12 +102,7 @@ export class Util {
     }
 
     await msg.channel.send("", {
-      files: [
-        {
-          name: "Image.png",
-          attachment: res
-        }
-      ]
+      files: [{ name: "Image.png", attachment: res }]
     });
     return { done: true };
   };
