@@ -1,5 +1,5 @@
 import { Client, ClientOptions } from "discord.js";
-import { CommandManager, EventManager, Logger, Database, IConfig, BotOptions } from "../";
+import { CommandManager, EventManager, Logger, Database, BotOptions } from "../";
 import { UserResolvable } from "discord.js";
 import { APIClient } from "../../api";
 import { Util } from "./Util";
@@ -13,7 +13,6 @@ export class Bot extends Client {
   public readonly Util = Util;
   public readonly prefix: string;
   public readonly devs: Array<UserResolvable>;
-  public readonly config: IConfig;
 
   constructor (baseOpts: ClientOptions, opts: BotOptions) {
     super(baseOpts);
@@ -21,7 +20,6 @@ export class Bot extends Client {
     this.token = opts.token;
     this.prefix = opts.prefix;
     this.devs = opts.devs;
-    this.config = opts.config;
 
     this.evnt = new EventManager(this, opts.event_dir);
     this.cmd = new CommandManager(this, opts.command_dir);

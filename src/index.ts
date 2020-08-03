@@ -31,7 +31,6 @@ const client = new Bot(
     devs: ["492708936290402305"],
     event_dir: join(__dirname, "events"),
     command_dir: join(__dirname, "commands"),
-    config,
     database: {
       host: process.env.PG_HOST,
       database: process.env.PG_DATABASE,

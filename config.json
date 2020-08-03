@@ -31,5 +31,10 @@
     "host": "localhost",
     "development": true
   },
-  "onDatabaseStartUp": {}
+  "onDatabaseStartUp": {},
+  "imageAPI": {
+    "host": "localhost",
+    "port": "3030",
+    "password": null
+  }
 }

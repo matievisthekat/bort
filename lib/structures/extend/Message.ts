@@ -1,8 +1,7 @@
 import { Bot } from "../Client";
 import { TextChannel, DMChannel, NewsChannel, MessageEmbed, Structures, Client, PermissionString, Message } from "discord.js";
 import { Embed } from "../Embed";
-
-
+import { Util } from "../Util";
 
 Structures.extend("Message", (Message) => class extends Message {
   constructor (client: Bot | Client, data: object, channel: TextChannel | DMChannel) {
@@ -52,7 +51,7 @@ Structures.extend("Message", (Message) => class extends Message {
       external = false;
     }
 
-    const emoji = this.client.config.emoji[type.toLowerCase()];
+    const emoji = Util.config.emoji[type.toLowerCase()];
     if (!emoji) return "";
 
     return external ? emoji.custom || emoji.default : emoji.default;

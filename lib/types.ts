@@ -2,6 +2,7 @@ import { CommandManager, EventManager, Command } from ".";
 import { PermissionString } from "discord.js";
 import { Embed } from "./structures/Embed";
 import { APIOptions } from "../api";
+import { Logger } from "./structures/Logger";
 
 export interface ArgOptions {
   name: string;
@@ -76,7 +77,6 @@ export interface BotOptions {
   devs: Array<string>;
   event_dir: string;
   command_dir: string;
-  config: IConfig;
   mongo_uri: string;
   database: DatabaseOptions;
   api: APIOptions;
@@ -97,6 +97,13 @@ export interface IConfig {
     yellow: string;
   };
   onDatabaseStartUp?: object;
+  imageAPI: ImageAPIOptions;
+}
+
+export interface ImageAPIOptions {
+  host: string;
+  port: number;
+  password: string | void;
 }
 
 export interface CommandResult {
@@ -118,6 +125,7 @@ declare module "discord.js" {
     evnt: EventManager;
     config: IConfig;
     devs: Array<UserResolvable>;
+    logger: Logger;
   }
 
   interface Message {

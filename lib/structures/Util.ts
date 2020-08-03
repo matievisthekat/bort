@@ -1,4 +1,4 @@
-import { ExecuteResult } from "../";
+import { ExecuteResult, IConfig } from "../";
 import { promisify } from "util";
 import { exec } from "child_process";
 import * as fs from "fs";
@@ -10,6 +10,8 @@ import querystring from "querystring";
 const realExec = promisify(exec);
 
 export class Util {
+  public static config: IConfig = require("../../../config.json");
+
   /**
    * @param {String} str The string to capitalise
    * @returns {String} The capitalised string
@@ -66,22 +68,17 @@ export class Util {
     return results;
   }
 
-  public static getImg(
-    endpoint: ImageAPIEndpoint,
-    query: Record<string, string>
-  ): Promise<any> {
+  public static getImg(endpoint: ImageAPIEndpoint, query: Record<string, string>): Promise<any> {
     return new Promise((resolve, reject) => {
-      const password = null;
-      const host = "localhost";
-      const port = 3030;
+      const password = Util.config.imageAPI.password;
+      const host = Util.config.imageAPI.host;
+      const port = Util.config.imageAPI.port;
 
       const options: any = {};
       if (password) options.headers = { Authorization: password };
 
-      const req = http.get(
-        `http://${host}:${port}${endpoint}?${querystring.stringify(query)}`,
-        options
-      );
+      const url = new URL(`http://${host}:${port}/${endpoint}?${querystring.stringify(query)}`);
+      const req = http.get(url, options);
 
       req
         .once("response", (res) => {
@@ -192,8 +189,8 @@ export type ImageAPIEndpoint =
   | "fear" // Image url: 256x
   | "sacred" // Image url: 512x
   | "painting" // Image url: 512x
-  | "color?color={NAME_OR_HEX}" //
-  | "delete?" //  Image url: 256x
+  | "color" // Name or hex
+  | "delete" //  Image url: 256x
   | "garbage" // Image url: 512x
   | "tom" // Image url: 256x
   | "bed" // Image url: 128x | Image url: 128x
