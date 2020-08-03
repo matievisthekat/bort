@@ -19,12 +19,10 @@ export class Util {
    * @static
    */
   public static capitalise(str: string): string {
-    return str
-      .split(/ +/gi)
-      .map(
-        (word: string) => word[0].toUpperCase() + word.slice(1).toLowerCase()
-      )
-      .join(" ");
+    return str.length > 0 ?
+      str.split(/ +/gi)
+        .map((word: string) => word[0].toUpperCase() + word.slice(1).toLowerCase())
+        .join(" ") : str;
   }
 
   /**
