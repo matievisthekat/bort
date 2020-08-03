@@ -10,7 +10,7 @@ export default class extends Command {
       examples: ["Make a bed"],
       args: [new Arg("text", "The text of the achievement", true)],
       botPerms: ["ATTACH_FILES"],
-      cooldown: "15s",
+      cooldown: "5s",
       __filename
     });
   }
@@ -25,31 +25,6 @@ export default class extends Command {
    * @public
    */
   public async run(msg: Message, { command, args, flags }: CommandRunOptions): Promise<CommandResult | Message> {
-    const text = args.join(" ");
-    if (text.length > 21) return await msg.warn("Maximum length exceded! Please keep your text to less than 21 characters");
-
-    try {
-      const res = await Util.getImg("achievement", {
-        avatar: msg.author.displayAvatarURL({ size: 64, format: "png" }),
-        text
-      }).catch(async (err) => {
-        msg.client.logger.error(err);
-        await msg.warn(`Unexpected error: ${err.message}`);
-      });
-      if (!res) return;
-
-      await msg.channel.send("", {
-        files: [
-          {
-            name: "Achievement.png",
-            attachment: res
-          }
-        ]
-      });
-      return { done: true };
-    } catch (err) {
-      msg.client.logger.error(err);
-      await msg.warn(`Unexpected error: ${JSON.parse(err).message}`);
-    }
+    return await Util.imageCommand("achievement", msg, args, 64, true, false, false, 21);
   }
 }

@@ -10,7 +10,7 @@ export default class extends Command {
       examples: ["I am very cool"],
       args: [new Arg("text", "The text content of the fake tweet", true)],
       botPerms: ["ATTACH_FILES"],
-      cooldown: "15s",
+      cooldown: "5s",
       __filename,
     });
   }
@@ -25,28 +25,6 @@ export default class extends Command {
    * @public
    */
   public async run(msg: Message, { command, args, flags }: CommandRunOptions): Promise<CommandResult | Message> {
-    const text = args.join(" ");
-    if (text.length > 165) return await msg.warn("Maximum length exceded! Please keep your text to less than 165 characters");
-
-    try {
-      const res = await Util.getImg("tweet", { text }).catch(async (err) => {
-        msg.client.logger.error(err);
-        await msg.warn(`Unexpected error: ${err.message}`);
-      });
-      if (!res) return;
-
-      await msg.channel.send("", {
-        files: [
-          {
-            name: "Tweet.png",
-            attachment: res
-          }
-        ]
-      });
-      return { done: true };
-    } catch (err) {
-      msg.client.logger.error(err);
-      await msg.warn(`Unexpected error: ${JSON.parse(err).message}`);
-    }
+    return await Util.imageCommand("tweet", msg, args, 128, false, true);
   }
 }

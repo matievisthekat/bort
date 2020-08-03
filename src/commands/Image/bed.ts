@@ -11,7 +11,7 @@ export default class extends Command {
       examples: ["@MatievisTheKat#4975"],
       args: [new Arg("user", "The user to target", true)],
       botPerms: ["ATTACH_FILES"],
-      cooldown: "",
+      cooldown: "5s",
       __filename
     });
   }
@@ -26,31 +26,6 @@ export default class extends Command {
    * @public
    */
   public async run(msg: Message, { command, args, flags }: CommandRunOptions): Promise<CommandResult | Message> {
-    const target = msg.mentions.users.first() || msg.client.users.cache.get(args[0]);
-    if (!target) return await msg.warn("Please provide a valid target!");
-
-    try {
-      const res = await Util.getImg("bed", {
-        avatar: msg.author.displayAvatarURL({ size: 128, format: "png" }),
-        target: target.displayAvatarURL({ size: 128, format: "png" })
-      }).catch(async (err) => {
-        msg.client.logger.error(err);
-        await msg.warn(`Unexpected error: ${err.message}`);
-      });
-      if (!res) return;
-
-      await msg.channel.send("", {
-        files: [
-          {
-            name: "Bed.png",
-            attachment: res
-          }
-        ]
-      });
-      return { done: true };
-    } catch (err) {
-      msg.client.logger.error(err);
-      await msg.warn(`Unexpected error: ${JSON.parse(err).message}`);
-    }
+    return await Util.imageCommand("bed", msg, args, 128, false, true);
   }
 }

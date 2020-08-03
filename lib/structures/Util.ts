@@ -6,6 +6,7 @@ import * as path from "path";
 import { Arg } from "./base/Command";
 import http from "http";
 import querystring from "querystring";
+import { Message, ImageSize, User } from "discord.js";
 
 const realExec = promisify(exec);
 
@@ -68,6 +69,47 @@ export class Util {
 
     return results;
   }
+
+  public static async imageCommand(
+    endpoint: ImageAPIEndpoint,
+    msg: Message,
+    args: Array<string>,
+    avatarSize: ImageSize,
+    useColour: boolean,
+    useText?: boolean,
+    useTarget?: boolean,
+    maxLength?: number
+  ) {
+    const text = args.join(" ");
+    const color = args.join(" ");
+    const avatar = msg.author.displayAvatarURL({ size: avatarSize, format: "png" });
+    const target = await msg.client.resolve("user", args.join(" ")) as User;
+    if (useTarget && !target) return await msg.warn("No valid user was provided");
+    if ((useText && text.length > maxLength) || (useColour && color.length > maxLength)) return await msg.warn(`Maximum length exceded! Please keep your text to less than ${maxLength} characters`);
+
+    let error = null;
+
+    const res = await Util.getImg(endpoint, {
+      text,
+      avatar,
+      target: target ? target.displayAvatarURL({ size: avatarSize, format: "png" }) : null,
+      color
+    }).catch(err => error = JSON.parse(err));
+    if (error) {
+      msg.client.logger.error(error.message);
+      return await msg.warn(`Unexpected error: ${error.message}`);
+    }
+
+    await msg.channel.send("", {
+      files: [
+        {
+          name: "Image.png",
+          attachment: res
+        }
+      ]
+    });
+    return { done: true };
+  };
 
   /**
    * Request the image api with certain queries

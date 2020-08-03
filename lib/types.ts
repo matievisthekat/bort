@@ -121,7 +121,7 @@ export interface ExecuteResult {
 
 export type TargetType = "user" | "member" | "category" | "textChannel" | "voiceChannel" | "role";
 
-export type TargetResult = void | User | GuildMember | CategoryChannel | TextChannel | NewsChannel | StoreChannel | VoiceChannel | Role;
+export type TargetResult = User | GuildMember | CategoryChannel | TextChannel | NewsChannel | StoreChannel | VoiceChannel | Role;
 
 declare module "discord.js" {
   interface Client {

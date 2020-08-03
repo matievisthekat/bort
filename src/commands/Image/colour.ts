@@ -12,7 +12,7 @@ export default class extends Command {
       examples: ["#fffff", "red"],
       args: [new Arg("colour", "The colour to get an image of", true)],
       botPerms: ["ATTACH_FILES"],
-      cooldown: "15s",
+      cooldown: "5s",
       __filename
     });
   }
@@ -27,28 +27,6 @@ export default class extends Command {
    * @public
    */
   public async run(msg: Message, { command, args, flags }: CommandRunOptions): Promise<CommandResult | Message> {
-    const color = args.join(" ");
-    if (color.length > 20) return await msg.warn("Maximum length exceded! Please keep your text to less than 20 characters");
-
-    try {
-      const res = await Util.getImg("color", { color }).catch(async (err) => {
-        msg.client.logger.error(err);
-        await msg.warn(`Unexpected error: ${JSON.parse(err).message}`);
-      });
-      if (!res) return;
-
-      await msg.channel.send("", {
-        files: [
-          {
-            name: "Colour.png",
-            attachment: res
-          }
-        ]
-      });
-      return { done: true };
-    } catch (err) {
-      msg.client.logger.error(err);
-      await msg.warn(`Unexpected error: ${JSON.parse(err).message}`);
-    }
+    return await Util.imageCommand("color", msg, args, 128, true, false, false, 20);
   }
 }
