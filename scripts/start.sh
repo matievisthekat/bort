@@ -10,7 +10,8 @@ if [ $1 == "bot" ]; then
 else
     if [ $1 == "img" ]; then
         if [ -f "./api/image/main" ]; then
-            ./api/image/main
+            cd api/image
+            ./main
         else
             ./scripts/build.sh img
             ./api/image/main
