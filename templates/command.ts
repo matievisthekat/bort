@@ -1,5 +1,5 @@
 // @ts-ignore
-import { Command, Arg, Bot, ICommandRun, CommandResult } from "../../../lib";
+import { Command, Arg, Bot, CommandRunOptions, CommandResult } from "../../../lib";
 import { Message } from "discord.js";
 
 export default class extends Command {
@@ -28,7 +28,7 @@ export default class extends Command {
    * @returns {Promise<CommandResult>} The success status object
    * @public
    */
-  public async run(msg: Message, { command, args, flags }: ICommandRun): Promise<CommandResult> {
+  public async run(msg: Message, { command, args, flags }: CommandRunOptions): Promise<CommandResult> {
     return { done: true };
   }
 }
