@@ -3,6 +3,7 @@ import { PermissionString } from "discord.js";
 import { Embed } from "./structures/Embed";
 import { APIOptions } from "../api";
 import { Logger } from "./structures/Logger";
+import { Constructable } from "discord.js";
 
 export interface ArgOptions {
   name: string;
@@ -126,12 +127,13 @@ declare module "discord.js" {
     config: IConfig;
     devs: Array<UserResolvable>;
     logger: Logger;
+    embed: Constructable<Embed>;
   }
 
   interface Message {
-    warn(msg: string | MessageEmbed, channel?: TextChannel | DMChannel | NewsChannel): Promise<any>;
-    success(msg: string | MessageEmbed, channel?: TextChannel | DMChannel | NewsChannel): Promise<any>;
-    embed(): Embed;
+    warn(msg: string | MessageEmbed, channel?: TextChannel | DMChannel | NewsChannel): Promise<Message>;
+    success(msg: string | MessageEmbed, channel?: TextChannel | DMChannel | NewsChannel): Promise<Message>;
+    error(msg: string | MessageEmbed, channel?: TextChannel | DMChannel | NewsChannel): Promise<Message>;
     emoji(type: string): string;
   }
 

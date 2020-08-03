@@ -1,6 +1,5 @@
 import { Bot } from "../Client";
 import { TextChannel, DMChannel, NewsChannel, MessageEmbed, Structures, Client, PermissionString, Message } from "discord.js";
-import { Embed } from "../Embed";
 import { Util } from "../Util";
 
 Structures.extend("Message", (Message) => class extends Message {
@@ -52,13 +51,5 @@ Structures.extend("Message", (Message) => class extends Message {
     if (!emoji) return "";
 
     return external ? emoji.custom || emoji.default : emoji.default;
-  }
-
-  /**
-   * @returns {Embed} A new embed
-   * @public
-   */
-  public embed(): Embed {
-    return new Embed();
   }
 });
