@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 function install () {
     if [ -d "./node_modules/" ]; then
         npm ci

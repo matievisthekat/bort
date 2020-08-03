@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 function clean_bot() {
     rm -rf node_modules
     rm -rf dist

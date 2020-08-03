@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 if [ $1 == "bot" ]; then
     if [ -d "./dist/" ]; then
         node dist/src/index.js

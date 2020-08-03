@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 function build_client() {
     (cd client && npm run build)
 }
