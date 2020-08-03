@@ -1,5 +1,5 @@
 
-import { Command, Arg, Bot, CommandRunOptions, CommandResult, Util } from "../../../lib";
+import { Command, Bot, CommandRunOptions, CommandResult, Util } from "../../../lib";
 import { Message } from "discord.js";
 
 export default class extends Command {
