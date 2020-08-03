@@ -22,10 +22,10 @@ export default class extends Command {
    * @param {Command} commandArgs.command The command that was run
    * @param {Array<string>} commandArgs.args The arguments run with the command
    * @param {object} commandArgs.flags The flags run for the command
-   * @returns {Promise<CommandResult>} The success status object
+   * @returns {Promise<CommandResult | Message>} The success status object
    * @public
    */
-  public async run(msg: Message, { command, args, flags }: CommandRunOptions): Promise<CommandResult> {
+  public async run(msg: Message, { command, args, flags }: CommandRunOptions): Promise<CommandResult | Message> {
     const text = args.join(" ");
     if (text.length > 33) return await msg.warn("Maximum length exceded! Please keep your text to less than 33 characters");
 
