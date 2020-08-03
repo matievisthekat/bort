@@ -18,6 +18,9 @@
     "developer": {
       "custom": "<:bot:704365810076090468>",
       "default": ":hammer:"
+    },
+    "image": {
+      "default": ":camera_with_flash:"
     }
   },
   "colours": {
