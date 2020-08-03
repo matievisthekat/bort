@@ -1,9 +1,10 @@
 import { CommandManager, EventManager, Command } from ".";
-import { PermissionString } from "discord.js";
+import { PermissionString, CategoryChannel, User, TextChannel, GuildMember, Role, VoiceChannel } from "discord.js";
 import { Embed } from "./structures/Embed";
 import { APIOptions } from "../api";
 import { Logger } from "./structures/Logger";
-import { Constructable } from "discord.js";
+import { NewsChannel } from "discord.js";
+import { StoreChannel } from "discord.js";
 
 export interface ArgOptions {
   name: string;
@@ -118,6 +119,9 @@ export interface ExecuteResult {
   error: Error | string;
 }
 
+export type TargetType = "user" | "member" | "category" | "textChannel" | "voiceChannel" | "role";
+
+export type TargetResult = void | User | GuildMember | CategoryChannel | TextChannel | NewsChannel | StoreChannel | VoiceChannel | Role;
 
 declare module "discord.js" {
   interface Client {
