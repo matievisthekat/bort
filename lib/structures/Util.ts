@@ -74,8 +74,8 @@ export class Util {
     endpoint: ImageAPIEndpoint,
     msg: Message,
     args: Array<string>,
-    avatarSize: ImageSize,
-    useColour: boolean,
+    avatarSize?: ImageSize,
+    useColour?: boolean,
     useText?: boolean,
     useTarget?: boolean,
     maxLength?: number
