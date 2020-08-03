@@ -38,7 +38,7 @@ export default class extends Command {
         const categoryCommands = commands.filter(cmd => cmd.opts.category.toLowerCase() === category);
         if (!categoryCommands) continue;
 
-        embed.addField(`${msg.emoji(category)} ${Util.capitalise(category)}`, categoryCommands.map(c => `\`${c.opts.name}\``).join(", "));
+        embed.addField(`${msg.emoji(category)} ${Util.capitalise(`${category} Commands`)}`, categoryCommands.map(c => `\`${c.opts.name}\``).join(", "));
       }
 
       await msg.channel.send(embed);
