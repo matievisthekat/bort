@@ -5,8 +5,8 @@ import { Message } from "discord.js";
 export default class extends Command {
   constructor (client: Bot) {
     super(client, {
-      name: "mask",
-      description: "Put a mask on goddammit",
+      name: "painting",
+      description: "Get the 'painting that kills' meme with someone's avatar",
       category: "Image",
       examples: ["@MatievisTheKat#4975"],
       args: [new Arg("user", "The user to target", true)],
@@ -26,6 +26,6 @@ export default class extends Command {
    * @public
    */
   public async run(msg: Message, { command, args, flags }: CommandRunOptions): Promise<CommandResult | Message> {
-    return await Util.imageCommand("mask", msg, args, 512, false, false, true);
+    return await Util.imageCommand("painting", msg, args, 512, false, false, true);
   }
 }
