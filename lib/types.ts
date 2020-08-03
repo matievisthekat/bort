@@ -132,6 +132,8 @@ declare module "discord.js" {
     devs: Array<UserResolvable>;
     logger: Logger;
     embed: Constructable<Embed>;
+
+    resolve(type: TargetType, value: string, guild?: Guild): Promise<TargetResult>;
   }
 
   interface Message {
