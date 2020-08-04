@@ -2,12 +2,18 @@ sudo: false
 language: node_js
 node_js:
   - "node"
+
 env:
   global:
-    - COVERALLS_PARALLEL=true
-jobs:
-  include:
-    - script: COVERALLS_FLAG_NAME=test-1 make test-coveralls-1
-    - script: COVERALLS_FLAG_NAME=test-2 make test-coveralls-2
-notifications:
-  webhooks: https://coveralls.io/webhook
+    - CC_TEST_REPORTER_ID=ABC123
+
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+  
+script:
+  - bundle exec rspec
+  
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
