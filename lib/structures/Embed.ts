@@ -1,6 +1,5 @@
 import { MessageEmbed, MessageEmbedOptions } from "discord.js";
-import { IConfig } from "..";
-const config: IConfig = require("../../../config.json");
+import config from "../../src/config"
 
 export class Embed extends MessageEmbed {
   constructor (data?: MessageEmbed | MessageEmbedOptions) {

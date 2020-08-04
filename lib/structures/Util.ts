@@ -7,11 +7,12 @@ import { Arg } from "./base/Command";
 import http from "http";
 import querystring from "querystring";
 import { Message, ImageSize, User } from "discord.js";
+import config from "../../src/config";
 
 const realExec = promisify(exec);
 
 export class Util {
-  public static config: IConfig = require("../../../config.json");
+  public static config = config;
 
   /**
    * Capitalise a string or words

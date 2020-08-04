@@ -2,7 +2,7 @@ import { Command, Arg, Bot, Util, CommandRunOptions, CommandResult } from "../..
 import { Message } from "discord.js";
 
 export default class extends Command {
-  constructor(client: Bot) {
+  constructor (client: Bot) {
     super(client, {
       name: "exec",
       aliases: ["execute"],
@@ -39,7 +39,7 @@ export default class extends Command {
       if (output[1]) await msg.channel.send(`**${output[0].title()}**\n\`\`\`\n${output[1]}\`\`\``, options);
     }
 
-    await msg.success("Command successfully run");
+    await msg.send("success", "Command successfully run");
 
     return { done: true };
   }

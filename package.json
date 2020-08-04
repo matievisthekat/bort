@@ -18,7 +18,8 @@
     "build": "tsc",
     "build:client": "scripts/build.sh client",
     "build:img": "scripts/build.sh img",
-    "build:all": "scripts/build.sh all"
+    "build:all": "scripts/build.sh all",
+    "test": "jest"
   },
   "author": "",
   "license": "GPL-3",
@@ -37,11 +38,14 @@
   "devDependencies": {
     "@types/cors": "^2.8.6",
     "@types/express": "^4.17.7",
+    "@types/jest": "^26.0.8",
     "@types/moment": "^2.13.0",
     "@types/morgan": "^1.9.1",
     "@types/ms": "^0.7.31",
     "@types/node": "^14.0.23",
     "@types/pg": "^7.14.4",
+    "jest": "^26.2.2",
+    "ts-jest": "^26.1.4",
     "typescript": "^3.9.7"
   }
 }

@@ -7,8 +7,7 @@ import SEO from "../components/SEO";
 import Command from "../components/Command";
 import Back from "../components/Back";
 import { CommandOptions } from "../../../lib/types";
-
-const config = require("../../../config.json");
+import config from "../../../src/config"
 
 interface CommandsState {
   commands: Array<{ opts: CommandOptions }>;
