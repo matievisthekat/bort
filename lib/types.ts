@@ -1,10 +1,9 @@
 import { CommandManager, EventManager, Command } from ".";
-import { PermissionString, CategoryChannel, User, TextChannel, GuildMember, Role, VoiceChannel } from "discord.js";
+import { StoreChannel, ImageSize, NewsChannel, PermissionString, CategoryChannel, User, TextChannel, GuildMember, Role, VoiceChannel } from "discord.js";
 import { Embed } from "./structures/Embed";
 import { APIOptions } from "../api";
 import { Logger } from "./structures/Logger";
-import { NewsChannel } from "discord.js";
-import { StoreChannel } from "discord.js";
+import { ImageAPIEndpoint } from "./structures/Util";
 
 export interface ArgOptions {
   name: string;
@@ -64,7 +63,19 @@ export interface CommandOptions {
   botPerms?: Array<PermissionString>;
   userPerms?: Array<PermissionString>;
   cooldown?: string;
-  __filename: string;
+  __filename?: string;
+}
+
+export type ImageCommands = Array<ImageCommand>;
+
+export interface ImageCommand {
+  name: ImageAPIEndpoint;
+  description: string;
+  avSize: ImageSize;
+  text?: boolean;
+  target?: boolean;
+  colour?: boolean;
+  maxLength?: number;
 }
 
 export interface EventOptions {

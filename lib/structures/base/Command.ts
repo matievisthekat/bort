@@ -1,5 +1,5 @@
 import { Bot, Util, CommandOptions, CommandRunOptions } from "../../";
-import { Collection } from "discord.js";
+import { Collection, Message } from "discord.js";
 import { EventEmitter } from "events";
 
 export class Arg {
@@ -27,7 +27,7 @@ export class Command extends EventEmitter {
    * @param {Object} flags The flags this command was run with
    * @returns A promise
    */
-  async run(msg, { command, args, flags }: CommandRunOptions): Promise<any> {
+  async run(msg: Message, { command, args, flags }: CommandRunOptions): Promise<any> {
     msg.client.logger.warn(`Command without a run method at ${this.opts.__filename}`);
   }
 
@@ -36,6 +36,7 @@ export class Command extends EventEmitter {
    * @public
    */
   unload() {
+    if (!this.opts.__filename) return false;
     const res = this.client.cmd.unloadCommand(this.opts.__filename);
     return res;
   }
@@ -45,6 +46,8 @@ export class Command extends EventEmitter {
    * @public
    */
   reload() {
+    if (!this.opts.__filename) return false;
+    
     const unloadRes = this.unload();
     if (!unloadRes) return unloadRes;
 
