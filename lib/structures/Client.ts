@@ -1,8 +1,7 @@
-import { Client, ClientOptions, Guild, Role, User, GuildMember, UserResolvable } from "discord.js";
+import { Client, ClientOptions, Guild, Role, User, GuildMember, UserResolvable, Constructable } from "discord.js";
 import { CommandManager, EventManager, Logger, Database, BotOptions, TargetType, TargetResult, Embed } from "../";
 import { APIClient } from "../../api";
 import { Util } from "./Util";
-import { Constructable } from "discord.js";
 
 export class Bot extends Client {
   public evnt: EventManager;
@@ -51,6 +50,18 @@ export class Bot extends Client {
   public async resolve(type: TargetType, value: string, guild?: Guild): Promise<TargetResult> {
     if (!value) return null;
 
+    const findChannel = (t: "category" | "news" | "store" | "text" | "voice") => {
+      const channel = guild.channels.cache
+        .filter(chan => chan.type === t)
+        .find(
+          chan =>
+            chan.name.toLowerCase().includes(value) ||
+            chan.id === value.replace(/[\\<>#]/g, "") ||
+            chan.id === value
+        );
+      return channel || null;
+    };
+
     value = value.toLowerCase();
     switch (type) {
       case "user":
@@ -75,34 +86,11 @@ export class Bot extends Client {
         if (!member) member = await guild.members.fetch(value).catch(() => { });
         return member || null;
       case "category":
-        const category = guild.channels.cache
-          .filter(chan => chan.type === "category")
-          .find(
-            chan =>
-              chan.name.toLowerCase().includes(value) ||
-              chan.id === value.replace(/[\\<>#]/g, "") ||
-              chan.id === value
-          );
-        return category || null;
+        return findChannel("category");
       case "textChannel":
-        const textChannel = guild.channels.cache
-          .filter(chan => chan.type === "text")
-          .find(
-            chan =>
-              chan.name.toLowerCase().includes(value) ||
-              chan.id === value.replace(/[\\<>#]/g, "") ||
-              chan.id === value
-          );
-        return textChannel || null;
+        return findChannel("text");
       case "voiceChannel":
-        const voiceChannel = guild.channels.cache
-          .filter(chan => chan.type === "voice")
-          .find(
-            chan =>
-              chan.name.toLowerCase().includes(value) ||
-              chan.id === value
-          );
-        return voiceChannel || null;
+        return findChannel("voice");
       case "role":
         let role: void | Role = guild.roles.cache.find(
           r =>
