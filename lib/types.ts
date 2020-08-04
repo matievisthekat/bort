@@ -78,6 +78,8 @@ export interface ImageCommand {
   maxLength?: number;
 }
 
+export type CustomMessageType = "warn" | "success" | "error";
+
 export interface EventOptions {
   name: string;
   disabled?: boolean;
@@ -148,10 +150,9 @@ declare module "discord.js" {
   }
 
   interface Message {
-    warn(msg: string | MessageEmbed, channel?: TextChannel | DMChannel | NewsChannel): Promise<Message>;
-    success(msg: string | MessageEmbed, channel?: TextChannel | DMChannel | NewsChannel): Promise<Message>;
-    error(msg: string | MessageEmbed, channel?: TextChannel | DMChannel | NewsChannel): Promise<Message>;
     emoji(type: string): string;
+    format(type: CustomMessageType, msg: string | MessageEmbed): string | MessageEmbed;
+    send(type: CustomMessageType, msg: string | MessageEmbed, channel?: TextChannel | DMChannel | NewsChannel): Promise<Message>
   }
 
   interface User {

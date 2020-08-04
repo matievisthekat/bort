@@ -43,7 +43,7 @@ export default class Ready extends CustomEvent {
           // Get timeout in readable form
           const timeoutLong = ms(timeout, { long: true });
           // Send the error
-          return await msg.warn(`The cooldown for that command has not expired! Please wait **${timeoutLong}** before using it again`);
+          return await msg.send("warn", `The cooldown for that command has not expired! Please wait **${timeoutLong}** before using it again`);
         } else {
           // Remove the cooldown
           command.cooldown.delete(msg.author.id);
@@ -52,7 +52,7 @@ export default class Ready extends CustomEvent {
 
       // If the author is not a developer and the command is locked to devOnly send an error
       if (command.opts.devOnly && !msg.author.developer) {
-        return await msg.warn("That command is locked to developers only!");
+        return await msg.send("warn", "That command is locked to developers only!");
       }
 
       // Get the required permissions for the command. Defaulting to SEND_MESSAGES
@@ -70,7 +70,7 @@ export default class Ready extends CustomEvent {
         const missingSend = botPerms.includes("SEND_MESSAGES");
 
         // Send an error message to the current channel or the author's DM channel
-        return await msg.warn(
+        return await msg.send("warn", 
           `I am missing one or more of the following permissions (\`${botPerms}\`) to execute that command ${missingSend ? `in **${msg.guild.name}**` : ""}`,
           // If the bot is missing SEND_MESSAGES permission it sends a message to the author's DM channel (creating on if it doesn't exist)
           missingSend ? msg.author.dmChannel ?? (await msg.author.createDM()) : msg.channel
@@ -78,14 +78,14 @@ export default class Ready extends CustomEvent {
 
         // Check user perms in the current guild and channel
       } else if (!msg.member.hasPermission(userPerms) || !msg.member.permissionsIn(msg.channel).has(userPerms)) {
-        return await msg.warn(`You are missing one or more of the following permissions (\`${userPerms}\`) to execute that command`);
+        return await msg.send("warn", `You are missing one or more of the following permissions (\`${userPerms}\`) to execute that command`);
       }
 
       // Check command arguments
       if (command.opts.args && command.opts.args.length > 0) {
         for (let i = 0; i < command.opts.args.length; i++) {
           const arg = command.opts.args[i];
-          if (!args[i] && arg.required) return await msg.warn(`You are missing the argument **${arg.name}**. Correct usage \`${client.prefix}${command.opts.name} ${command.opts.usage}\``);
+          if (!args[i] && arg.required) return await msg.send("warn", `You are missing the argument **${arg.name}**. Correct usage \`${client.prefix}${command.opts.name} ${command.opts.usage}\``);
         }
       }
 

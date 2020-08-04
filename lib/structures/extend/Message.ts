@@ -1,6 +1,5 @@
-import { Bot } from "../Client";
+import { Bot, Util, CustomMessageType } from "../..";
 import { TextChannel, DMChannel, NewsChannel, MessageEmbed, Structures, Client, PermissionString, Message } from "discord.js";
-import { Util } from "../Util";
 
 Structures.extend("Message", (Message) => class extends Message {
   constructor (client: Bot | Client, data: object, channel: TextChannel | DMChannel) {
@@ -8,30 +7,28 @@ Structures.extend("Message", (Message) => class extends Message {
   }
 
   /**
+   * @param {CustomMessageType} type The type of message to send
    * @param {String|MessageEmbed} msg The message to send
-   * @returns {Promise<Message>} The message that was sent
-   * @public
+   * @param {TextChannel|DMChannel|NewsChannel} channel The channel to send to
    */
-  public async warn(msg: string | MessageEmbed, channel: TextChannel | DMChannel | NewsChannel = this.channel): Promise<Message> {
-    return await channel.send(`${this.emoji("warn")} ${msg}`);
+  public async send(type: CustomMessageType, msg: string | MessageEmbed, channel?: TextChannel | DMChannel | NewsChannel): Promise<Message> {
+    if (!channel) channel = this.channel;
+    return await channel.send(this.format(type, msg));
   }
 
   /**
-   * @param {String|MessageEmbed} msg The message to send
-   * @returns {Promise<Message>} The message that was sent
-   * @public
+   * @param {CustomMessageType} type The type of message to format to
+   * @param {String|MessageEmbed} msg The message to format
    */
-  public async success(msg: string | MessageEmbed, channel: TextChannel | DMChannel | NewsChannel = this.channel): Promise<Message> {
-    return await channel.send(`${this.emoji("success")} ${msg}`);
-  }
+  public format(type: CustomMessageType, msg: string | MessageEmbed): string | MessageEmbed {
+    const colours = {
+      warn: "yellow",
+      success: "green",
+      error: "red"
+    };
 
-  /**
-   * @param {String|MessageEmbed} msg The message to send
-   * @returns {Promise<Message>} The message that was sent
-   * @public
-   */
-  public async error(msg: string | MessageEmbed, channel: TextChannel | DMChannel | NewsChannel = this.channel): Promise<Message> {
-    return await channel.send(`${this.emoji("error")} ${msg}`);
+    if (msg instanceof MessageEmbed) return msg.setColor(colours[type]);
+    else return `${this.emoji(type)} ${msg}`;
   }
 
   /**

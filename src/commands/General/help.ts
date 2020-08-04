@@ -45,7 +45,7 @@ export default class extends Command {
       return { done: true };
     } else {
       const command = commands.get(args.join(" ")) ?? aliases.get(args.join(" "));
-      if (!command) return await msg.warn(`I could not find a command with that name! Use \`${msg.client.prefix}${this.opts.name}\` for a full list of commands`);
+      if (!command) return await msg.send("warn", `I could not find a command with that name! Use \`${msg.client.prefix}${this.opts.name}\` for a full list of commands`);
 
       const formatPerms = (perms: Array<PermissionString>) => perms?.map((perm) => Util.capitalise(perm.replace(/_+/gi, " "))).join(", ") || "None";
 

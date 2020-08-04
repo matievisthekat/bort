@@ -85,8 +85,8 @@ export class Util {
     const color = args.join(" ");
     const avatar = msg.author.displayAvatarURL({ size: avatarSize, format: "png" });
     const target = await msg.client.resolve("user", args.join(" ")) as User;
-    if (useTarget && !target) return await msg.warn("No valid user was provided");
-    if ((useText && text.length > maxLength) || (useColour && color.length > maxLength)) return await msg.warn(`Maximum length exceded! Please keep your text to less than ${maxLength} characters`);
+    if (useTarget && !target) return await msg.send("warn", "No valid user was provided");
+    if ((useText && text.length > maxLength) || (useColour && color.length > maxLength)) return await msg.send("warn", `Maximum length exceded! Please keep your text to less than ${maxLength} characters`);
 
     let error = null;
 
@@ -98,7 +98,7 @@ export class Util {
     }).catch(err => error = JSON.parse(err));
     if (error) {
       msg.client.logger.error(error.message);
-      return await msg.warn(`Unexpected error: ${error.message}`);
+      return await msg.send("warn", `Unexpected error: ${error.message}`);
     }
 
     await msg.channel.send("", {
