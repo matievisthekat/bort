@@ -6,7 +6,7 @@ export class CommandManager extends EventEmitter {
   public commands: Collection<string, Command> = new Collection();
   public aliases: Collection<string, Command> = new Collection();
 
-  constructor(private client: Bot, private dir: string) {
+  constructor (private client: Bot, private dir: string) {
     super(...arguments);
   }
 
@@ -57,7 +57,15 @@ export class CommandManager extends EventEmitter {
     if (!required || !required.default || typeof required.default !== "function") return false;
 
     const cmd = new required.default(this.client);
-    if (!cmd.opts.name) return false;
+    return this.registerCommand(cmd);
+  }
+
+  /**
+   * @param {Command} cmd The command class to register
+   * @returns {Command} The registered command
+   */
+  public registerCommand(cmd: Command): Command | boolean {
+    if (!cmd.opts.name || !cmd.opts.category) return false;
 
     this.commands.set(cmd.opts.name, cmd);
     cmd.on("run", (msg: Message, { command, args, flags }: CommandRunOptions) => {
