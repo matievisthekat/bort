@@ -11,7 +11,6 @@ export class CommandManager extends EventEmitter {
   }
 
   /**
-   * get
    * @param {String} name The name or alias of the command to get
    * @returns The found command or undefined
    * @public
@@ -21,7 +20,6 @@ export class CommandManager extends EventEmitter {
   }
 
   /**
-   * load
    * @retruns A collection of commands
    * @public
    */
@@ -34,7 +32,6 @@ export class CommandManager extends EventEmitter {
   }
 
   /**
-   * unloadCommand
    * @param {String} path The file path of the command
    * @returns The success status of unloading the command
    * @public
@@ -51,7 +48,6 @@ export class CommandManager extends EventEmitter {
   }
 
   /**
-   * loadCommand
    * @param {String} path The file poth of the command
    * @returns The loaded command or the sucess status of loading the command
    * @public
