@@ -19,3 +19,4 @@ deploy:
     - scripts/deploy.sh $DEPLOY_TOKEN v2 bort $DEPLOY_DIR origin/v2
   on:
     branch: v2
+
