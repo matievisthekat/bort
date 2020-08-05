@@ -96,5 +96,3 @@ client.load().then(([success, err]) => {
 
   client.logger.log("Successfully initialized");
 }).catch((err) => client.logger.error(`Failed to initialize: ${err.message}`));
-
-export default client;
