@@ -1,4 +1,21 @@
 sudo: false
 language: node_js
 node_js:
-  - "node"
+  - "14"
+
+jobs:
+  include:
+    - stage: "test"
+      script:
+        - npm run install:all
+        - npm run test
+    - stage: "build"
+      script:
+        - npm run build:all
+
+deploy:
+  provider: script
+  script:
+    - scripts/deploy.sh $DEPLOY_TOKEN v2 bort $DEPLOY_DIR origin/v2
+  on:
+    branch: v2
