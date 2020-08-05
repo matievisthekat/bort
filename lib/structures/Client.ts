@@ -1,4 +1,4 @@
-import { Client, ClientOptions, Guild, Role, User, GuildMember, UserResolvable, Constructable } from "discord.js";
+import { Client, ClientOptions, Guild, Role, User, GuildMember, UserResolvable, Constructable, CategoryChannel, TextChannel, VoiceChannel } from "discord.js";
 import { CommandManager, EventManager, Logger, Database, BotOptions, TargetType, TargetResult, Embed } from "../";
 import { APIClient } from "../../api";
 import { Util } from "./Util";
@@ -32,13 +32,22 @@ export class Bot extends Client {
    * @returns The result of logging in
    * @public
    */
-  public async load() {
-    this.cmd.load();
-    this.evnt.load();
-    this._api.load();
-    await this.db.load();
+  public async load(test?: boolean) {
+    let success = true;
+    let error = null;
 
-    return await super.login(this.token);
+    try {
+      this.cmd.load();
+      this.evnt.load();
+      this._api.load();
+      await this.db.load();
+      if (!test) await super.login(this.token);
+    } catch (err) {
+      success = false;
+      error = err;
+    }
+
+    return [success, error];
   }
 
   /**
@@ -86,11 +95,11 @@ export class Bot extends Client {
         if (!member) member = await guild.members.fetch(value).catch(() => { });
         return member || null;
       case "category":
-        return findChannel("category");
+        return findChannel("category") as CategoryChannel;
       case "textChannel":
-        return findChannel("text");
+        return findChannel("text") as TextChannel;
       case "voiceChannel":
-        return findChannel("voice");
+        return findChannel("voice") as VoiceChannel;
       case "role":
         let role: void | Role = guild.roles.cache.find(
           r =>
