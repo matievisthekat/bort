@@ -2,25 +2,17 @@ version: 2.1
 
 # Define the jobs we want to run for this project
 jobs:
-  install:
-    docker:
-      - image: circleci/node:14
-    steps:
-      - checkout
-      - run: npm install -g typescript
-      - run: npm install
-
   test:
     docker:
       - image: circleci/node:14
     steps:
       - checkout
+      - run: npm i
       - run: npm test
 
 # Orchestrate our job run sequence
 workflows:
   install_and_test:
     jobs:
-      - install
       - test
       
