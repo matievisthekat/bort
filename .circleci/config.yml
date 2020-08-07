@@ -5,7 +5,6 @@ orbs:
 workflows:
   test:
     jobs:
-      - checkout
       - node/install
       - node/install-packages
       - node --version
