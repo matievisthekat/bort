@@ -2,7 +2,17 @@ version: 2.1
 orbs:
   node: circleci/node@3.0.0
 
+jobs:
+  install-and-test:
+    steps:
+      - checkout
+      - node/install-packages
+      - node/install:
+          node-version: 14
+      - run: node --version
+      - run: npm run test
+
 workflows:
-  tests:
+  test:
     jobs:
-      - npm test
+      - install-and-test
