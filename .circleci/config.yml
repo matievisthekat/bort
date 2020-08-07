@@ -10,9 +10,16 @@ jobs:
       - run: npm i
       - run: npm test
 
+  build:
+    docker:
+      - image: circleci/node:14
+    steps:
+      - checkout
+      - run: npm run build:all
+
 # Orchestrate our job run sequence
 workflows:
-  install_and_test:
+  test:
     jobs:
       - test
       
