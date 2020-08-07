@@ -6,9 +6,8 @@ workflows:
   test:
     jobs:
       - checkout
+      - node/install
       - node/install-packages
-      - node/install:
-          node-version: 14
-      - run: node --version
-      - run: npm run test
+      - node --version
+      - npm run test
       
