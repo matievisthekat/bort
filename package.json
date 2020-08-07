@@ -1,7 +1,7 @@
 {
   "name": "bort",
   "version": "0.0.1",
-  "description": "",
+  "description": "Version 2 of bort in Typescript yeet. If you would like to view the current version: [here you go](https://github.com/MatievisTheKat/bort/tree/master)",
   "main": "src/index.js",
   "scripts": {
     "start": "scripts/start.sh bot",
@@ -19,10 +19,13 @@
     "build:client": "scripts/build.sh client",
     "build:img": "scripts/build.sh img",
     "build:all": "scripts/build.sh all",
-    "test": "tsc && rm -rf dist"
+    "test": "tsc && rm -rf dist",
+    "lint": "eslint",
+    "lint:init": "eslint --init",
+    "lint:fix": "eslint --fix"
   },
-  "author": "",
-  "license": "GPL-3",
+  "author": "Matthew Stead <matthew.stead@matievisthekat.dev>",
+  "license": "GPL-3.0",
   "dependencies": {
     "chalk": "^4.0.0",
     "cors": "^2.8.5",
@@ -44,12 +47,32 @@
     "@types/ms": "^0.7.31",
     "@types/node": "^14.0.23",
     "@types/pg": "^7.14.4",
+    "@typescript-eslint/eslint-plugin": "^3.8.0",
+    "@typescript-eslint/parser": "^3.8.0",
     "coveralls": "^3.1.0",
+    "eslint": "^7.6.0",
+    "eslint-plugin-react": "^7.20.5",
     "husky": "^4.2.5",
     "typescript": "^3.9.7"
   },
   "husky": {
     "pre-commit": "npm test",
     "pre-push": "npm test"
-  }
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MatievisTheKat/bort.git"
+  },
+  "keywords": [
+    "bot",
+    "bort",
+    "discord.js"
+  ],
+  "bugs": {
+    "url": "https://github.com/MatievisTheKat/bort/issues"
+  },
+  "homepage": "https://github.com/MatievisTheKat/bort#readme"
 }
