@@ -1,4 +1,4 @@
-import { ExecuteResult, IConfig } from "../";
+import { ExecuteResult } from "../";
 import { promisify } from "util";
 import { exec } from "child_process";
 import * as fs from "fs";
