@@ -8,7 +8,7 @@ dotenv({
   path: join(__dirname, "../../", ".env")
 });
 
-const config = require(join(__dirname, "../..", "config.json"));
+import config from "./config"
 const client = new Bot(
   {
     ws: {
