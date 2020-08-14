@@ -9,7 +9,7 @@ function build_img() {
 }
 
 function build_bot() {
-    npm run build
+    npm run tsc
 }
 
 if [ $1 == "bot" ]; then
