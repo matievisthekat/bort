@@ -1,12 +1,9 @@
-import { config as dotenv } from "dotenv";
 import { Bot, Command, Arg, CommandResult, Util } from "../lib";
 import { join } from "path";
 import { Message } from "discord.js";
 import { imageCommands } from "./imageCommands";
 
-dotenv({
-  path: join(__dirname, "../../", ".env"),
-});
+Util.loadEnv(join(__dirname, "../../", ".env.json"));
 
 import config from "./config";
 const client = new Bot(
@@ -27,18 +24,17 @@ const client = new Bot(
     disableMentions: "all",
   },
   {
-    token: process.env.TOKEN,
-    mongo_uri: process.env.MONGO_URI,
+    token: process.env["bot.token"],
     prefix: "./",
     devs: ["492708936290402305"],
     event_dir: join(__dirname, "events"),
     command_dir: join(__dirname, "commands"),
     database: {
-      host: process.env.PG_HOST,
-      database: process.env.PG_DATABASE,
-      user: process.env.PG_USER,
-      password: process.env.PG_PASSWORD,
-      port: parseInt(process.env.PG_PORT),
+      host: process.env["postgres.host"],
+      database: process.env["postgres.database"],
+      user: process.env["postgres.user"],
+      password: process.env["postgres.password"],
+      port: parseInt(process.env["postgres.port"]),
       onStartUp: config.onDatabaseStartUp,
     },
     api: {

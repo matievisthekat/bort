@@ -22,10 +22,45 @@ export class Util {
    * @static
    */
   public static capitalise(str: string): string {
-    return str.length > 0 ?
-      str.split(/ +/gi)
-        .map((word: string) => word[0].toUpperCase() + word.slice(1).toLowerCase())
-        .join(" ") : str;
+    return str.length > 0
+      ? str
+          .split(/ +/gi)
+          .map((word: string) => word[0].toUpperCase() + word.slice(1).toLowerCase())
+          .join(" ")
+      : str;
+  }
+
+  /**
+   * Load environment variables from a .env.json file
+   * @param {String} path The path to the .env.json file
+   * @returns {Object} The environment variables
+   * @public
+   * @static
+   */
+  public static loadEnv(path: string): object {
+    const env = require(path);
+    if (!env) throw new Error("(Util#loadEnv) No environment variables to load");
+
+    Util.loadObjectToEnv(env);
+
+    return;
+  }
+
+  /**
+   * Load an object into environment variables
+   * @param {Object} obj The object to load
+   * @public
+   * @static
+   */
+  public static loadObjectToEnv(obj: object): object {
+    for (const entry of Object.entries(obj)) {
+      if (typeof entry[1] === "object") {
+        Util.loadObjectToEnv(entry[1]);
+      } else {
+        process.env[entry[0]] = entry[1].toString();
+      }
+    }
+    return process.env;
   }
 
   /**
@@ -61,11 +96,9 @@ export class Util {
       inner_dir = path.resolve(dir, inner_dir);
       const stat = fs.statSync(inner_dir);
 
-      if (stat.isDirectory())
-        results = results.concat(Util.findNested(inner_dir, pattern));
+      if (stat.isDirectory()) results = results.concat(Util.findNested(inner_dir, pattern));
 
-      if (stat.isFile() && inner_dir.split(".").pop() === pattern)
-        results.push(inner_dir);
+      if (stat.isFile() && inner_dir.split(".").pop() === pattern) results.push(inner_dir);
     });
 
     return results;
@@ -85,9 +118,10 @@ export class Util {
     const text = args.join(" ");
     const color = args.join(" ");
     const avatar = msg.author.displayAvatarURL({ size: avatarSize, format: "png" });
-    const target = await msg.client.resolve("user", args.join(" ")) as User;
+    const target = (await msg.client.resolve("user", args.join(" "))) as User;
     if (useTarget && !target) return await msg.send("warn", "No valid user was provided");
-    if ((useText && text.length > maxLength) || (useColour && color.length > maxLength)) return await msg.send("warn", `Maximum length exceded! Please keep your text to less than ${maxLength} characters`);
+    if ((useText && text.length > maxLength) || (useColour && color.length > maxLength))
+      return await msg.send("warn", `Maximum length exceded! Please keep your text to less than ${maxLength} characters`);
 
     let error = null;
 
@@ -95,18 +129,18 @@ export class Util {
       text,
       avatar: avatarTarget ? target.displayAvatarURL({ size: avatarSize, format: "png" }) : avatar,
       target: target ? target.displayAvatarURL({ size: avatarSize, format: "png" }) : null,
-      color
-    }).catch(err => error = JSON.parse(err));
+      color,
+    }).catch((err) => (error = JSON.parse(err)));
     if (error) {
       msg.client.logger.error(error.message);
       return await msg.send("warn", `Unexpected error: ${error.message}`);
     }
 
     await msg.channel.send("", {
-      files: [{ name: "Image.png", attachment: res }]
+      files: [{ name: "Image.png", attachment: res }],
     });
     return { done: true };
-  };
+  }
 
   /**
    * Request the image api with certain queries

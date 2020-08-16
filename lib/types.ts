@@ -92,7 +92,6 @@ export interface BotOptions {
   devs: Array<string>;
   event_dir: string;
   command_dir: string;
-  mongo_uri: string;
   database: DatabaseOptions;
   api: APIOptions;
 }

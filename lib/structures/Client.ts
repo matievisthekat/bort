@@ -98,7 +98,11 @@ export class Bot extends Client {
   }
 
   public async handleProcessError(err: Error | any): Promise<Message | void> {
-    const webhook = await this.fetchWebhook(process.env.ERR_WEBHOOK_ID, process.env.ERR_WEBHOOK_TOKEN).catch((err) => this.logger.error(err.stack));
+    this.logger.error(err.stack);
+
+    const token = process.env["webhooks.error.token"];
+    const id = process.env["webhooks.error.id"];
+    const webhook = await this.fetchWebhook(id, token).catch((err) => this.logger.error(err.stack));
     if (!webhook) return this.logger.warn(`No error webhook was found using these credentials: TOKEN="${process.env.ERR_WEBHOOK_TOKEN}", ID="${process.env.ERR_WEBHOOK_ID}"`);
 
     const embed = new this.Embed().red.setAuthor(err.name).setDescription(`\`\`\`\n${err.stack}\`\`\``).setTimestamp();

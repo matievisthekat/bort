@@ -5,8 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "start": "scripts/start.sh",
-    "restart": "npm run build && npm run start bot",
-    "install:bot": "scripts/install.sh",
+    "restart": "npm run build bot && npm run start bot",
+    "_install": "scripts/install.sh",
     "clean": "scripts/clean.sh",
     "build": "./scripts/build.sh",
     "test": "tsc && rm -rf dist",
@@ -19,7 +19,6 @@
     "chalk": "^4.0.0",
     "cors": "^2.8.5",
     "discord.js": "^12.0.1",
-    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "moment": "^2.27.0",
     "morgan": "^1.10.0",
