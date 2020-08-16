@@ -1,6 +1,6 @@
 import { CommandManager, EventManager, Command } from ".";
 import { StoreChannel, ImageSize, NewsChannel, PermissionString, CategoryChannel, User, TextChannel, GuildMember, Role, VoiceChannel } from "discord.js";
-import { Embed } from "./structures/Embed";
+import { Embed } from "./structures/extend/Embed";
 import { APIOptions } from "../api";
 import { Logger } from "./structures/Logger";
 import { ImageAPIEndpoint } from "./structures/Util";
