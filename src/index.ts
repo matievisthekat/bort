@@ -5,26 +5,26 @@ import { Message } from "discord.js";
 import { imageCommands } from "./imageCommands";
 
 dotenv({
-  path: join(__dirname, "../../", ".env")
+  path: join(__dirname, "../../", ".env"),
 });
 
-import config from "./config"
+import config from "./config";
 const client = new Bot(
   {
     ws: {
       ///@ts-ignore
       properties: {
-        $browser: "Discord iOS"
-      }
+        $browser: "Discord iOS",
+      },
     },
     presence: {
       activity: {
         name: "you sleep",
-        type: "WATCHING"
+        type: "WATCHING",
       },
-      status: "idle"
+      status: "idle",
     },
-    disableMentions: "all"
+    disableMentions: "all",
   },
   {
     token: process.env.TOKEN,
@@ -39,14 +39,14 @@ const client = new Bot(
       user: process.env.PG_USER,
       password: process.env.PG_PASSWORD,
       port: parseInt(process.env.PG_PORT),
-      onStartUp: config.onDatabaseStartUp
+      onStartUp: config.onDatabaseStartUp,
     },
     api: {
       port: config.api.port,
       development: config.api.development,
       auth: "dev",
-      routes: join(__dirname, "../api/routes")
-    }
+      routes: join(__dirname, "../api/routes"),
+    },
   }
 );
 
@@ -58,41 +58,44 @@ client.db.on("error", (err) => client.logger.error(err));
 client.db.on("notice", (notice) => client.logger.info(notice.message));
 client.db.on("notification", (message) => client.logger.warn(message));
 
-client.load().then(([success, err]) => {
-  if (err) console.error(err);
-  if (!success) return console.log("Failed to initialize. There should be additional logging above");
+process.on("uncaughtException", (err) => client.handleProcessError(err));
+process.on("unhandledRejection", (err) => client.handleProcessError(err));
+process.on("uncaughtExceptionMonitor", (err) => client.handleProcessError(err));
 
-  for (const cmd of imageCommands) {
-    const examples =
-      cmd.text ?
-        ["some nice text content"] :
-        cmd.target ?
-          ["@MatievisTheKat#4975"] :
-          cmd.colour ?
-            ["#ffffff", "red"] :
-            [];
+client
+  .load()
+  .then(([success, err]) => {
+    if (err) console.error(err);
+    if (!success) return console.log("Failed to initialize. There should be additional logging above");
 
-    const args =
-      cmd.text ? [new Arg("text", "The text to generate an image with", true)] :
-        cmd.target ? [new Arg("user", "The user to target", true)] :
-          cmd.colour ? [new Arg("colour", "The colour to get an image of", true)] : null;
+    for (const cmd of imageCommands) {
+      const examples = cmd.text ? ["some nice text content"] : cmd.target ? ["@MatievisTheKat#4975"] : cmd.colour ? ["#ffffff", "red"] : [];
 
-    const command = new Command(client, {
-      name: cmd.name,
-      description: cmd.description,
-      category: "Image",
-      examples,
-      args,
-      botPerms: ["ATTACH_FILES"],
-      cooldown: "5s",
-    });
+      const args = cmd.text
+        ? [new Arg("text", "The text to generate an image with", true)]
+        : cmd.target
+        ? [new Arg("user", "The user to target", true)]
+        : cmd.colour
+        ? [new Arg("colour", "The colour to get an image of", true)]
+        : null;
 
-    command.run = async (msg, { command, args, flags }): Promise<CommandResult | Message> => {
-      return await Util.imageCommand(cmd.name, msg, args, cmd.avSize, cmd.colour, cmd.text, cmd.target, cmd.maxLength ?? 0, cmd.target);
-    };
+      const command = new Command(client, {
+        name: cmd.name,
+        description: cmd.description,
+        category: "Image",
+        examples,
+        args,
+        botPerms: ["ATTACH_FILES"],
+        cooldown: "5s",
+      });
 
-    client.cmd.registerCommand(command);
-  }
+      command.run = async (msg, { command, args, flags }): Promise<CommandResult | Message> => {
+        return await Util.imageCommand(cmd.name, msg, args, cmd.avSize, cmd.colour, cmd.text, cmd.target, cmd.maxLength ?? 0, cmd.target);
+      };
 
-  client.logger.log("Successfully initialized");
-}).catch((err) => client.logger.error(`Failed to initialize: ${err.message}`));
+      client.cmd.registerCommand(command);
+    }
+
+    client.logger.log("Successfully initialized");
+  })
+  .catch((err) => client.logger.error(`Failed to initialize: ${err.message}`));
