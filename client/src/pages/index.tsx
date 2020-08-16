@@ -19,7 +19,7 @@ export default class Index extends React.Component<{}, IndexState> {
   public render() {
     return (
       <Layout path="home">
-        <SEO title="Home" />
+        <SEO title="Home" description="Bort's homepage" />
         <div className="container text-danger text-center">Home</div>
       </Layout>
     );
