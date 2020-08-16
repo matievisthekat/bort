@@ -21,7 +21,7 @@ interface ButtonProps {
   outlineColour?: Colour;
   outline?: boolean;
   openInNewtab?: boolean;
-  onClick?(): void;
+  onClick?(): any;
 }
 
 export default class Button extends React.Component<ButtonProps> {
