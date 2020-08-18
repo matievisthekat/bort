@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function build_client() {
-    (cd client && npm run build)
+    (npm run _install client && npm run clean client && npm run _install client && cd client && npm run build)
 }
 
 function build_img() {
@@ -9,7 +9,7 @@ function build_img() {
 }
 
 function build_bot() {
-    npm run tsc
+    npm run _install bot && npm run clean bot && npm run _install bot && npm run tsc
 }
 
 if [ $1 == "bot" ]; then
