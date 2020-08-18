@@ -15,9 +15,12 @@ export default class Dashboard extends EventEmitter {
 
   public load() {
     const pub = resolve("./dist/public");
-    console.log(pub);
 
     this.app.use(express.static(pub));
+    this.app.use("/dash", require("./routes/dash"));
+
+    this.app.set("views", join(__dirname, "views"));
+    this.app.set("view engine", "ejs");
 
     this.app.listen(this.port, () => this.client.logger.log(`Website listening on port ${this.port}`));
   }
