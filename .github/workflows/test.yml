@@ -12,10 +12,10 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install Dependencies
-        run: npm run _install all && npm install -g typescript
+        run: npm run _install all
 
       - name: Lint
         run: npm run lint
 
       - name: Test
-        run: tsc
+        run: npm test
