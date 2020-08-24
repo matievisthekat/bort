@@ -39,8 +39,8 @@ const client = new Bot(
     },
     api: {
       port: config.api.port,
-      development: config.api.development,
-      auth: "dev",
+      prod: config.api.prod,
+      auth: process.env["api.auth"],
       routes: join(__dirname, "../api/routes"),
     },
   }

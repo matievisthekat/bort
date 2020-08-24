@@ -32,7 +32,7 @@ export default {
   api: {
     port: 3000,
     host: "localhost",
-    development: true
+    prod: false
   },
   onDatabaseStartUp: {},
   imageAPI: {
