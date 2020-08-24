@@ -20,7 +20,7 @@ export default class Index extends React.Component<{}, IndexState> {
     return (
       <Layout path="home">
         <SEO title="Home" description="Bort's homepage" />
-        <div className="container text-danger text-center">Home</div>
+        <div className="container text-primary text-center">Home</div>
       </Layout>
     );
   }

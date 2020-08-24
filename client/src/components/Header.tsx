@@ -1,5 +1,4 @@
 import React from "react";
-import Scripts from "./Scripts";
 import NavBar from "./NavBar";
 
 interface HeaderProps {
@@ -14,7 +13,6 @@ export default class Footer extends React.Component<HeaderProps> {
   public render() {
     return (
       <header className="header">
-        <Scripts />
         <NavBar tabName={this.props.name} />
       </header>
     );

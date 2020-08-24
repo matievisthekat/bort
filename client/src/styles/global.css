@@ -4,10 +4,10 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css");
 @import url("https://highlightjs.org/static/demo/styles/solarized-dark.css");
 
-body {
+.bg-custom {
   background-color: #2e2e2e;
 }
 
 .header {
-  margin-bottom: 7%;
+  margin-bottom: 6rem;
 }
