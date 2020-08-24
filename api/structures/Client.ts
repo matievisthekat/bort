@@ -20,7 +20,7 @@ export class APIClient extends EventEmitter {
   public development: boolean;
   public app: Express;
 
-  constructor (client: Bot, opts: APIOptions) {
+  constructor(client: Bot, opts: APIOptions) {
     super();
 
     this.client = client;
@@ -34,7 +34,9 @@ export class APIClient extends EventEmitter {
 
     app.use(morgan(this.development ? "dev" : "common"));
     app.use(cors());
-  };
+
+    app.set("json spaces", 2);
+  }
 
   /**
    * @returns {APIManager} This manager

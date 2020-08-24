@@ -1,12 +1,11 @@
-import { ExecuteResult } from "../";
+import { ExecuteResult, Bot, Arg, Command } from "../";
 import { promisify } from "util";
 import { exec } from "child_process";
 import * as fs from "fs";
 import * as path from "path";
-import { Arg } from "./base/Command";
 import http from "http";
 import querystring from "querystring";
-import { Message, ImageSize, User } from "discord.js";
+import { Message, ImageSize, User, Collection } from "discord.js";
 import config from "../../src/config";
 
 const realExec = promisify(exec);
@@ -79,6 +78,23 @@ export class Util {
       stderr: result?.stderr,
       error,
     };
+  }
+
+  /**
+   * Get a collection of commands but without sensitive info
+   * @param {Bot} client The bot's client
+   * @returns {Collection<string, Command>} The collection of commands
+   * @public
+   * @static
+   */
+  public static getCleanCommands(client: Bot): Collection<string, Command> {
+    const commands = new Collection<string, Command>();
+    client.cmd.commands.array().forEach((cmd: Command) => commands.set(cmd.opts.name, cmd));
+    commands.forEach((cmd) => {
+      delete cmd.client;
+      delete cmd.opts.__filename;
+    });
+    return commands;
   }
 
   /**
