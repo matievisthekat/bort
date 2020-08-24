@@ -1,0 +1,21 @@
+name: test
+on: [push]
+
+jobs:
+  test:
+    # Job name is Greeting
+    name: Test
+    # This job runs on Linux
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: npm run _install all && npm install -g typescript
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: tsc
