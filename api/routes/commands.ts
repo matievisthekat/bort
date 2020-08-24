@@ -15,7 +15,7 @@ export default class extends Route {
       res.status(200).json(
         new Response({
           status: 200,
-          message: "Get /commands/:name for more information of a specific command",
+          message: "Get /commands/:name for more info of a specific command",
           data: commands.array(),
         })
       );
@@ -59,7 +59,7 @@ export default class extends Route {
       res.status(status).json(
         new Response({
           status,
-          message: "Get /commands/:name for more information of a specific command",
+          message: "Get /commands/:name for more info of a specific command",
           data: commands,
         })
       );
