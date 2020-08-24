@@ -8,7 +8,7 @@ import { Route } from "./Route";
 export interface APIOptions {
   port?: number;
   auth: string;
-  development?: boolean;
+  prod?: boolean;
   routes: string;
 }
 
@@ -17,14 +17,14 @@ export class APIClient extends EventEmitter {
   private routes: string;
   public port: number;
   public auth: string;
-  public development: boolean;
+  public prod: boolean;
   public app: Express;
 
   constructor(client: Bot, opts: APIOptions) {
     super();
 
     this.client = client;
-    this.development = opts.development ?? false;
+    this.prod = opts.prod ?? false;
     this.port = opts.port ?? 3000;
     this.auth = opts.auth;
     this.routes = opts.routes;
@@ -32,7 +32,7 @@ export class APIClient extends EventEmitter {
     const app = express();
     this.app = app;
 
-    app.use(morgan(this.development ? "dev" : "common"));
+    app.use(morgan(this.prod ? "common" : "dev"));
     app.use(cors());
 
     app.set("json spaces", 2);
