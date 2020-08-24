@@ -3,7 +3,6 @@ import { CommandManager, EventManager, Logger, Database, BotOptions, TargetType,
 import { APIClient } from "../../api";
 import { Util } from "./Util";
 import { Message } from "discord.js";
-import Dashboard from "../../dashboard/app";
 
 export class Bot extends Client {
   public evnt: EventManager;
@@ -15,7 +14,6 @@ export class Bot extends Client {
   public readonly prefix: string;
   public readonly devs: Array<UserResolvable>;
   public readonly Embed: Constructable<Embed> = Embed;
-  public dashboard: Dashboard;
 
   constructor(baseOpts: ClientOptions, opts: BotOptions) {
     super(baseOpts);
@@ -29,7 +27,6 @@ export class Bot extends Client {
     this.db = new Database(opts.database, opts.database.onStartUp);
     this._api = new APIClient(this, opts.api);
     this.logger = new Logger();
-    this.dashboard = new Dashboard(this);
   }
 
   /**
@@ -44,7 +41,7 @@ export class Bot extends Client {
       this.cmd.load();
       this.evnt.load();
       this._api.load();
-      this.dashboard.load();
+      
       await this.db.load();
       if (!test) await super.login(this.token);
     } catch (err) {
