@@ -24,7 +24,7 @@ export default class CommandTable extends React.Component<Props, State> {
         </thead>
         <tbody>
           {this.props.commands.map((cmd, i) => (
-            <tr>
+            <tr key={i}>
               <th scope="row">{cmd.opts.name}</th>
               <td>
                 <Highlight language="dust">
