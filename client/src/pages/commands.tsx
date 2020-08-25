@@ -38,9 +38,6 @@ export default class Commands extends React.Component<Props, State> {
     return (
       <Layout path="commands">
         <SEO title="Commands" description="All the commands for bort" />
-        <div className="container text-primary text-center">Commands</div>
-        <br />
-        <br />
         <div className="container">
           {this.state.categories ? this.state.categories.map((cat, i) => <Category name={cat} key={i} />) : this.state.error ? <ErrorBox message={this.state.error} /> : null}
         </div>

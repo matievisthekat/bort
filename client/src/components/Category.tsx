@@ -45,7 +45,7 @@ export default class Category extends React.Component<Props, State> {
           onClick={() => this.setExpanded(!this.state.expanded)}
           aria-controls="collapse-category"
           aria-expanded={this.state.expanded}
-          className="container shadow-md p-1 mb-5 bg-dark rounded text-info text-center"
+          className="container shadow-md p-1 mb-5 bg-dark rounded text-capitalize text-monospace text-white-50 text-center"
           as="div"
           variant="dark"
         >
