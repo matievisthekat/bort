@@ -3,11 +3,11 @@ import React from "react";
 import Layout from "../components/Layout";
 import SEO from "../components/SEO";
 
-interface IndexState {
+interface State {
   error: string;
 }
 
-export default class Index extends React.Component<{}, IndexState> {
+export default class Index extends React.Component<{}, State> {
   constructor(props: Readonly<{}>) {
     super(props);
 
