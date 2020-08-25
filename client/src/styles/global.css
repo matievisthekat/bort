@@ -4,14 +4,18 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css");
 @import url("https://highlightjs.org/static/demo/styles/solarized-dark.css");
 
+html {
+  overflow-y: scroll;
+}
+
 body::-webkit-scrollbar {
-  width: .25rem;
+  width: 0.5rem;
 }
- 
+
 body::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 6px #161616;
+  box-shadow: inset 0 0 6px #474747;
 }
- 
+
 body::-webkit-scrollbar-thumb {
   background-color: #161616;
 }
