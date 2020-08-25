@@ -1,3 +1,8 @@
+const { resolve } = require("path");
+require("dotenv").config({
+  path: resolve(`./.env.${process.env.NODE_ENV}`),
+});
+
 module.exports = {
   siteMetadata: {
     title: "bort",
