@@ -8,7 +8,18 @@ import { oauth } from "../../config";
 interface Props {}
 interface State {
   error: string;
-  user: any;
+  user: User;
+  refreshToken: string;
+}
+interface User {
+  avatar: string;
+  discriminator: string;
+  flags: number;
+  id: string;
+  locale: string;
+  premium_type: number;
+  public_flags: number;
+  username: string;
 }
 
 export default class Callback extends React.Component<Props, State> {
@@ -18,6 +29,7 @@ export default class Callback extends React.Component<Props, State> {
     this.state = {
       error: null,
       user: null,
+      refreshToken: null,
     };
   }
 
@@ -54,7 +66,7 @@ export default class Callback extends React.Component<Props, State> {
         },
       });
       const user = uRes.data;
-      this.setState({ user });
+      this.setState({ user, refreshToken });
       window.location.href = "/";
     }
 
@@ -63,7 +75,6 @@ export default class Callback extends React.Component<Props, State> {
 
   public render() {
     if (this.state.user) {
-      
     }
 
     return (
@@ -73,10 +84,7 @@ export default class Callback extends React.Component<Props, State> {
           <div className="container text-danger text-center">
             An unexpected error occured: {this.state.error}
             <br />
-            Please{" "}
-            <a href="/login" className="">
-              try again
-            </a>
+            Please <a href="/login">try again</a>
           </div>
         ) : (
           <div className="container text-primary text-center">Please wait while you are redirected...</div>
