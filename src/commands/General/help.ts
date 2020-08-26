@@ -4,7 +4,7 @@ import ms from "ms";
 import { PermissionString } from "discord.js";
 
 export default class extends Command {
-  constructor (client: Bot) {
+  constructor(client: Bot) {
     super(client, {
       name: "help",
       aliases: ["commands", "cmds"],
@@ -13,7 +13,7 @@ export default class extends Command {
       examples: ["ping", "Music"],
       args: [new Arg("command|category", "The command or category to search for")],
       botPerms: ["SEND_MESSAGES"],
-      __filename
+      __filename,
     });
   }
 
@@ -32,13 +32,13 @@ export default class extends Command {
 
     if (!args[0]) {
       const embed = new msg.client.Embed();
-      const categories: Array<string> = [... new Set(commands.map(cmd => cmd.opts.category.toLowerCase()))];
+      const categories: Array<string> = [...new Set(commands.map((cmd) => cmd.opts.category.toLowerCase()))];
 
       for (const category of categories) {
-        const categoryCommands = commands.filter(cmd => cmd.opts.category.toLowerCase() === category);
+        const categoryCommands = commands.filter((cmd) => cmd.opts.category.toLowerCase() === category);
         if (!categoryCommands) continue;
 
-        embed.addField(`${msg.emoji(category)} ${Util.capitalise(`${category} Commands`)}`, categoryCommands.map(c => `\`${c.opts.name}\``).join(", "));
+        embed.addField(`${msg.emoji(category)} ${Util.capitalise(category)}`, categoryCommands.map((c) => `\`${c.opts.name}\``).join(", "));
       }
 
       await msg.channel.send(embed);
@@ -52,11 +52,14 @@ export default class extends Command {
       const opts = command.opts;
       const embed = new msg.client.Embed()
         .addField(Util.capitalise(`${opts.category}: ${opts.name}`), `\`\`\`dust\n${msg.client.prefix}${opts.name} ${opts.usage}\`\`\`${opts.description}`)
-        .addField("Options", `\`\`\`md\n- Aliases: ${opts.aliases?.join(", ") || "None"}\n- Cooldown: ${ms(ms(opts.cooldown), { long: true })}\n- Developer Only: ${opts.devOnly ? "Yes" : "No"}\`\`\``)
+        .addField(
+          "Options",
+          `\`\`\`md\n- Aliases: ${opts.aliases?.join(", ") || "None"}\n- Cooldown: ${ms(ms(opts.cooldown), { long: true })}\n- Developer Only: ${opts.devOnly ? "Yes" : "No"}\`\`\``
+        )
         .addField("User Permissions", formatPerms(opts.userPerms))
         .addField("Bot Permissions", formatPerms(opts.botPerms))
-        .addField("Arguments", `\`\`\`dust\n${opts.args?.map(a => `${Util.formatArg(a)} ${a.desc}`).join("\n") || "None"}\`\`\``)
-        .addField("Examples", opts.examples?.map(ex => `${msg.client.prefix}${opts.name} ${ex}`).join("\n") || "None")
+        .addField("Arguments", `\`\`\`dust\n${opts.args?.map((a) => `${Util.formatArg(a)} ${a.desc}`).join("\n") || "None"}\`\`\``)
+        .addField("Examples", opts.examples?.map((ex) => `${msg.client.prefix}${opts.name} ${ex}`).join("\n") || "None")
         .setFooter("{ Required } | < Optional >");
 
       await msg.channel.send(embed);
