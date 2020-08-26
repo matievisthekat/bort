@@ -7,6 +7,7 @@ import { Route } from "./Route";
 
 export interface APIOptions {
   port?: number;
+  host: string;
   auth: string;
   prod?: boolean;
   routes: string;

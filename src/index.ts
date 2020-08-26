@@ -9,7 +9,6 @@ import config from "./config";
 const client = new Bot(
   {
     ws: {
-      ///@ts-ignore
       properties: {
         $browser: "Discord iOS",
       },
@@ -37,12 +36,7 @@ const client = new Bot(
       port: parseInt(process.env["postgres.port"]),
       onStartUp: config.onDatabaseStartUp,
     },
-    api: {
-      port: config.api.port,
-      prod: config.api.prod,
-      auth: process.env["api.auth"],
-      routes: join(__dirname, "../api/routes"),
-    },
+    api: config.api,
   }
 );
 

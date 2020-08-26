@@ -38,7 +38,34 @@ FOREIGN KEY   https://www.postgresqltutorial.com/postgresql-foreign-key/
 export type DatabaseContraint = "NOT NULL" | "UNIQUE" | "PRIMARY KEY" | "CHECK" | "FOREIGN KEY";
 
 // https://www.postgresqltutorial.com/postgresql-data-types/
-export type DataType = "bool" | "boolean" | "CHAR" | "VARCHAR" | "TEXT" | "SMALLINT" | "INT" | "SERIAL" | "float" | "real" | "float8" | "numeric" | "DATE" | "TIME" | "TIMESTAMP" | "TIMESTAMPZ" | "INTERVAL" | "JSON" | "JSONB" | "UUID" | "box" | "line" | "point" | "lseg" | "polygon" | "inet" | "macaddr";
+export type DataType =
+  | "bool"
+  | "boolean"
+  | "CHAR"
+  | "VARCHAR"
+  | "TEXT"
+  | "SMALLINT"
+  | "INT"
+  | "SERIAL"
+  | "float"
+  | "real"
+  | "float8"
+  | "numeric"
+  | "DATE"
+  | "TIME"
+  | "TIMESTAMP"
+  | "TIMESTAMPZ"
+  | "INTERVAL"
+  | "JSON"
+  | "JSONB"
+  | "UUID"
+  | "box"
+  | "line"
+  | "point"
+  | "lseg"
+  | "polygon"
+  | "inet"
+  | "macaddr";
 
 export interface DatabaseTableOptions {
   name: string;
@@ -112,6 +139,7 @@ export interface IConfig {
   };
   onDatabaseStartUp?: object;
   imageAPI: ImageAPIOptions;
+  api: APIOptions;
 }
 
 export interface ImageAPIOptions {
@@ -125,9 +153,9 @@ export interface CommandResult {
 }
 
 export interface ExecuteResult {
-  stdin: string,
-  stdout: string,
-  stderr: string,
+  stdin: string;
+  stdout: string;
+  stderr: string;
   error: Error | string;
 }
 
@@ -151,7 +179,7 @@ declare module "discord.js" {
   interface Message {
     emoji(type: string): string;
     format(type: CustomMessageType, msg: string | MessageEmbed): string | MessageEmbed;
-    send(type: CustomMessageType, msg: string | MessageEmbed, channel?: TextChannel | DMChannel | NewsChannel): Promise<Message>
+    send(type: CustomMessageType, msg: string | MessageEmbed, channel?: TextChannel | DMChannel | NewsChannel): Promise<Message>;
   }
 
   interface User {
