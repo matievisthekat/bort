@@ -7,21 +7,10 @@ import {
   GuildMember,
   UserResolvable,
   Constructable,
-  CategoryChannel,
-  TextChannel,
-  VoiceChannel,
   Message,
+  GuildChannel,
 } from "discord.js";
-import {
-  CommandManager,
-  EventManager,
-  Logger,
-  Database,
-  BotOptions,
-  TargetType,
-  TargetResult,
-  Embed,
-} from "../";
+import { CommandManager, EventManager, Logger, Database, BotOptions, Embed } from "../";
 import { APIClient } from "../../api";
 import { Util } from "./Util";
 
@@ -54,7 +43,7 @@ export class Bot extends Client {
    * @returns The result of logging in
    * @public
    */
-  public async load(test?: boolean) {
+  public async load() {
     let success = true;
     let error = null;
 
@@ -64,7 +53,7 @@ export class Bot extends Client {
       this._api.load();
 
       await this.db.load();
-      if (!test) await super.login(this.token);
+      await super.login(this.token);
     } catch (err) {
       success = false;
       error = err;
@@ -74,66 +63,63 @@ export class Bot extends Client {
   }
 
   /**
-   * Resolve for a role, user, channel or member
-   * @param {TargetType} type The type to resolve for
    * @param {String} value The value to search for
-   * @param {Guild} guild The guild to search in (when needed)
+   * @returns {Promise<User|GuildMember|void>}
+   * @public
    */
-  public async resolve(type: TargetType, value: string, guild?: Guild): Promise<TargetResult> {
-    if (!value) return null;
-
-    const findChannel = (type: "category" | "news" | "store" | "text" | "voice") => {
-      const channel = guild.channels.cache
-        .filter((chan) => chan.type === type)
-        .find(
-          (chan) =>
-            chan.name.toLowerCase().includes(value) ||
-            chan.id === value.replace(/[\\<>#]/g, "") ||
-            chan.id === value
-        );
-      return channel || null;
-    };
-
+  public async getUserOrMember(value: string, guild?: Guild): Promise<User | GuildMember | void> {
     value = value.toLowerCase();
-    switch (type) {
-      case "user":
-        let user: void | User = this.users.cache.find(
-          (u) =>
-            u.username.toLowerCase().includes(value) ||
-            u.id === value.replace(/[\\<>@!]/g, "") ||
-            u.id === value
-        );
+    const regex = /[\\<>@!]/g;
 
-        if (!user) user = await this.users.fetch(value).catch(() => {});
-        return user || null;
-      case "member":
-        let member: void | GuildMember = guild.members.cache.find(
+    const res = guild
+      ? guild.members.cache.find(
           (m) =>
-            m.user.username.toLowerCase().includes(value) ||
-            m.user.id === value.replace(/[\\<>@!]/g, "") ||
+            m.user.id === value.replace(regex, "") ||
             m.displayName.toLowerCase().includes(value) ||
-            m.user.id === value
-        );
+            m.user.username.toLowerCase().includes(value)
+        )
+      : this.users.cache.find((u) => u.id === value.replace(regex, "") || u.username.toLowerCase().includes(value));
 
-        if (!member) member = await guild.members.fetch(value).catch(() => {});
-        return member || null;
-      case "category":
-        return findChannel("category") as CategoryChannel;
-      case "textChannel":
-        return findChannel("text") as TextChannel;
-      case "voiceChannel":
-        return findChannel("voice") as VoiceChannel;
-      case "role":
-        let role: void | Role = guild.roles.cache.find(
-          (r) =>
-            r.name.toLowerCase().includes(value) || r.id === value.replace(/[\\<>@&]/g, "") || r.id === value
-        );
+    return res || (guild ? await guild.members.fetch(value).catch(() => {}) : this.users.fetch(value).catch(() => {}));
+  }
 
-        if (!role) role = await guild.roles.fetch(value).catch(() => {});
-        return role || null;
-      default:
-        return null;
-    }
+  /**
+   * @param {String} value The value to search for
+   * @param {Guild} guild The guild to search in
+   * @returns {Promise<Role|void>}
+   * @public
+   */
+  public async getRole(value: string, guild: Guild): Promise<Role | void> {
+    value = value.toLowerCase();
+    const regex = /[\\<>&]/g;
+
+    const res = guild.roles.cache.find(
+      (r) => r.id === value.replace(regex, "") || r.name.toLowerCase().includes(value)
+    );
+
+    return res || (await guild.roles.fetch(value).catch(() => {}));
+  }
+
+  /**
+   * @param {"category" | "text" | "voice" | "news" | "store"} type The channel type to search for
+   * @param {String} value The value to search for
+   * @param {Guild} guild The guild to search in
+   * @returns {GuildChannel|void}
+   * @public
+   */
+  public getChannel(
+    type: "category" | "text" | "voice" | "news" | "store",
+    value: string,
+    guild: Guild
+  ): GuildChannel | void {
+    value = value.toLowerCase();
+    const regex = /[\\<>#]/g;
+
+    const res = guild.channels.cache
+      .filter((c) => c.type === type)
+      .find((c) => c.id === value.replace(regex, "") || c.name.toLowerCase().includes(value));
+
+    return res;
   }
 
   public async handleProcessError(err: Error | any): Promise<Message | void> {
@@ -143,14 +129,9 @@ export class Bot extends Client {
     const id = process.env["webhooks.error.id"];
     const webhook = await this.fetchWebhook(id, token).catch((err) => this.logger.error(err.stack));
     if (!webhook)
-      return this.logger.warn(
-        `No error webhook was found using these credentials: TOKEN="${process.env.ERR_WEBHOOK_TOKEN}", ID="${process.env.ERR_WEBHOOK_ID}"`
-      );
+      return this.logger.warn(`No error webhook was found using these credentials: TOKEN="${token}", ID="${id}"`);
 
-    const embed = new this.Embed().red
-      .setAuthor(err.name)
-      .setDescription(`\`\`\`\n${err.stack}\`\`\``)
-      .setTimestamp();
+    const embed = new this.Embed().red.setAuthor(err.name).setDescription(`\`\`\`\n${err.stack}\`\`\``).setTimestamp();
     return await webhook.send(embed);
   }
 }

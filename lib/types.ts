@@ -1,5 +1,5 @@
 import { CommandManager, EventManager, Command } from ".";
-import { StoreChannel, ImageSize, NewsChannel, PermissionString, CategoryChannel, User, TextChannel, GuildMember, Role, VoiceChannel } from "discord.js";
+import { ImageSize, PermissionString } from "discord.js";
 import { Embed } from "./structures/extend/Embed";
 import { APIOptions } from "../api";
 import { Logger } from "./structures/Logger";
@@ -159,10 +159,6 @@ export interface ExecuteResult {
   error: Error | string;
 }
 
-export type TargetType = "user" | "member" | "category" | "textChannel" | "voiceChannel" | "role";
-
-export type TargetResult = User | GuildMember | CategoryChannel | TextChannel | NewsChannel | StoreChannel | VoiceChannel | Role;
-
 declare module "discord.js" {
   interface Client {
     prefix: string;
@@ -172,14 +168,16 @@ declare module "discord.js" {
     devs: Array<UserResolvable>;
     logger: Logger;
     Embed: Constructable<Embed>;
-
-    resolve(type: TargetType, value: string, guild?: Guild): Promise<TargetResult>;
   }
 
   interface Message {
     emoji(type: string): string;
     format(type: CustomMessageType, msg: string | MessageEmbed): string | MessageEmbed;
-    send(type: CustomMessageType, msg: string | MessageEmbed, channel?: TextChannel | DMChannel | NewsChannel): Promise<Message>;
+    send(
+      type: CustomMessageType,
+      msg: string | MessageEmbed,
+      channel?: TextChannel | DMChannel | NewsChannel
+    ): Promise<Message>;
   }
 
   interface User {
