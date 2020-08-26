@@ -168,6 +168,14 @@ declare module "discord.js" {
     devs: Array<UserResolvable>;
     logger: Logger;
     Embed: Constructable<Embed>;
+
+    getUserOrMember(value: string, guild?: Guild): Promise<User | GuildMember | void>;
+    getRole(value: string, guild: Guild): Promise<Role | void>;
+    getChannel(
+      type: "category" | "text" | "voice" | "news" | "store",
+      value: string,
+      guild: Guild
+    ): GuildChannel | void;
   }
 
   interface Message {

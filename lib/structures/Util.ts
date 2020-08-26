@@ -134,7 +134,7 @@ export class Util {
     const text = args.join(" ");
     const color = args.join(" ");
     const avatar = msg.author.displayAvatarURL({ size: avatarSize, format: "png" });
-    const target = (await msg.client.resolve("user", args.join(" "))) as User;
+    const target = (await msg.client.getUserOrMember(args.join(" "))) as User;
     if (useTarget && !target) return await msg.send("warn", "No valid user was provided");
     if ((useText && text.length > maxLength) || (useColour && color.length > maxLength))
       return await msg.send("warn", `Maximum length exceded! Please keep your text to less than ${maxLength} characters`);
