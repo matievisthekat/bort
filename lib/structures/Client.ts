@@ -1,8 +1,29 @@
-import { Client, ClientOptions, Guild, Role, User, GuildMember, UserResolvable, Constructable, CategoryChannel, TextChannel, VoiceChannel } from "discord.js";
-import { CommandManager, EventManager, Logger, Database, BotOptions, TargetType, TargetResult, Embed } from "../";
+import {
+  Client,
+  ClientOptions,
+  Guild,
+  Role,
+  User,
+  GuildMember,
+  UserResolvable,
+  Constructable,
+  CategoryChannel,
+  TextChannel,
+  VoiceChannel,
+  Message,
+} from "discord.js";
+import {
+  CommandManager,
+  EventManager,
+  Logger,
+  Database,
+  BotOptions,
+  TargetType,
+  TargetResult,
+  Embed,
+} from "../";
 import { APIClient } from "../../api";
 import { Util } from "./Util";
-import { Message } from "discord.js";
 
 export class Bot extends Client {
   public evnt: EventManager;
@@ -41,7 +62,7 @@ export class Bot extends Client {
       this.cmd.load();
       this.evnt.load();
       this._api.load();
-      
+
       await this.db.load();
       if (!test) await super.login(this.token);
     } catch (err) {
@@ -61,23 +82,37 @@ export class Bot extends Client {
   public async resolve(type: TargetType, value: string, guild?: Guild): Promise<TargetResult> {
     if (!value) return null;
 
-    const findChannel = (t: "category" | "news" | "store" | "text" | "voice") => {
+    const findChannel = (type: "category" | "news" | "store" | "text" | "voice") => {
       const channel = guild.channels.cache
-        .filter((chan) => chan.type === t)
-        .find((chan) => chan.name.toLowerCase().includes(value) || chan.id === value.replace(/[\\<>#]/g, "") || chan.id === value);
+        .filter((chan) => chan.type === type)
+        .find(
+          (chan) =>
+            chan.name.toLowerCase().includes(value) ||
+            chan.id === value.replace(/[\\<>#]/g, "") ||
+            chan.id === value
+        );
       return channel || null;
     };
 
     value = value.toLowerCase();
     switch (type) {
       case "user":
-        let user: void | User = this.users.cache.find((u) => u.username.toLowerCase().includes(value) || u.id === value.replace(/[\\<>@!]/g, "") || u.id === value);
+        let user: void | User = this.users.cache.find(
+          (u) =>
+            u.username.toLowerCase().includes(value) ||
+            u.id === value.replace(/[\\<>@!]/g, "") ||
+            u.id === value
+        );
 
         if (!user) user = await this.users.fetch(value).catch(() => {});
         return user || null;
       case "member":
         let member: void | GuildMember = guild.members.cache.find(
-          (m) => m.user.username.toLowerCase().includes(value) || m.user.id === value.replace(/[\\<>@!]/g, "") || m.displayName.toLowerCase().includes(value) || m.user.id === value
+          (m) =>
+            m.user.username.toLowerCase().includes(value) ||
+            m.user.id === value.replace(/[\\<>@!]/g, "") ||
+            m.displayName.toLowerCase().includes(value) ||
+            m.user.id === value
         );
 
         if (!member) member = await guild.members.fetch(value).catch(() => {});
@@ -89,7 +124,10 @@ export class Bot extends Client {
       case "voiceChannel":
         return findChannel("voice") as VoiceChannel;
       case "role":
-        let role: void | Role = guild.roles.cache.find((r) => r.name.toLowerCase().includes(value) || r.id === value.replace(/[\\<>@&]/g, "") || r.id === value);
+        let role: void | Role = guild.roles.cache.find(
+          (r) =>
+            r.name.toLowerCase().includes(value) || r.id === value.replace(/[\\<>@&]/g, "") || r.id === value
+        );
 
         if (!role) role = await guild.roles.fetch(value).catch(() => {});
         return role || null;
@@ -104,9 +142,15 @@ export class Bot extends Client {
     const token = process.env["webhooks.error.token"];
     const id = process.env["webhooks.error.id"];
     const webhook = await this.fetchWebhook(id, token).catch((err) => this.logger.error(err.stack));
-    if (!webhook) return this.logger.warn(`No error webhook was found using these credentials: TOKEN="${process.env.ERR_WEBHOOK_TOKEN}", ID="${process.env.ERR_WEBHOOK_ID}"`);
+    if (!webhook)
+      return this.logger.warn(
+        `No error webhook was found using these credentials: TOKEN="${process.env.ERR_WEBHOOK_TOKEN}", ID="${process.env.ERR_WEBHOOK_ID}"`
+      );
 
-    const embed = new this.Embed().red.setAuthor(err.name).setDescription(`\`\`\`\n${err.stack}\`\`\``).setTimestamp();
+    const embed = new this.Embed().red
+      .setAuthor(err.name)
+      .setDescription(`\`\`\`\n${err.stack}\`\`\``)
+      .setTimestamp();
     return await webhook.send(embed);
   }
 }
