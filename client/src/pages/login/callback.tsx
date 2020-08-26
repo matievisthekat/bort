@@ -67,7 +67,7 @@ export default class Callback extends React.Component<Props, State> {
       });
       const user = uRes.data;
       this.setState({ user, refreshToken });
-      window.location.href = "/";
+      window.location.href = window.localStorage.getItem("postLoginURL") || "/";
     }
 
     this.setState({ error: error?.message });

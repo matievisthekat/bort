@@ -12,6 +12,9 @@ export default class Login extends React.Component<Props, State> {
   }
 
   public render() {
+    const refParts = document.referrer.split("/");
+    const refOrigin = `${refParts[0]}//${refParts[1]}${refParts[2]}`;
+    window.localStorage.setItem("postLoginURL", refOrigin === window.location.origin ? document.referrer : "/");
     window.location.href = oauth.url(process.env.CLIENT_ID);
 
     return (
