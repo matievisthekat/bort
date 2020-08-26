@@ -1,8 +1,10 @@
-import { Bot, util } from "../../lib";
-import { Router } from "express";
+import { Bot, util, HTTPMethod } from "../../lib";
+import { Router, Request, Response as ExpressResponse } from "express";
 
 export interface RouteOptions {
   path: string;
+  description: string;
+  subPaths: Array<SubPath>;
 }
 
 export interface IResponse {
@@ -15,9 +17,9 @@ export interface IResponse {
 export class Response {
   public status: util.HTTPStatusCode;
   public statusText: string;
-  public error: any = null;
-  public message: any = null;
-  public data: any = null;
+  public error: any;
+  public message: any;
+  public data: any;
 
   constructor(info: IResponse) {
     this.status = info.status;
@@ -32,15 +34,22 @@ export class Route {
   public client: Bot;
   public router: Router;
   public path: string;
+  public subPaths: Array<SubPath>;
 
   constructor(client: Bot, opts: RouteOptions) {
     this.client = client;
     this.path = opts.path;
     this.router = Router();
-  }
 
-  public load(router: Router): Router {
-    router.get("/", (req, res) => res.json({ message: "Hello World" }));
-    return router;
+    for (const path of opts.subPaths) {
+      this.router[path.method](path.route, path.run);
+    }
   }
+}
+
+export interface SubPath {
+  route: string;
+  method: HTTPMethod;
+  description: string;
+  run(req: Request, res: ExpressResponse): any;
 }

@@ -67,6 +67,8 @@ export type DataType =
   | "inet"
   | "macaddr";
 
+export type HTTPMethod = "get" | "post" | "delete";
+
 export interface DatabaseTableOptions {
   name: string;
   contraints: Array<DatabaseContraint>;

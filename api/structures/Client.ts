@@ -10,12 +10,12 @@ export interface APIOptions {
   host: string;
   auth: string;
   prod?: boolean;
-  routes: string;
+  routeFiles: string;
 }
 
 export class APIClient extends EventEmitter {
   private client: Bot;
-  private routes: string;
+  private routeFiles: string;
   public port: number;
   public auth: string;
   public prod: boolean;
@@ -28,7 +28,7 @@ export class APIClient extends EventEmitter {
     this.prod = opts.prod ?? false;
     this.port = opts.port ?? 3000;
     this.auth = opts.auth;
-    this.routes = opts.routes;
+    this.routeFiles = opts.routeFiles;
 
     const app = express();
     this.app = app;
@@ -44,19 +44,19 @@ export class APIClient extends EventEmitter {
    * @public
    */
   public load(): this {
-    this.app.listen(this.port, () => this.emit("ready", this.app));
     this.loadRoutes();
+    this.app.listen(this.port, () => this.emit("ready", this.app));
     return this;
   }
 
   private loadRoutes() {
-    const files = Util.findNested(this.routes);
+    const files = Util.findNested(this.routeFiles);
     for (const file of files) {
       const required = require(file);
       if (!required || !required.default || typeof required.default !== "function") continue;
 
       const route: Route = new required.default(this.client);
-      this.app.use(route.path, route.load(route.router));
+      this.app.use(route.path, route.router);
     }
   }
 }
