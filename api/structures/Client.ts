@@ -16,6 +16,7 @@ export interface APIOptions {
 export class APIClient extends EventEmitter {
   private client: Bot;
   private routeFiles: string;
+  public routes: Array<Route>;
   public port: number;
   public auth: string;
   public prod: boolean;
@@ -29,6 +30,7 @@ export class APIClient extends EventEmitter {
     this.port = opts.port ?? 3000;
     this.auth = opts.auth;
     this.routeFiles = opts.routeFiles;
+    this.routes = [];
 
     const app = express();
     this.app = app;
@@ -57,6 +59,7 @@ export class APIClient extends EventEmitter {
 
       const route: Route = new required.default(this.client);
       this.app.use(route.path, route.router);
+      this.routes.push(route);
     }
   }
 }

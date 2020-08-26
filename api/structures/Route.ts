@@ -40,6 +40,7 @@ export class Route {
     this.client = client;
     this.path = opts.path;
     this.router = Router();
+    this.subPaths = opts.subPaths;
 
     for (const path of opts.subPaths) {
       this.router[path.method](path.route, path.run);

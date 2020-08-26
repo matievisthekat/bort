@@ -11,14 +11,25 @@ export default class extends Route {
           route: "/",
           description: "Get help and endpoints for this API",
           method: "get",
-          run: (req, res) =>
+          run: (req, res) => {
+            const routes = client._api.routes;
+            const data = {};
+
+            for (const route of routes) {
+              data[route.path] = {};
+              for (const subPath of route.subPaths) {
+                data[route.path][`${subPath.method.toUpperCase()} ${subPath.route}`] = subPath.description;
+              }
+            }
+
             res.status(200).json(
               new Response({
                 status: 200,
                 message: "Help for the official bort API",
-                data: {},
+                data,
               })
-            ),
+            );
+          },
         },
       ],
     });
