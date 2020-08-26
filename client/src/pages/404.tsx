@@ -1,6 +1,6 @@
 import React from "react";
-import Layout from "../components/Layout";
-import SEO from "../components/SEO";
+import Layout from "../components/Layout/";
+import SEO from "../components/Layout/SEO";
 
 import Back from "../components/Back";
 
