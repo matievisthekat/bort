@@ -5,7 +5,7 @@ interface HeaderProps {
   name?: string;
 }
 
-export default class Footer extends React.Component<HeaderProps> {
+export default class Header extends React.Component<HeaderProps> {
   constructor(props: Readonly<HeaderProps>) {
     super(props);
   }
