@@ -9,7 +9,7 @@ export default class extends Route {
       subPaths: [
         {
           route: "/",
-          description: "A ist of commands with their current cooldowns for each user",
+          description: "A list of commands with their current cooldowns for each user",
           method: "get",
           run: (req, res) => {
             const commands = Util.getCleanCommands(this.client);
