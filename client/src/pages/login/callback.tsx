@@ -1,15 +1,15 @@
 import React from "react";
 import qs from "querystring";
 import axios from "axios";
+import Cookie from "js-cookie";
 import Layout from "../../components/Layout";
-import SEO from "../../components/SEO";
+import SEO from "../../components/Layout/SEO";
 import { oauth } from "../../config";
 
 interface Props {}
 interface State {
   error: string;
   user: User;
-  refreshToken: string;
 }
 interface User {
   avatar: string;
@@ -29,7 +29,6 @@ export default class Callback extends React.Component<Props, State> {
     this.state = {
       error: null,
       user: null,
-      refreshToken: null,
     };
   }
 
@@ -59,15 +58,13 @@ export default class Callback extends React.Component<Props, State> {
     } else {
       const data = res.data;
       const accessToken = data.access_token;
-      const refreshToken = data.refresh_token;
       const uRes = await axios.get(`https://discord.com/api/users/@me`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
       const user = uRes.data;
-      this.setState({ user, refreshToken });
-      window.location.href = window.localStorage.getItem("postLoginURL") || "/";
+      this.setState({ user });
     }
 
     this.setState({ error: error?.message });
@@ -75,6 +72,9 @@ export default class Callback extends React.Component<Props, State> {
 
   public render() {
     if (this.state.user) {
+      Cookie.set("user", this.state.user);
+
+      window.location.href = window.localStorage.getItem("postLoginURL") || "/";
     }
 
     return (

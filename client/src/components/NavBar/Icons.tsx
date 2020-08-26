@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
+import Cookie from "js-cookie";
 
 interface Props {}
 interface State {}
@@ -10,11 +11,14 @@ export default class NavbarIcons extends React.Component<Props, State> {
   }
 
   public render() {
+    const user = Cookie.getJSON("user");
+    console.log(user);
+
     return (
       <ul className="navbar-nav nav-flex-icons">
         <li className="nav-item">
-          <Button as="a" href="/login" className="btn-sm">
-            Login
+          <Button as={user ? "div" : "a"} href="/login" className="btn-sm" disabled={!!user}>
+            {user ? user.username : "Login"}
           </Button>
         </li>
         <li className="nav-item">
