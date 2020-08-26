@@ -36,7 +36,7 @@ const config: IConfig = {
     port: 3000,
     prod: false,
     auth: process.env["api.auth"],
-    routes: join(__dirname, "../api/routes"),
+    routeFiles: join(__dirname, "../api/routes"),
     host: "localhost",
   },
   onDatabaseStartUp: {
