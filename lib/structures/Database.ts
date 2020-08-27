@@ -4,7 +4,6 @@ import { DatabaseOptions } from "..";
 import { Util } from "./Util";
 
 export class Database extends EventEmitter {
-  public models: object;
   public modelsPath: string;
   private uri: string;
   private options: ConnectionOptions;
