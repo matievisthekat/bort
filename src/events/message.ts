@@ -32,27 +32,6 @@ export default class Ready extends CustomEvent {
     flagArgs.map((flag) => (flags[flag.slice(2)] = true));
 
     if (command) {
-      // Get the cooldown for the message author on that command
-      const cooldown = command.cooldown.get(msg.author.id);
-
-      // If they are on cooldown check if its expired
-      if (cooldown && command.opts.cooldown) {
-        // Calc timeout in ms
-        const timeout = ms(command.opts.cooldown) - (Date.now() - cooldown);
-        if (timeout > 0) {
-          // Get timeout in readable form
-          const timeoutLong = ms(timeout, { long: true });
-          // Send the error
-          return await msg.send(
-            "warn",
-            `The cooldown for that command has not expired! Please wait **${timeoutLong}** before using it again`
-          );
-        } else {
-          // Remove the cooldown
-          command.cooldown.delete(msg.author.id);
-        }
-      }
-
       // If the author is not a developer and the command is locked to devOnly send an error
       if (command.opts.devOnly && !msg.author.developer) {
         return await msg.send("warn", "That command is locked to developers only!");
@@ -63,6 +42,9 @@ export default class Ready extends CustomEvent {
 
       const hasArgs = await argChecks(msg, args, command);
       if (hasArgs !== true) return;
+
+      const passedCooldown = await cooldownChecks(msg, command);
+      if (passedCooldown !== true) return;
 
       // Run the command once all checks are complete
       const res = await command.run(msg, { command, args, flags });
@@ -120,6 +102,31 @@ async function argChecks(msg: Message, args: Array<string>, command: Command) {
           "warn",
           `You are missing the argument **${arg.name}**. Correct usage \`${msg.client.prefix}${command.opts.name} ${command.opts.usage}\``
         );
+    }
+  }
+
+  return true;
+}
+
+async function cooldownChecks(msg: Message, command: Command) {
+  // Get the cooldown for the message author on that command
+  const cooldown = command.cooldown.get(msg.author.id);
+
+  // If they are on cooldown check if its expired
+  if (cooldown && command.opts.cooldown) {
+    // Calc timeout in ms
+    const timeout = ms(command.opts.cooldown) - (Date.now() - cooldown);
+    if (timeout > 0) {
+      // Get timeout in readable form
+      const timeoutLong = ms(timeout, { long: true });
+      // Send the error
+      return await msg.send(
+        "warn",
+        `The cooldown for that command has not expired! Please wait **${timeoutLong}** before using it again`
+      );
+    } else {
+      // Remove the cooldown
+      command.cooldown.delete(msg.author.id);
     }
   }
 
