@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 
 type Colour =
   | "primary"
@@ -21,13 +21,13 @@ interface ButtonProps {
   outlineColour?: Colour;
   outline?: boolean;
   openInNewtab?: boolean;
-  onClick?(): any;
+  onClick?(): unknown;
 }
 
 export default class Button extends React.Component<ButtonProps> {
   private classes: string;
 
-  constructor(props) {
+  constructor(props: Readonly<ButtonProps>) {
     super(props);
 
     this.classes = `btn btn-${this.props.size || "primary"} btn-${
@@ -35,7 +35,7 @@ export default class Button extends React.Component<ButtonProps> {
     } ${this.props.outline ? `btn-outline-${this.props.outlineColour}` : ""}`;
   }
 
-  render() {
+  public render(): ReactElement {
     return (
       <a
         href={this.props.href}

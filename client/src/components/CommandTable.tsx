@@ -1,18 +1,17 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import { Command } from "../../../lib";
 import Highlight from "react-highlight.js";
 
 interface Props {
   commands: Array<Command>;
 }
-interface State {}
 
-export default class CommandTable extends React.Component<Props, State> {
+export default class CommandTable extends React.Component<Props, unknown> {
   constructor(props: Readonly<Props>) {
     super(props);
   }
 
-  public render() {
+  public render(): ReactElement {
     return (
       <table className="table text-light">
         <thead>

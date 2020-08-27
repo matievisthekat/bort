@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import NavBar from "../NavBar";
 
 interface HeaderProps {
@@ -10,7 +10,7 @@ export default class Header extends React.Component<HeaderProps> {
     super(props);
   }
 
-  public render() {
+  public render(): ReactElement {
     return (
       <header className="header">
         <NavBar tabName={this.props.name} />

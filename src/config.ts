@@ -39,11 +39,6 @@ const config: IConfig = {
     routeFiles: join(__dirname, "../api/routes"),
     host: "localhost",
   },
-  onDatabaseStartUp: {
-    tables: {
-      create: [],
-    },
-  },
   imageAPI: {
     host: "localhost",
     port: 3030,

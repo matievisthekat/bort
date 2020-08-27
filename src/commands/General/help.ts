@@ -25,7 +25,7 @@ export default class extends Command {
    * @returns {Promise<CommandResult | Message>} The success status object
    * @public
    */
-  public async run(msg: Message, { command, args, flags }: CommandRunOptions): Promise<CommandResult | Message> {
+  public async run(msg: Message, { args }: CommandRunOptions): Promise<CommandResult | Message> {
     const commands = msg.client.cmd.commands;
     const aliases = msg.client.cmd.aliases;
 

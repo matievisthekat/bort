@@ -2,7 +2,7 @@ import { Command, Arg, Bot, Util, CommandRunOptions, CommandResult } from "../..
 import { Message } from "discord.js";
 
 export default class extends Command {
-  constructor (client: Bot) {
+  constructor(client: Bot) {
     super(client, {
       name: "exec",
       aliases: ["execute"],
@@ -11,7 +11,7 @@ export default class extends Command {
       examples: ["node -v"],
       args: [new Arg("command", "The command(s) to execute", true)],
       devOnly: true,
-      __filename
+      __filename,
     });
   }
 
@@ -24,13 +24,13 @@ export default class extends Command {
    * @returns {Promise<CommandResult | Message>} The success status object
    * @public
    */
-  public async run(msg: Message, { command, args, flags }: CommandRunOptions): Promise<CommandResult | Message> {
+  public async run(msg: Message, { args }: CommandRunOptions): Promise<CommandResult | Message> {
     const options = {
       split: {
         char: "\n",
         prepend: "```\n",
-        append: "```"
-      }
+        append: "```",
+      },
     };
 
     const res = await Util.execute(args.join(" "));

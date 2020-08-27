@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 /**
  * Implement Gatsby's Node APIs in this file.
  *
@@ -17,5 +18,5 @@ exports.onPostBuild = async function () {
 };
 
 async function createDirIfNotFound(dir) {
-  await fs.access(dir).catch(async (err) => await fs.mkdir(dir));
+  await fs.access(dir).catch(async () => await fs.mkdir(dir));
 }

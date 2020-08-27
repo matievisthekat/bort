@@ -46,8 +46,8 @@ const client = new Bot(
 
 client.cmd.on("ready", (commands) => client.logger.log(`Loaded ${commands.size} commands`));
 client.evnt.on("ready", (events) => client.logger.log(`Loaded ${events.size} events`));
-client._api.on("ready", (app) => client.logger.log(`API listening on port ${client._api.port}`));
-client.db.on("ready", (connection) => client.logger.log(`Connected to database at ${process.env["db.host"]}`));
+client._api.on("ready", () => client.logger.log(`API listening on port ${client._api.port}`));
+client.db.on("ready", () => client.logger.log(`Connected to database at ${process.env["db.host"]}`));
 client.db.on("error", (err) => client.logger.error(err));
 
 process.on("uncaughtException", (err) => client.handleProcessError(err));
@@ -64,18 +64,18 @@ client
       const examples = cmd.text
         ? ["some nice text content"]
         : cmd.target
-        ? ["@MatievisTheKat#4975"]
-        : cmd.colour
-        ? ["#ffffff", "red"]
-        : [];
+          ? ["@MatievisTheKat#4975"]
+          : cmd.colour
+            ? ["#ffffff", "red"]
+            : [];
 
       const args = cmd.text
         ? [new Arg("text", "The text to generate an image with", true)]
         : cmd.target
-        ? [new Arg("user", "The user to target", true)]
-        : cmd.colour
-        ? [new Arg("colour", "The colour to get an image of", true)]
-        : null;
+          ? [new Arg("user", "The user to target", true)]
+          : cmd.colour
+            ? [new Arg("colour", "The colour to get an image of", true)]
+            : null;
 
       const command = new Command(client, {
         name: cmd.name,
@@ -87,7 +87,7 @@ client
         cooldown: "5s",
       });
 
-      command.run = async (msg, { command, args, flags }): Promise<CommandResult | Message> => {
+      command.run = async (msg: Message, { args }): Promise<CommandResult | Message> => {
         return await Util.imageCommand(
           cmd.name,
           msg,

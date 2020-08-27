@@ -1,12 +1,12 @@
 import { EventEmitter } from "events";
-import { Util, CustomEvent, Bot } from "../../"
+import { Util, CustomEvent, Bot } from "../../";
 import { Collection } from "discord.js";
 
 export class EventManager extends EventEmitter {
   public events: Collection<string, CustomEvent> = new Collection();
 
   constructor(private client: Bot, private dir: string) {
-    super(...arguments);
+    super();
   }
 
   /**
@@ -43,6 +43,7 @@ export class EventManager extends EventEmitter {
    * @public
    */
   public loadEvent(path: string): CustomEvent | boolean {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const required = require(path);
 
     const event = new required.default(this.client);

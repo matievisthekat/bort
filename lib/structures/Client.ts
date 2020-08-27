@@ -80,7 +80,7 @@ export class Bot extends Client {
         )
       : this.users.cache.find((u) => u.id === value.replace(regex, "") || u.username.toLowerCase().includes(value));
 
-    return res || (guild ? await guild.members.fetch(value).catch(() => {}) : this.users.fetch(value).catch(() => {}));
+    return res || (guild ? await guild.members.fetch(value).catch(() => null) : this.users.fetch(value).catch(() => null));
   }
 
   /**
@@ -97,7 +97,7 @@ export class Bot extends Client {
       (r) => r.id === value.replace(regex, "") || r.name.toLowerCase().includes(value)
     );
 
-    return res || (await guild.roles.fetch(value).catch(() => {}));
+    return res || (await guild.roles.fetch(value).catch(() => null));
   }
 
   /**

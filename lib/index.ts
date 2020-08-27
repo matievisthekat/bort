@@ -1,4 +1,4 @@
-["String", "User", "Message"].forEach(extension => require(`./structures/extend/${extension}`));
+["String", "User", "Message"].forEach((extension) => require(`./structures/extend/${extension}`));
 
 export * from "./structures/Client";
 export * from "./structures/base/Command";

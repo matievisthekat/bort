@@ -1,17 +1,14 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import Layout from "../components/Layout";
 import SEO from "../components/Layout/SEO";
 import { oauth } from "../config";
 
-interface Props {}
-interface State {}
-
-export default class Login extends React.Component<Props, State> {
-  constructor(props: Readonly<Props>) {
+export default class Login extends React.Component<unknown, unknown> {
+  constructor(props: Readonly<unknown>) {
     super(props);
   }
 
-  public render() {
+  public render(): ReactElement {
     const refParts = document.referrer.split("/");
     const refOrigin = `${refParts[0]}//${refParts[1]}${refParts[2]}`;
     window.localStorage.setItem("postLoginURL", refOrigin === window.location.origin ? document.referrer : "/");

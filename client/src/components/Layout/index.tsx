@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import PropTypes from "prop-types";
 
 import Header from "./Header";
@@ -17,7 +17,7 @@ export default class Layout extends React.Component<LayoutProps> {
     super(props);
   }
 
-  public render() {
+  public render(): ReactElement {
     return (
       <>
         <Header name={this.props.path} />

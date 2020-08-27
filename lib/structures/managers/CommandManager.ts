@@ -6,8 +6,8 @@ export class CommandManager extends EventEmitter {
   public commands: Collection<string, Command> = new Collection();
   public aliases: Collection<string, Command> = new Collection();
 
-  constructor (private client: Bot, private dir: string) {
-    super(...arguments);
+  constructor(private client: Bot, private dir: string) {
+    super();
   }
 
   /**
@@ -53,6 +53,7 @@ export class CommandManager extends EventEmitter {
    * @public
    */
   public loadCommand(path: string): Command | boolean {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const required = require(path);
     if (!required || !required.default || typeof required.default !== "function") return false;
 
@@ -68,11 +69,12 @@ export class CommandManager extends EventEmitter {
     if (!cmd.opts.name || !cmd.opts.category) return false;
 
     this.commands.set(cmd.opts.name, cmd);
-    cmd.on("run", (msg: Message, { command, args, flags }: CommandRunOptions) => {
+    cmd.on("run", (msg: Message, { command }: CommandRunOptions) => {
       command.cooldown.set(msg.author.id, Date.now());
     });
 
-    if (cmd.opts.aliases && Array.isArray(cmd.opts.aliases)) cmd.opts.aliases.map((a: string) => this.aliases.set(a, cmd));
+    if (cmd.opts.aliases && Array.isArray(cmd.opts.aliases))
+      cmd.opts.aliases.map((a: string) => this.aliases.set(a, cmd));
 
     return cmd;
   }

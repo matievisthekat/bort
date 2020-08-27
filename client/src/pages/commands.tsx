@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import Layout from "../components/Layout";
 import SEO from "../components/Layout/SEO";
 
@@ -8,14 +8,13 @@ import config from "../../../src/config";
 import Category from "../components/Category";
 import ErrorBox from "../components/ErrorBox";
 
-interface Props {}
 interface State {
   categories: Array<string> | void;
   error: string;
 }
 
-export default class Commands extends React.Component<Props, State> {
-  constructor(props: Readonly<Props>) {
+export default class Commands extends React.Component<unknown, State> {
+  constructor(props: Readonly<unknown>) {
     super(props);
 
     this.state = {
@@ -24,8 +23,8 @@ export default class Commands extends React.Component<Props, State> {
     };
   }
 
-  public async componentDidMount() {
-    const res = await axios.get(`http://${config.api.host}:${config.api.port}/categories`).catch(() => {});
+  public async componentDidMount(): Promise<void> {
+    const res = await axios.get(`http://${config.api.host}:${config.api.port}/categories`).catch(() => null);
     if (res && res.data.status === 200) {
       this.setState({ categories: res.data.data });
       this.setState({ error: null });
@@ -34,7 +33,7 @@ export default class Commands extends React.Component<Props, State> {
     }
   }
 
-  public render() {
+  public render(): ReactElement {
     return (
       <Layout path="commands">
         <SEO title="Commands" description="All the commands for bort" />

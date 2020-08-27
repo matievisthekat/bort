@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import qs from "querystring";
 import axios from "axios";
 import Cookie from "js-cookie";
@@ -6,7 +6,6 @@ import Layout from "../../components/Layout";
 import SEO from "../../components/Layout/SEO";
 import { oauth } from "../../config";
 
-interface Props {}
 interface State {
   error: string;
   user: User;
@@ -22,8 +21,8 @@ interface User {
   username: string;
 }
 
-export default class Callback extends React.Component<Props, State> {
-  constructor(props: Readonly<Props>) {
+export default class Callback extends React.Component<unknown, State> {
+  constructor(props: Readonly<unknown>) {
     super(props);
 
     this.state = {
@@ -32,7 +31,7 @@ export default class Callback extends React.Component<Props, State> {
     };
   }
 
-  public async componentDidMount() {
+  public async componentDidMount(): Promise<unknown> {
     const { code } = qs.parse(window.location.href.split("?")[1]);
     if (!code) return (window.location.href = "/login");
 
@@ -62,8 +61,8 @@ export default class Callback extends React.Component<Props, State> {
     this.setState({ error: error?.message });
   }
 
-  public async fetchAndSaveUser(accessToken: string): Promise<any> {
-    const res = await axios.get(`https://discord.com/api/users/@me`, {
+  public async fetchAndSaveUser(accessToken: string): Promise<void> {
+    const res = await axios.get("https://discord.com/api/users/@me", {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -72,7 +71,7 @@ export default class Callback extends React.Component<Props, State> {
     this.setState({ user });
   }
 
-  public render() {
+  public render(): ReactElement {
     if (this.state.user) {
       Cookie.set("user", this.state.user);
 

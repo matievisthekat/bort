@@ -1,11 +1,11 @@
-import React from "react";
+import React, { ReactElement } from "react";
 
 export default class Footer extends React.Component {
-  constructor(props) {
+  constructor(props: Readonly<unknown>) {
     super(props);
   }
 
-  public render() {
+  public render(): ReactElement {
     return (
       <footer className="page-footer font-small elegant-color-dark fixed-bottom">
         <div className="footer-copyright text-center py-3">

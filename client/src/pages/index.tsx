@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 
 import Layout from "../components/Layout";
 import SEO from "../components/Layout/SEO";
@@ -7,8 +7,8 @@ interface State {
   error: string;
 }
 
-export default class Index extends React.Component<{}, State> {
-  constructor(props: Readonly<{}>) {
+export default class Index extends React.Component<unknown, State> {
+  constructor(props: Readonly<unknown>) {
     super(props);
 
     this.state = {
@@ -16,7 +16,7 @@ export default class Index extends React.Component<{}, State> {
     };
   }
 
-  public render() {
+  public render(): ReactElement {
     return (
       <Layout path="home">
         <SEO title="Home" description="Bort's homepage" />

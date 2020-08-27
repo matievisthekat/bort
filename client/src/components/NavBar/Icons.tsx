@@ -1,16 +1,13 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import Button from "react-bootstrap/Button";
 import Cookie from "js-cookie";
 
-interface Props {}
-interface State {}
-
-export default class NavbarIcons extends React.Component<Props, State> {
-  constructor(props: Readonly<Props>) {
+export default class NavbarIcons extends React.Component<unknown, unknown> {
+  constructor(props: Readonly<unknown>) {
     super(props);
   }
 
-  public render() {
+  public render(): ReactElement {
     const user = Cookie.getJSON("user");
     console.log(user);
 
@@ -22,7 +19,7 @@ export default class NavbarIcons extends React.Component<Props, State> {
           </Button>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="https://discord.gg/5j4hTMJ" target="_blank">
+          <a className="nav-link" href="https://discord.gg/5j4hTMJ" target="_blank" rel="noreferrer">
             <i className="fab fa-discord"></i>
           </a>
         </li>

@@ -9,17 +9,17 @@ export interface RouteOptions {
 
 export interface IResponse {
   status: util.HTTPStatusCode;
-  error?: any;
-  message?: any;
-  data?: any;
+  error?: unknown;
+  message?: unknown;
+  data?: unknown;
 }
 
 export class Response {
   public status: util.HTTPStatusCode;
   public statusText: string;
-  public error: any;
-  public message: any;
-  public data: any;
+  public error: unknown;
+  public message: unknown;
+  public data: unknown;
 
   constructor(info: IResponse) {
     this.status = info.status;
@@ -52,5 +52,5 @@ export interface SubPath {
   route: string;
   method: HTTPMethod;
   description: string;
-  run(req: Request, res: ExpressResponse): any;
+  run(req: Request, res: ExpressResponse): unknown;
 }

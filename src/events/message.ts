@@ -19,7 +19,7 @@ export default class Ready extends CustomEvent {
    * @returns A promise
    * @public
    */
-  public async run(client: Bot, msg: Message): Promise<any> {
+  public async run(client: Bot, msg: Message): Promise<unknown> {
     // If the message wasn't in a guild, wasn't send by a human or doesn't start with the prefix then return
     if (!msg.guild || msg.webhookID || msg.author.bot || !msg.content.startsWith(client.prefix)) return false;
 

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { Command, Arg, Bot, CommandRunOptions, CommandResult } from "../../../lib";
 import { Message } from "discord.js";

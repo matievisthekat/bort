@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import axios from "axios";
 import { Command } from "../../../lib";
 import { Collapse, Button } from "react-bootstrap";
@@ -25,8 +25,10 @@ export default class Category extends React.Component<Props, State> {
     };
   }
 
-  public async componentDidMount() {
-    const res = await axios.get(`http://${config.api.host}:${config.api.port}/categories/${this.props.name}`).catch(() => {});
+  public async componentDidMount(): Promise<void> {
+    const res = await axios
+      .get(`http://${config.api.host}:${config.api.port}/categories/${this.props.name}`)
+      .catch(() => null);
     if (res && res.data.status === 200) {
       this.setState({ commands: res.data.data });
     } else {
@@ -34,11 +36,11 @@ export default class Category extends React.Component<Props, State> {
     }
   }
 
-  public setExpanded(expanded: boolean) {
+  public setExpanded(expanded: boolean): void {
     this.setState({ expanded });
   }
 
-  public render() {
+  public render(): ReactElement {
     return (
       <>
         <Button
@@ -52,7 +54,9 @@ export default class Category extends React.Component<Props, State> {
           {this.props.name}
         </Button>
         <Collapse in={this.state.expanded}>
-          <div>{this.state.commands ? <CommandTable commands={this.state.commands} /> : this.state.error || "Error"}</div>
+          <div>
+            {this.state.commands ? <CommandTable commands={this.state.commands} /> : this.state.error || "Error"}
+          </div>
         </Collapse>
       </>
     );

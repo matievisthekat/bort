@@ -126,7 +126,7 @@ export interface CommandRunOptions {
 }
 
 export interface IConfig {
-  emoji: Record<string, string>;
+  emoji: Record<string, Record<string, string>>;
   colours: {
     default: string;
     green: string;

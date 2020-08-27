@@ -20,7 +20,7 @@ export class Database extends EventEmitter {
    * @returns {Promise<any>} The resolved connection
    * @public
    */
-  public async load(): Promise<any> {
+  public async load(): Promise<unknown> {
     this.loadModels(this.modelsPath);
     return await Mongoose.connect(this.uri, this.options)
       .then((connection) => this.emit("ready", connection))

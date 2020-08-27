@@ -7,6 +7,7 @@ import http from "http";
 import querystring from "querystring";
 import { Message, ImageSize, User, Collection } from "discord.js";
 import config from "../../src/config";
+import { CommandResult } from "../types";
 
 const realExec = promisify(exec);
 
@@ -23,9 +24,9 @@ export class Util {
   public static capitalise(str: string): string {
     return str.length > 0
       ? str
-          .split(/ +/gi)
-          .map((word: string) => word[0].toUpperCase() + word.slice(1).toLowerCase())
-          .join(" ")
+        .split(/ +/gi)
+        .map((word: string) => word[0].toUpperCase() + word.slice(1).toLowerCase())
+        .join(" ")
       : str;
   }
 
@@ -36,13 +37,12 @@ export class Util {
    * @public
    * @static
    */
-  public static loadEnv(path: string): object {
+  public static loadEnv(path: string): Record<string, string> {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const env = require(path);
     if (!env) throw new Error("(Util#loadEnv) No environment variables to load");
 
-    Util.loadObjectToEnv(env);
-
-    return;
+    return Util.loadObjectToEnv(env);
   }
 
   /**
@@ -51,7 +51,7 @@ export class Util {
    * @public
    * @static
    */
-  public static loadObjectToEnv(obj: object): object {
+  public static loadObjectToEnv(obj: unknown): Record<string, string> {
     for (const entry of Object.entries(obj)) {
       if (typeof entry[1] === "object") {
         Util.loadObjectToEnv(entry[1]);
@@ -105,7 +105,7 @@ export class Util {
    * @public
    * @static
    */
-  public static findNested(dir: string, pattern: string = "js"): Array<string> {
+  public static findNested(dir: string, pattern = "js"): Array<string> {
     let results: Array<string> = [];
 
     fs.readdirSync(dir).forEach((inner_dir) => {
@@ -130,14 +130,17 @@ export class Util {
     useTarget?: boolean,
     maxLength?: number,
     avatarTarget?: boolean
-  ) {
+  ): Promise<CommandResult | Message> {
     const text = args.join(" ");
     const color = args.join(" ");
     const avatar = msg.author.displayAvatarURL({ size: avatarSize, format: "png" });
     const target = (await msg.client.getUserOrMember(args.join(" "))) as User;
     if (useTarget && !target) return await msg.send("warn", "No valid user was provided");
     if ((useText && text.length > maxLength) || (useColour && color.length > maxLength))
-      return await msg.send("warn", `Maximum length exceded! Please keep your text to less than ${maxLength} characters`);
+      return await msg.send(
+        "warn",
+        `Maximum length exceded! Please keep your text to less than ${maxLength} characters`
+      );
 
     let error = null;
 
@@ -166,13 +169,14 @@ export class Util {
    * @public
    * @static
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public static getImg(endpoint: ImageAPIEndpoint, query: Record<string, string>): Promise<any> {
     return new Promise((resolve, reject) => {
       const password = Util.config.imageAPI.password;
       const host = Util.config.imageAPI.host;
       const port = Util.config.imageAPI.port;
 
-      const options: any = {};
+      const options: Record<string, Record<string, string>> = {};
       if (password) options.headers = { Authorization: password };
 
       const url = new URL(`http://${host}:${port}/${endpoint}?${querystring.stringify(query)}`);
@@ -200,14 +204,14 @@ export class Util {
    * Format an argument instance
    * @param {Arg} a The argument instance to format
    */
-  public static formatArg(a: Arg) {
+  public static formatArg(a: Arg): string {
     return `${a.required ? "{" : "<"}${a.name}${a.required ? "}" : ">"}`;
   }
 
   /**
    * HTTP codes with their status text as well
    */
-  public static httpCodes: object = {
+  public static httpCodes: Record<number, string> = {
     // 1×× Informational
     100: "Continue",
     101: "Switching Protocols",

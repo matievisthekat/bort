@@ -54,6 +54,7 @@ export class APIClient extends EventEmitter {
   private loadRoutes() {
     const files = Util.findNested(this.routeFiles);
     for (const file of files) {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       const required = require(file);
       if (!required || !required.default || typeof required.default !== "function") continue;
 

@@ -10,10 +10,8 @@ export class CustomEvent {
    * @param {*} args The arguments for the event\
    * @returns Anything
    */
-  run(client: Bot, ...args: any): any {
-    client.logger.warn(
-      `Event without run method (dunno why I cant get the file)`
-    );
+  run(client: Bot): unknown {
+    return client.logger.warn("Event without run method (dunno why I cant get the file)");
   }
 
   /**
@@ -21,7 +19,7 @@ export class CustomEvent {
    * @returns The success status of unloading the event
    * @public
    */
-  public unload() {
+  public unload(): boolean {
     const res = this.client.evnt.unloadEvent(this.opts.__filename);
     return res;
   }
@@ -31,7 +29,7 @@ export class CustomEvent {
    * @returns The reloaded event
    * @public
    */
-  public reload() {
+  public reload(): boolean | CustomEvent {
     const unloadRes = this.unload();
     if (!unloadRes) return unloadRes;
 

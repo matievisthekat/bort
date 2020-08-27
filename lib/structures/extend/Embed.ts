@@ -8,15 +8,15 @@ export class Embed extends MessageEmbed {
     this.setColor(config.colours.default);
   }
 
-  public get red() {
+  public get red(): this {
     return this.setColor(config.colours.red);
   }
 
-  public get yellow() {
+  public get yellow(): this {
     return this.setColor(config.colours.yellow);
   }
 
-  public get green() {
+  public get green(): this {
     return this.setColor(config.colours.green);
   }
 }

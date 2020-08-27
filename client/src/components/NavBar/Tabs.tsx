@@ -1,17 +1,16 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import { pages } from "../../config";
 
 interface Props {
   name?: string;
 }
-interface State {}
 
-export default class NavBarTabs extends React.Component<Props, State> {
+export default class NavBarTabs extends React.Component<Props, unknown> {
   constructor(props: Readonly<Props>) {
     super(props);
   }
 
-  public render() {
+  public render(): ReactElement {
     const current = <span className="sr-only">(current)</span>;
     const getSlug = (name: string): string => name.toLowerCase().replace(/ +/gi, "-");
 

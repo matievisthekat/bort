@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 
 interface BackProps {
   href?: string;
@@ -11,7 +11,7 @@ export default class Back extends React.Component<BackProps> {
     super(props);
   }
 
-  render() {
+  public render(): ReactElement {
     return (
       <a
         href={this.props.href || "#"}

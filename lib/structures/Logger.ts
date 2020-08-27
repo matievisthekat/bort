@@ -14,7 +14,7 @@ export class Logger {
    * @param {*} msg The message to log
    * @public
    */
-  public log(msg: any): void {
+  public log(msg: unknown): void {
     console.log(`${chalk.grey(this.date)}   ${chalk.bold("LOG  ")}  ${msg}`);
   }
 
@@ -22,7 +22,7 @@ export class Logger {
    * @param {*} msg The message to log
    * @public
    */
-  public warn(msg: any): void {
+  public warn(msg: unknown): void {
     console.log(`${chalk.grey(this.date)}   ${chalk.yellow("WARN ")}  ${msg}`);
   }
 
@@ -30,7 +30,7 @@ export class Logger {
    * @param {*} msg The message to log
    * @public
    */
-  public info(msg: any): void {
+  public info(msg: unknown): void {
     console.log(`${chalk.grey(this.date)}   ${chalk.green("INFO ")}  ${msg}`);
   }
 
@@ -38,7 +38,7 @@ export class Logger {
    * @param {*} msg The message to log
    * @public
    */
-  public error(msg: any): void {
+  public error(msg: unknown): void {
     console.log(`${chalk.grey(this.date)}   ${chalk.red("ERROR")}  ${msg}`);
   }
 }

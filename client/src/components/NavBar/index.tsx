@@ -1,13 +1,12 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import NavbarIcons from "./Icons";
 import NavBarTabs from "./Tabs";
 
 interface Props {
   tabName?: string;
 }
-interface State {}
 
-export default class NavBar extends React.Component<Props, State> {
+export default class NavBar extends React.Component<Props, unknown> {
   private tabName?: string;
 
   constructor(props: Readonly<Props>) {
@@ -16,7 +15,7 @@ export default class NavBar extends React.Component<Props, State> {
     this.tabName = this.props.tabName ? this.props.tabName.toLowerCase() : "<none>";
   }
 
-  public render() {
+  public render(): ReactElement {
     return (
       <nav className="navbar fixed-top navbar-expand-lg navbar-dark indigo lighten-2 scrolling-navbar">
         <a className="navbar-brand" href="/">
