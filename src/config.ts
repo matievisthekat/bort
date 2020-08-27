@@ -1,7 +1,7 @@
-import { IConfig } from "../lib";
+import { Config } from "../lib";
 import { join } from "path";
 
-const config: IConfig = {
+const config: Config = {
   emoji: {
     success: {
       custom: "<:checkemoji:672073550886338626>",

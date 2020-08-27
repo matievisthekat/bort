@@ -211,7 +211,7 @@ export class Util {
   /**
    * HTTP codes with their status text as well
    */
-  public static httpCodes: Record<number, string> = {
+  public static httpCodes: Record<HTTPStatusCode, string> = {
     // 1×× Informational
     100: "Continue",
     101: "Switching Protocols",
@@ -277,6 +277,7 @@ export class Util {
     506: "Variant Also Negotiates",
     507: "Insufficient Storage",
     508: "Loop Detected",
+    509: "Bandwidth Limit Exceeded",
     510: "Not Extended",
     511: "Network Authentication Required",
     599: "Network Connect Timeout Error",

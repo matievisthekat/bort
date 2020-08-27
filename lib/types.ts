@@ -125,7 +125,7 @@ export interface CommandRunOptions {
   flags: Record<string, boolean>;
 }
 
-export interface IConfig {
+export interface Config {
   emoji: Record<string, Record<string, string>>;
   colours: {
     default: string;
@@ -159,7 +159,7 @@ declare module "discord.js" {
     prefix: string;
     cmd: CommandManager;
     evnt: EventManager;
-    config: IConfig;
+    config: Config;
     devs: Array<UserResolvable>;
     logger: Logger;
     Embed: Constructable<Embed>;
