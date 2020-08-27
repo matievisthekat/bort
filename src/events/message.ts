@@ -61,17 +61,8 @@ export default class Ready extends CustomEvent {
       const hasPerms = await permissionChecks(msg, command);
       if (hasPerms !== true) return;
 
-      // Check command arguments
-      if (command.opts.args && command.opts.args.length > 0) {
-        for (let i = 0; i < command.opts.args.length; i++) {
-          const arg = command.opts.args[i];
-          if (!args[i] && arg.required)
-            return await msg.send(
-              "warn",
-              `You are missing the argument **${arg.name}**. Correct usage \`${client.prefix}${command.opts.name} ${command.opts.usage}\``
-            );
-        }
-      }
+      const hasArgs = await argChecks(msg, args, command);
+      if (hasArgs !== true) return;
 
       // Run the command once all checks are complete
       const res = await command.run(msg, { command, args, flags });
@@ -114,6 +105,22 @@ async function permissionChecks(msg: Message, command: Command) {
       "warn",
       `You are missing one or more of the following permissions (\`${userPerms}\`) to execute that command`
     );
+  }
+
+  return true;
+}
+
+async function argChecks(msg: Message, args: Array<string>, command: Command) {
+  // Check command arguments
+  if (command.opts.args && command.opts.args.length > 0) {
+    for (let i = 0; i < command.opts.args.length; i++) {
+      const arg = command.opts.args[i];
+      if (!args[i] && arg.required)
+        return await msg.send(
+          "warn",
+          `You are missing the argument **${arg.name}**. Correct usage \`${msg.client.prefix}${command.opts.name} ${command.opts.usage}\``
+        );
+    }
   }
 
   return true;
