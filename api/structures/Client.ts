@@ -51,7 +51,7 @@ export class APIClient extends EventEmitter {
     return this;
   }
 
-  private loadRoutes() {
+  private loadRoutes(): void {
     const files = Util.findNested(this.routeFiles);
     for (const file of files) {
       // eslint-disable-next-line @typescript-eslint/no-var-requires

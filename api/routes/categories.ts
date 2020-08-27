@@ -11,7 +11,7 @@ export default class extends Route {
           route: "/",
           description: "A list of command categories",
           method: "get",
-          run: (req, res) => {
+          run: (req, res): unknown => {
             const commands = Util.getCleanCommands(this.client);
             const categories = [...new Set(commands.map((c) => c.opts.category))];
             const status = categories.length > 0 ? 200 : 404;
@@ -38,7 +38,7 @@ export default class extends Route {
           route: "/:name",
           description: "Get the commands in a specific category",
           method: "get",
-          run: (req, res) => {
+          run: (req, res): unknown => {
             const commands = Util.getCleanCommands(this.client);
             const categoryCommands = commands.filter(
               (c) => c.opts.category.toLowerCase() === req.params.name.toLowerCase()

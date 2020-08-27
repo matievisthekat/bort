@@ -61,7 +61,7 @@ export default class extends Command {
   }
 
   private async singleCommand(msg: Message, command: Command): Promise<CommandResult | Message> {
-    const formatPerms = (perms: Array<PermissionString>) =>
+    const formatPerms = (perms: Array<PermissionString>): string =>
       perms?.map((perm) => Util.capitalise(perm.replace(/_+/gi, " "))).join(", ") || "None";
 
     const opts = command.opts;

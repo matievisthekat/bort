@@ -27,7 +27,7 @@ export class Database extends EventEmitter {
       .catch((err) => this.emit("error", err));
   }
 
-  private loadModels(path: string) {
+  private loadModels(path: string): void {
     const files = Util.findNested(path);
     for (const file of files) require(file);
   }

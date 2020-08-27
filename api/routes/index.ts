@@ -11,7 +11,7 @@ export default class extends Route {
           route: "/",
           description: "Get help and endpoints for this API",
           method: "get",
-          run: (req, res) => {
+          run: (req, res): unknown => {
             const routes = client._api.routes;
             const data = {};
 
@@ -22,7 +22,7 @@ export default class extends Route {
               }
             }
 
-            res.status(200).json(
+            return res.status(200).json(
               new Response({
                 status: 200,
                 message: "Help for the official bort API",

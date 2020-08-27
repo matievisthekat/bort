@@ -54,7 +54,7 @@ export default class Ready extends CustomEvent {
   }
 }
 
-async function permissionChecks(msg: Message, command: Command) {
+async function permissionChecks(msg: Message, command: Command): Promise<Message | boolean> {
   // Get the required permissions for the command. Defaulting to SEND_MESSAGES
   const botPerms = command.opts.botPerms ?? ["SEND_MESSAGES"];
   const userPerms = command.opts.userPerms ?? ["SEND_MESSAGES"];
@@ -88,7 +88,7 @@ async function permissionChecks(msg: Message, command: Command) {
   return true;
 }
 
-async function argChecks(msg: Message, args: Array<string>, command: Command) {
+async function argChecks(msg: Message, args: Array<string>, command: Command): Promise<Message | boolean> {
   // Check command arguments
   if (command.opts.args && command.opts.args.length > 0) {
     for (let i = 0; i < command.opts.args.length; i++) {
@@ -104,7 +104,7 @@ async function argChecks(msg: Message, args: Array<string>, command: Command) {
   return true;
 }
 
-async function cooldownChecks(msg: Message, command: Command) {
+async function cooldownChecks(msg: Message, command: Command): Promise<Message | boolean> {
   // Get the cooldown for the message author on that command
   const cooldown = command.cooldown.get(msg.author.id);
 

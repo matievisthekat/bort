@@ -11,9 +11,9 @@ export default class extends Route {
           route: "/",
           description: "A list of commands with their current cooldowns for each user",
           method: "get",
-          run: (req, res) => {
+          run: (req, res): unknown => {
             const commands = Util.getCleanCommands(this.client);
-            res.status(200).json(
+            return res.status(200).json(
               new Response({
                 status: 200,
                 message: "Get /commands/:name for more info of a specific command",
@@ -26,7 +26,7 @@ export default class extends Route {
           route: "/search",
           description: "Search for a command",
           method: "get",
-          run: (req, res) => {
+          run: (req, res): unknown => {
             const query = req.query.q as string;
             if (!query)
               return res.status(400).json(
@@ -74,7 +74,7 @@ export default class extends Route {
           route: "/:name",
           description: "Get information on a specific command",
           method: "get",
-          run: (req, res) => {
+          run: (req, res): unknown => {
             const name = req.params.name;
             const commands = Util.getCleanCommands(this.client);
             const command = commands.get(name) || commands.find((cmd) => cmd.opts.aliases?.includes(name));
