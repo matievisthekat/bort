@@ -1,6 +1,8 @@
 import { CustomEvent, Bot, Command } from "../../lib";
 import { Message } from "discord.js";
 import ms from "ms";
+import { PermissionString } from "discord.js";
+import { GuildMember } from "discord.js";
 
 export default class Ready extends CustomEvent {
   constructor(client: Bot) {
@@ -57,13 +59,10 @@ async function permissionChecks(msg: Message, command: Command) {
   const botPerms = command.opts.botPerms ?? ["SEND_MESSAGES"];
   const userPerms = command.opts.userPerms ?? ["SEND_MESSAGES"];
 
-  // If botPerms doesn't include SEND_MESSAGES push it into the array
-  if (!botPerms.includes("SEND_MESSAGES")) {
-    botPerms.push("SEND_MESSAGES");
-  }
-
+  const hasPerm = (perm: PermissionString | Array<PermissionString>, member?: GuildMember): boolean =>
+    member.hasPermission(perm) || member.permissionsIn(msg.channel).has(perm);
   // Check for permissions in the current guild and channel
-  if (!msg.guild.me.hasPermission(botPerms) || !msg.guild.me.permissionsIn(msg.channel).has(botPerms)) {
+  if (!hasPerm(botPerms, msg.guild.me)) {
     // If the bot is missing the SEND_MESSAGES permission
     const missingSend =
       !msg.guild.me.hasPermission("SEND_MESSAGES") || !msg.guild.me.permissionsIn(msg.channel).has("SEND_MESSAGES");
@@ -79,7 +78,7 @@ async function permissionChecks(msg: Message, command: Command) {
     );
 
     // Check user perms in the current guild and channel
-  } else if (!msg.member.hasPermission(userPerms) || !msg.member.permissionsIn(msg.channel).has(userPerms)) {
+  } else if (!hasPerm(userPerms, msg.member)) {
     return await msg.send(
       "warn",
       `You are missing one or more of the following permissions (\`${userPerms}\`) to execute that command`
