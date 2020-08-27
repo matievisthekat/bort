@@ -4,6 +4,8 @@ import { Embed } from "./structures/extend/Embed";
 import { APIOptions } from "../api";
 import { Logger } from "./structures/Logger";
 import { ImageAPIEndpoint } from "./structures/Util";
+import { ConnectionOptions } from "mongoose";
+import { StringResolvable } from "discord.js";
 
 export interface ArgOptions {
   name: string;
@@ -12,20 +14,13 @@ export interface ArgOptions {
 }
 
 export interface DatabaseOptions {
+  options: ConnectionOptions;
   host: string;
-  database: string;
-  password: string;
+  port?: string;
+  db: string;
   user: string;
-  port: number;
-  onStartUp: DatabaseStartUpOptions;
-}
-
-export interface DatabaseStartUpOptions {
-  tables?: {
-    create?: Array<DatabaseTableOptions>;
-    drop?: Array<string>;
-  };
-  quries?: Array<string>;
+  password: string;
+  modelsPath: string;
 }
 
 /*

@@ -29,12 +29,16 @@ const client = new Bot(
     event_dir: join(__dirname, "events"),
     command_dir: join(__dirname, "commands"),
     database: {
-      host: process.env["postgres.host"],
-      database: process.env["postgres.database"],
-      user: process.env["postgres.user"],
-      password: process.env["postgres.password"],
-      port: parseInt(process.env["postgres.port"]),
-      onStartUp: config.onDatabaseStartUp,
+      host: process.env["db.host"],
+      user: process.env["db.user"],
+      password: process.env["db.password"],
+      port: process.env["db.port"],
+      db: process.env["db.name"],
+      options: {
+        useUnifiedTopology: true,
+        useNewUrlParser: true,
+      },
+      modelsPath: join(__dirname, "models"),
     },
     api: config.api,
   }
@@ -43,10 +47,8 @@ const client = new Bot(
 client.cmd.on("ready", (commands) => client.logger.log(`Loaded ${commands.size} commands`));
 client.evnt.on("ready", (events) => client.logger.log(`Loaded ${events.size} events`));
 client._api.on("ready", (app) => client.logger.log(`API listening on port ${client._api.port}`));
-client.db.on("ready", (connection) => client.logger.log("Connected to database"));
+client.db.on("ready", (connection) => client.logger.log(`Connected to database at ${process.env["db.host"]}`));
 client.db.on("error", (err) => client.logger.error(err));
-client.db.on("notice", (notice) => client.logger.info(notice.message));
-client.db.on("notification", (message) => client.logger.warn(message));
 
 process.on("uncaughtException", (err) => client.handleProcessError(err));
 process.on("unhandledRejection", (err) => client.handleProcessError(err));
@@ -59,7 +61,13 @@ client
     if (!success) return console.log("Failed to initialize. There should be additional logging above");
 
     for (const cmd of imageCommands) {
-      const examples = cmd.text ? ["some nice text content"] : cmd.target ? ["@MatievisTheKat#4975"] : cmd.colour ? ["#ffffff", "red"] : [];
+      const examples = cmd.text
+        ? ["some nice text content"]
+        : cmd.target
+        ? ["@MatievisTheKat#4975"]
+        : cmd.colour
+        ? ["#ffffff", "red"]
+        : [];
 
       const args = cmd.text
         ? [new Arg("text", "The text to generate an image with", true)]
@@ -80,7 +88,17 @@ client
       });
 
       command.run = async (msg, { command, args, flags }): Promise<CommandResult | Message> => {
-        return await Util.imageCommand(cmd.name, msg, args, cmd.avSize, cmd.colour, cmd.text, cmd.target, cmd.maxLength ?? 0, cmd.target);
+        return await Util.imageCommand(
+          cmd.name,
+          msg,
+          args,
+          cmd.avSize,
+          cmd.colour,
+          cmd.text,
+          cmd.target,
+          cmd.maxLength ?? 0,
+          cmd.target
+        );
       };
 
       client.cmd.registerCommand(command);
