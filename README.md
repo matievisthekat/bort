@@ -5,6 +5,7 @@ Version 2 of bort in Typescript yeet. If you would like to view the current vers
 [![Known Vulnerabilities](https://snyk.io/test/github/MatievisTheKat/bort/badge.svg?targetFile=package.json)](https://snyk.io/test/github/MatievisTheKat/bort?targetFile=package.json)
 [![Maintainability](https://api.codeclimate.com/v1/badges/ee41309468df0c25cec4/maintainability)](https://codeclimate.com/github/MatievisTheKat/bort/maintainability)
 ![Code Grade](https://www.code-inspector.com/project/12775/status/svg)
+![Code Score](https://www.code-inspector.com/project/12775/score/svg)
 [![Discord](https://img.shields.io/discord/673605613456195584)](https://discord.gg/t65hRpd)
 ![Visits Badge](https://badges.pufler.dev/visits/MatievisTheKat/bort)
 ![Test](https://github.com/MatievisTheKat/bort/workflows/test/badge.svg?branch=v2)
