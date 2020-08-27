@@ -1,4 +1,4 @@
-import { CustomEvent, Bot, Command } from "../../lib";
+import { CustomEvent, Bot, Command, CommandResult } from "../../lib";
 import { Message } from "discord.js";
 import ms from "ms";
 import { PermissionString } from "discord.js";
@@ -46,7 +46,7 @@ export default class Ready extends CustomEvent {
       if (hasPerms !== true || hasArgs !== true || passedCooldown !== true) return;
 
       // Run the command once all checks are complete
-      const res = await command.run(msg, { command, args, flags });
+      const res = (await command.run(msg, { command, args, flags })) as CommandResult;
       if (res && res.done === true) {
         command.emit("run", msg, { command, args, flags });
       }
