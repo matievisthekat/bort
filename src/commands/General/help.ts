@@ -32,7 +32,13 @@ export default class extends Command {
     if (!args[0]) {
       return this.allCommands(msg, commands);
     } else {
-      return this.singleCommand(msg, args, commands, aliases);
+      const command = commands.get(args.join(" ")) ?? aliases.get(args.join(" "));
+      if (!command)
+        return await msg.send(
+          "warn",
+          `I could not find a command with that name! Use \`${msg.client.prefix}${this.opts.name}\` for a full list of commands`
+        );
+      return this.singleCommand(msg, command);
     }
   }
 
@@ -54,19 +60,7 @@ export default class extends Command {
     return { done: true };
   }
 
-  private async singleCommand(
-    msg: Message,
-    args: Array<string>,
-    commands: Collection<string, Command>,
-    aliases: Collection<string, Command>
-  ): Promise<CommandResult | Message> {
-    const command = commands.get(args.join(" ")) ?? aliases.get(args.join(" "));
-    if (!command)
-      return await msg.send(
-        "warn",
-        `I could not find a command with that name! Use \`${msg.client.prefix}${this.opts.name}\` for a full list of commands`
-      );
-
+  private async singleCommand(msg: Message, command: Command): Promise<CommandResult | Message> {
     const formatPerms = (perms: Array<PermissionString>) =>
       perms?.map((perm) => Util.capitalise(perm.replace(/_+/gi, " "))).join(", ") || "None";
 
