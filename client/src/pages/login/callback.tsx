@@ -56,18 +56,20 @@ export default class Callback extends React.Component<Props, State> {
     if (error) {
       console.error(error);
     } else {
-      const data = res.data;
-      const accessToken = data.access_token;
-      const uRes = await axios.get(`https://discord.com/api/users/@me`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      const user = uRes.data;
-      this.setState({ user });
+      await this.fetchAndSaveUser(res.data.access_token);
     }
 
     this.setState({ error: error?.message });
+  }
+
+  public async fetchAndSaveUser(accessToken: string): Promise<any> {
+    const res = await axios.get(`https://discord.com/api/users/@me`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    const user = res.data;
+    this.setState({ user });
   }
 
   public render() {
