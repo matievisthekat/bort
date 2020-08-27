@@ -1,7 +1,8 @@
-export default {
+module.exports = {
   env: {
     browser: true,
-    es2020: true,
+    amd: true,
+    node: true,
   },
   extends: ["eslint:recommended", "plugin:react/recommended", "plugin:@typescript-eslint/recommended"],
   parser: "@typescript-eslint/parser",

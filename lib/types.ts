@@ -122,18 +122,17 @@ export interface BotOptions {
 export interface CommandRunOptions {
   command: Command;
   args: Array<string>;
-  flags: any;
+  flags: Record<string, boolean>;
 }
 
 export interface IConfig {
-  emoji: object;
+  emoji: Record<string, string>;
   colours: {
     default: string;
     green: string;
     red: string;
     yellow: string;
   };
-  onDatabaseStartUp?: object;
   imageAPI: ImageAPIOptions;
   api: APIOptions;
 }
