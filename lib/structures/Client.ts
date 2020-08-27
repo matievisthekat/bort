@@ -32,8 +32,8 @@ export class Bot extends Client {
     this.prefix = opts.prefix;
     this.devs = opts.devs;
 
-    this.evnt = new EventManager(this, opts.event_dir);
-    this.cmd = new CommandManager(this, opts.command_dir);
+    this.evnt = new EventManager(this, opts.eventDir);
+    this.cmd = new CommandManager(this, opts.commandDir);
     this.db = new Database(opts.database);
     this._api = new APIClient(this, opts.api);
     this.logger = new Logger();
@@ -43,7 +43,7 @@ export class Bot extends Client {
    * @returns The result of logging in
    * @public
    */
-  public async load() {
+  public async load(): Promise<Array<unknown>> {
     let success = true;
     let error = null;
 
@@ -73,14 +73,16 @@ export class Bot extends Client {
 
     const res = guild
       ? guild.members.cache.find(
-          (m) =>
-            m.user.id === value.replace(regex, "") ||
+        (m) =>
+          m.user.id === value.replace(regex, "") ||
             m.displayName.toLowerCase().includes(value) ||
             m.user.username.toLowerCase().includes(value)
-        )
+      )
       : this.users.cache.find((u) => u.id === value.replace(regex, "") || u.username.toLowerCase().includes(value));
 
-    return res || (guild ? await guild.members.fetch(value).catch(() => null) : this.users.fetch(value).catch(() => null));
+    return (
+      res || (guild ? await guild.members.fetch(value).catch(() => null) : this.users.fetch(value).catch(() => null))
+    );
   }
 
   /**
@@ -122,6 +124,7 @@ export class Bot extends Client {
     return res;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async handleProcessError(err: Error | any): Promise<Message | void> {
     this.logger.error(err.stack);
 

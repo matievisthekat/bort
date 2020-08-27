@@ -26,8 +26,8 @@ const client = new Bot(
     token: process.env["bot.token"],
     prefix: "./",
     devs: ["492708936290402305"],
-    event_dir: join(__dirname, "events"),
-    command_dir: join(__dirname, "commands"),
+    eventDir: join(__dirname, "events"),
+    commandDir: join(__dirname, "commands"),
     database: {
       host: process.env["db.host"],
       user: process.env["db.user"],

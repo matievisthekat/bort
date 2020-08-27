@@ -113,8 +113,8 @@ export interface BotOptions {
   token: string;
   prefix: string;
   devs: Array<string>;
-  event_dir: string;
-  command_dir: string;
+  eventDir: string;
+  commandDir: string;
   database: DatabaseOptions;
   api: APIOptions;
 }
