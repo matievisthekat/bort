@@ -1,4 +1,4 @@
-import { CustomEvent, Bot } from "../../lib";
+import { CustomEvent, Bot, Command } from "../../lib";
 import { Message } from "discord.js";
 import ms from "ms";
 
@@ -6,7 +6,7 @@ export default class Ready extends CustomEvent {
   constructor(client: Bot) {
     super(client, {
       name: "message",
-      __filename
+      __filename,
     });
   }
 
@@ -43,7 +43,10 @@ export default class Ready extends CustomEvent {
           // Get timeout in readable form
           const timeoutLong = ms(timeout, { long: true });
           // Send the error
-          return await msg.send("warn", `The cooldown for that command has not expired! Please wait **${timeoutLong}** before using it again`);
+          return await msg.send(
+            "warn",
+            `The cooldown for that command has not expired! Please wait **${timeoutLong}** before using it again`
+          );
         } else {
           // Remove the cooldown
           command.cooldown.delete(msg.author.id);
@@ -55,37 +58,18 @@ export default class Ready extends CustomEvent {
         return await msg.send("warn", "That command is locked to developers only!");
       }
 
-      // Get the required permissions for the command. Defaulting to SEND_MESSAGES
-      const botPerms = command.opts.botPerms ?? ["SEND_MESSAGES"];
-      const userPerms = command.opts.userPerms ?? ["SEND_MESSAGES"];
-
-      // If botPerms doesn't include SEND_MESSAGES push it into the array
-      if (!botPerms.includes("SEND_MESSAGES")) {
-        botPerms.push("SEND_MESSAGES");
-      }
-
-      // Check for permissions in the current guild and channel
-      if (!msg.guild.me.hasPermission(botPerms) || !msg.guild.me.permissionsIn(msg.channel).has(botPerms)) {
-        // If the bot is missing the SEND_MESSAGES permission
-        const missingSend = botPerms.includes("SEND_MESSAGES");
-
-        // Send an error message to the current channel or the author's DM channel
-        return await msg.send("warn", 
-          `I am missing one or more of the following permissions (\`${botPerms}\`) to execute that command ${missingSend ? `in **${msg.guild.name}**` : ""}`,
-          // If the bot is missing SEND_MESSAGES permission it sends a message to the author's DM channel (creating on if it doesn't exist)
-          missingSend ? msg.author.dmChannel ?? (await msg.author.createDM()) : msg.channel
-        );
-
-        // Check user perms in the current guild and channel
-      } else if (!msg.member.hasPermission(userPerms) || !msg.member.permissionsIn(msg.channel).has(userPerms)) {
-        return await msg.send("warn", `You are missing one or more of the following permissions (\`${userPerms}\`) to execute that command`);
-      }
+      const hasPerms = await permissionChecks(msg, command);
+      if (hasPerms !== true) return;
 
       // Check command arguments
       if (command.opts.args && command.opts.args.length > 0) {
         for (let i = 0; i < command.opts.args.length; i++) {
           const arg = command.opts.args[i];
-          if (!args[i] && arg.required) return await msg.send("warn", `You are missing the argument **${arg.name}**. Correct usage \`${client.prefix}${command.opts.name} ${command.opts.usage}\``);
+          if (!args[i] && arg.required)
+            return await msg.send(
+              "warn",
+              `You are missing the argument **${arg.name}**. Correct usage \`${client.prefix}${command.opts.name} ${command.opts.usage}\``
+            );
         }
       }
 
@@ -96,4 +80,41 @@ export default class Ready extends CustomEvent {
       }
     }
   }
+}
+
+async function permissionChecks(msg: Message, command: Command) {
+  // Get the required permissions for the command. Defaulting to SEND_MESSAGES
+  const botPerms = command.opts.botPerms ?? ["SEND_MESSAGES"];
+  const userPerms = command.opts.userPerms ?? ["SEND_MESSAGES"];
+
+  // If botPerms doesn't include SEND_MESSAGES push it into the array
+  if (!botPerms.includes("SEND_MESSAGES")) {
+    botPerms.push("SEND_MESSAGES");
+  }
+
+  // Check for permissions in the current guild and channel
+  if (!msg.guild.me.hasPermission(botPerms) || !msg.guild.me.permissionsIn(msg.channel).has(botPerms)) {
+    // If the bot is missing the SEND_MESSAGES permission
+    const missingSend =
+      !msg.guild.me.hasPermission("SEND_MESSAGES") || !msg.guild.me.permissionsIn(msg.channel).has("SEND_MESSAGES");
+
+    // Send an error message to the current channel or the author's DM channel
+    return await msg.send(
+      "warn",
+      `I am missing one or more of the following permissions (\`${botPerms}\`) to execute that command ${
+        missingSend ? `in **${msg.guild.name}**` : ""
+      }`,
+      // If the bot is missing SEND_MESSAGES permission it sends a message to the author's DM channel (creating on if it doesn't exist)
+      missingSend ? msg.author.dmChannel ?? (await msg.author.createDM()) : msg.channel
+    );
+
+    // Check user perms in the current guild and channel
+  } else if (!msg.member.hasPermission(userPerms) || !msg.member.permissionsIn(msg.channel).has(userPerms)) {
+    return await msg.send(
+      "warn",
+      `You are missing one or more of the following permissions (\`${userPerms}\`) to execute that command`
+    );
+  }
+
+  return true;
 }
