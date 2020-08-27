@@ -30,41 +30,9 @@ export default class extends Command {
     const aliases = msg.client.cmd.aliases;
 
     if (!args[0]) {
-      return await this.allCommands(msg, commands);
+      return this.allCommands(msg, commands);
     } else {
-      const command = commands.get(args.join(" ")) ?? aliases.get(args.join(" "));
-      if (!command)
-        return await msg.send(
-          "warn",
-          `I could not find a command with that name! Use \`${msg.client.prefix}${this.opts.name}\` for a full list of commands`
-        );
-
-      const formatPerms = (perms: Array<PermissionString>) =>
-        perms?.map((perm) => Util.capitalise(perm.replace(/_+/gi, " "))).join(", ") || "None";
-
-      const opts = command.opts;
-      const embed = new msg.client.Embed()
-        .addField(
-          Util.capitalise(`${opts.category}: ${opts.name}`),
-          `\`\`\`dust\n${msg.client.prefix}${opts.name} ${opts.usage}\`\`\`${opts.description}`
-        )
-        .addField(
-          "Options",
-          `\`\`\`md\n- Aliases: ${opts.aliases?.join(", ") || "None"}\n- Cooldown: ${ms(ms(opts.cooldown), {
-            long: true,
-          })}\n- Developer Only: ${opts.devOnly ? "Yes" : "No"}\`\`\``
-        )
-        .addField("User Permissions", formatPerms(opts.userPerms))
-        .addField("Bot Permissions", formatPerms(opts.botPerms))
-        .addField(
-          "Arguments",
-          `\`\`\`dust\n${opts.args?.map((a) => `${Util.formatArg(a)} ${a.desc}`).join("\n") || "None"}\`\`\``
-        )
-        .addField("Examples", opts.examples?.map((ex) => `${msg.client.prefix}${opts.name} ${ex}`).join("\n") || "None")
-        .setFooter("{ Required } | < Optional >");
-
-      await msg.channel.send(embed);
-      return { done: true };
+      return this.singleCommand(msg, args, commands, aliases);
     }
   }
 
@@ -81,6 +49,47 @@ export default class extends Command {
         categoryCommands.map((c) => `\`${c.opts.name}\``).join(", ")
       );
     }
+
+    await msg.channel.send(embed);
+    return { done: true };
+  }
+
+  private async singleCommand(
+    msg: Message,
+    args: Array<string>,
+    commands: Collection<string, Command>,
+    aliases: Collection<string, Command>
+  ): Promise<CommandResult | Message> {
+    const command = commands.get(args.join(" ")) ?? aliases.get(args.join(" "));
+    if (!command)
+      return await msg.send(
+        "warn",
+        `I could not find a command with that name! Use \`${msg.client.prefix}${this.opts.name}\` for a full list of commands`
+      );
+
+    const formatPerms = (perms: Array<PermissionString>) =>
+      perms?.map((perm) => Util.capitalise(perm.replace(/_+/gi, " "))).join(", ") || "None";
+
+    const opts = command.opts;
+    const embed = new msg.client.Embed()
+      .addField(
+        Util.capitalise(`${opts.category}: ${opts.name}`),
+        `\`\`\`dust\n${msg.client.prefix}${opts.name} ${opts.usage}\`\`\`${opts.description}`
+      )
+      .addField(
+        "Options",
+        `\`\`\`md\n- Aliases: ${opts.aliases?.join(", ") || "None"}\n- Cooldown: ${ms(ms(opts.cooldown), {
+          long: true,
+        })}\n- Developer Only: ${opts.devOnly ? "Yes" : "No"}\`\`\``
+      )
+      .addField("User Permissions", formatPerms(opts.userPerms))
+      .addField("Bot Permissions", formatPerms(opts.botPerms))
+      .addField(
+        "Arguments",
+        `\`\`\`dust\n${opts.args?.map((a) => `${Util.formatArg(a)} ${a.desc}`).join("\n") || "None"}\`\`\``
+      )
+      .addField("Examples", opts.examples?.map((ex) => `${msg.client.prefix}${opts.name} ${ex}`).join("\n") || "None")
+      .setFooter("{ Required } | < Optional >");
 
     await msg.channel.send(embed);
     return { done: true };
