@@ -5,7 +5,6 @@ import { APIOptions } from "../api";
 import { Logger } from "./structures/Logger";
 import { ImageAPIEndpoint } from "./structures/Util";
 import { ConnectionOptions } from "mongoose";
-import { StringResolvable } from "discord.js";
 
 export interface ArgOptions {
   name: string;
