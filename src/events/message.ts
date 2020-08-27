@@ -38,18 +38,15 @@ export default class Ready extends CustomEvent {
       }
 
       const hasPerms = await permissionChecks(msg, command);
-      if (hasPerms !== true) return;
-
       const hasArgs = await argChecks(msg, args, command);
-      if (hasArgs !== true) return;
-
       const passedCooldown = await cooldownChecks(msg, command);
-      if (passedCooldown !== true) return;
+
+      if (hasPerms !== true || hasArgs !== true || passedCooldown !== true) return;
 
       // Run the command once all checks are complete
       const res = await command.run(msg, { command, args, flags });
       if (res && res.done === true) {
-        return command.emit("run", msg, { command, args, flags });
+        command.emit("run", msg, { command, args, flags });
       }
     }
   }
