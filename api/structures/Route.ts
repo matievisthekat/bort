@@ -7,7 +7,7 @@ export interface RouteOptions {
   subPaths: Array<SubPath>;
 }
 
-export interface IResponse {
+export interface ReponseInterface {
   status: util.HTTPStatusCode;
   error?: unknown;
   message?: unknown;
@@ -21,7 +21,7 @@ export class Response {
   public message: unknown;
   public data: unknown;
 
-  constructor(info: IResponse) {
+  constructor(info: ReponseInterface) {
     this.status = info.status;
     this.statusText = util.Util.httpCodes[this.status];
     this.error = info.error;

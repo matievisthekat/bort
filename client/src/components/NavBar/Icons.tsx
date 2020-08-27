@@ -19,7 +19,7 @@ export default class NavbarIcons extends React.Component<unknown, unknown> {
           </Button>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="https://discord.gg/5j4hTMJ" target="_blank" rel="noreferrer">
+          <a className="nav-link" href="https://discord.gg/5j4hTMJ" target="_blank" rel="noopener noreferrer">
             <i className="fab fa-discord"></i>
           </a>
         </li>

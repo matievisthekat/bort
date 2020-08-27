@@ -108,13 +108,13 @@ export class Util {
   public static findNested(dir: string, pattern = "js"): Array<string> {
     let results: Array<string> = [];
 
-    fs.readdirSync(dir).forEach((inner_dir) => {
-      inner_dir = path.resolve(dir, inner_dir);
-      const stat = fs.statSync(inner_dir);
+    fs.readdirSync(dir).forEach((innerDir) => {
+      innerDir = path.resolve(dir, innerDir);
+      const stat = fs.statSync(innerDir);
 
-      if (stat.isDirectory()) results = results.concat(Util.findNested(inner_dir, pattern));
+      if (stat.isDirectory()) results = results.concat(Util.findNested(innerDir, pattern));
 
-      if (stat.isFile() && inner_dir.split(".").pop() === pattern) results.push(inner_dir);
+      if (stat.isFile() && innerDir.split(".").pop() === pattern) results.push(innerDir);
     });
 
     return results;

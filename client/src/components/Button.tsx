@@ -40,6 +40,7 @@ export default class Button extends React.Component<ButtonProps> {
       <a
         href={this.props.href}
         target={this.props.openInNewtab ? "_blank" : ""}
+        rel="noopener noreferrer"
         className={this.classes}
         onClick={this.props.onClick}
       >
