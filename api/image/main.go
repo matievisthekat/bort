@@ -3,11 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
+	"net/http"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/pollen5/img-api/routes"
-	"log"
-	"net/http"
 )
 
 var port = flag.Int("p", 3030, "Change the port to listen to.")
