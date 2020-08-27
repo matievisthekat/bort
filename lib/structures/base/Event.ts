@@ -1,8 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Bot } from "../Client";
 import { EventOptions } from "../..";
 
 export class CustomEvent {
   constructor(private client: Bot, public readonly opts: EventOptions) {}
+
+  public run(client: Bot, ...args: any): unknown {
+    return client.logger.warn(`Event run method empty at ${this.opts.__filename}`);
+  }
 
   /**
    * unload
