@@ -10,3 +10,6 @@ Version 2 of bort in Typescript. If you would like to view the current version: 
 [![Visits Badge](https://badges.pufler.dev/visits/MatievisTheKat/bort)](https://badges.pufler.dev/visits/MatievisTheKat/bort)
 [![Test](https://github.com/MatievisTheKat/bort/workflows/test/badge.svg?branch=v2)](https://github.com/MatievisTheKat/bort/actions?query=workflow%3Atest&branch=v2)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/54046fd6-9d02-4a8d-bbbc-afe5f8fa45a6/deploy-status)](https://app.netlify.com/sites/bortdocs/deploys)
+[![repo size](https://img.shields.io/github/repo-size/matievisthekat/bort)](https://shields.io)
+[![commit activity](https://img.shields.io/github/commit-activity/w/matievisthekat/bort)](https://shields.io)
+[![license](https://img.shields.io/github/license/matievisthekat/bort)](https://shields.io)
