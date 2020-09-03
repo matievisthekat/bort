@@ -22,7 +22,7 @@ export class Bot extends Client {
   public _api: APIClient;
   public readonly Util = Util;
   public readonly prefix: string;
-  public readonly devs: Array<UserResolvable>;
+  public readonly devs: UserResolvable[];
   public readonly Embed: Constructable<Embed> = Embed;
 
   constructor(baseOpts: ClientOptions, opts: BotOptions) {
@@ -43,7 +43,7 @@ export class Bot extends Client {
    * @returns The result of logging in
    * @public
    */
-  public async load(): Promise<Array<unknown>> {
+  public async load(): Promise<unknown[]> {
     let success = true;
     let error = null;
 

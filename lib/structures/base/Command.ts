@@ -24,7 +24,7 @@ export class Command extends EventEmitter {
   /**
    * @param {Message} msg The message that triggered this command
    * @param {Command} command The command that was triggered
-   * @param {Array<String>} args The arguments this command was run with
+   * @param {String>} args The arguments this command was run with
    * @param {Object} flags The flags this command was run with
    * @returns A promise
    */

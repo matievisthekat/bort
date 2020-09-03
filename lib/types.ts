@@ -119,20 +119,20 @@ export type HTTPMethod = "get" | "post" | "delete";
 
 export interface CommandOptions {
   name: string;
-  aliases?: Array<string>;
+  aliases?: string[];
   category: string;
   description: string;
-  examples?: Array<string>;
-  args?: Array<ArgOptions>;
+  examples?: string[];
+  args?: ArgOptions[];
   usage?: string;
   devOnly?: boolean;
-  botPerms?: Array<PermissionString>;
-  userPerms?: Array<PermissionString>;
+  botPerms?: PermissionString[];
+  userPerms?: PermissionString[];
   cooldown?: string;
   __filename?: string;
 }
 
-export type ImageCommands = Array<ImageCommand>;
+export type ImageCommands = ImageCommand[];
 
 export interface ImageCommand {
   name: ImageAPIEndpoint;
@@ -155,7 +155,7 @@ export interface EventOptions {
 export interface BotOptions {
   token: string;
   prefix: string;
-  devs: Array<string>;
+  devs: string[];
   eventDir: string;
   commandDir: string;
   database: DatabaseOptions;
@@ -164,7 +164,7 @@ export interface BotOptions {
 
 export interface CommandRunOptions {
   command: Command;
-  args: Array<string>;
+  args: string[];
   flags: Record<string, boolean>;
 }
 
@@ -203,7 +203,7 @@ declare module "discord.js" {
     cmd: CommandManager;
     evnt: EventManager;
     config: Config;
-    devs: Array<UserResolvable>;
+    devs: UserResolvable[];
     logger: Logger;
     Embed: Constructable<Embed>;
 

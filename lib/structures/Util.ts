@@ -109,12 +109,12 @@ export class Util {
    * Find all files in a certain directory (nested)
    * @param {String} dir The directory to read
    * @param {String} pattern The file type to look for
-   * @returns {Array<string>} An array of file paths
+   * @returns {string>} An array of file paths
    * @public
    * @static
    */
-  public static findNested(dir: string, pattern = "js"): Array<string> {
-    let results: Array<string> = [];
+  public static findNested(dir: string, pattern = "js"): string[] {
+    let results: string[] = [];
 
     fs.readdirSync(dir).forEach((innerDir) => {
       innerDir = path.resolve(dir, innerDir);
@@ -131,7 +131,7 @@ export class Util {
   public static async imageCommand(
     endpoint: ImageAPIEndpoint,
     msg: Message,
-    args: Array<string>,
+    args: string[],
     avatarSize?: ImageSize,
     useColour?: boolean,
     useText?: boolean,

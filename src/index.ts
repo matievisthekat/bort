@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import { Bot, Command, Arg, CommandResult, Util } from "../lib";
 import { join } from "path";
 import { Message } from "discord.js";
@@ -64,18 +65,18 @@ client
       const examples = cmd.text
         ? ["some nice text content"]
         : cmd.target
-          ? ["@MatievisTheKat#4975"]
-          : cmd.colour
-            ? ["#ffffff", "red"]
-            : [];
+        ? ["@MatievisTheKat#4975"]
+        : cmd.colour
+        ? ["#ffffff", "red"]
+        : [];
 
       const args = cmd.text
         ? [new Arg("text", "The text to generate an image with", true)]
         : cmd.target
-          ? [new Arg("user", "The user to target", true)]
-          : cmd.colour
-            ? [new Arg("colour", "The colour to get an image of", true)]
-            : null;
+        ? [new Arg("user", "The user to target", true)]
+        : cmd.colour
+        ? [new Arg("colour", "The colour to get an image of", true)]
+        : null;
 
       const command = new Command(client, {
         name: cmd.name,
@@ -87,11 +88,11 @@ client
         cooldown: "5s",
       });
 
-      command.run = async (msg: Message, { args }): Promise<CommandResult | Message> => {
-        return await Util.imageCommand(
+      command.run = async (msg: Message, { args: runArgs }): Promise<CommandResult | Message> => {
+        return Util.imageCommand(
           cmd.name,
           msg,
-          args,
+          runArgs,
           cmd.avSize,
           cmd.colour,
           cmd.text,

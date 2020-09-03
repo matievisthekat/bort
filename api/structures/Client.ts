@@ -16,7 +16,7 @@ export interface APIOptions {
 export class APIClient extends EventEmitter {
   private client: Bot;
   private routeFiles: string;
-  public routes: Array<Route>;
+  public routes: Route[];
   public port: number;
   public auth: string;
   public prod: boolean;

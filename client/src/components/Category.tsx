@@ -11,7 +11,7 @@ interface Props {
 interface State {
   expanded: boolean;
   error: string;
-  commands: Array<Command>;
+  commands: Command[];
 }
 
 export default class Category extends React.Component<Props, State> {

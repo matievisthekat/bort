@@ -36,7 +36,7 @@ export default class Ready extends CustomEvent {
     if (command) {
       // If the author is not a developer and the command is locked to devOnly send an error
       if (command.opts.devOnly && !msg.author.developer) {
-        return await msg.send("warn", "That command is locked to developers only!");
+        return msg.send("warn", "That command is locked to developers only!");
       }
 
       const hasPerms = await permissionChecks(msg, command);
@@ -58,7 +58,7 @@ async function permissionChecks(msg: Message, command: Command): Promise<Message
   const botPerms = command.opts.botPerms || ["SEND_MESSAGES"];
   const userPerms = command.opts.userPerms || ["SEND_MESSAGES"];
 
-  const hasPerm = (perm: PermissionString | Array<PermissionString>, member?: GuildMember): boolean =>
+  const hasPerm = (perm: PermissionString | PermissionString[], member?: GuildMember): boolean =>
     member.hasPermission(perm) || member.permissionsIn(msg.channel).has(perm);
 
   if (!hasPerm(botPerms, msg.guild.me)) {
@@ -85,7 +85,7 @@ async function permissionChecks(msg: Message, command: Command): Promise<Message
   return true;
 }
 
-async function argChecks(msg: Message, args: Array<string>, command: Command): Promise<Message | boolean> {
+async function argChecks(msg: Message, args: string[], command: Command): Promise<Message | boolean> {
   // Check command arguments
   if (command.opts.args && command.opts.args.length > 0) {
     for (let i = 0; i < command.opts.args.length; i++) {

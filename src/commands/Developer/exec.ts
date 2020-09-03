@@ -19,7 +19,7 @@ export default class extends Command {
    * @param {Message} msg The message that fired this command
    * @param {object} commandArgs The arguments run with every command
    * @param {Command} commandArgs.command The command that was run
-   * @param {Array<string>} commandArgs.args The arguments run with the command
+   * @param {string>} commandArgs.args The arguments run with the command
    * @param {object} commandArgs.flags The flags run for the command
    * @returns {Promise<CommandResult | Message>} The success status object
    * @public

@@ -4,7 +4,7 @@ import { Router, Request, Response as ExpressResponse } from "express";
 export interface RouteOptions {
   path: string;
   description: string;
-  subPaths: Array<SubPath>;
+  subPaths: SubPath[];
 }
 
 export interface ReponseInterface {
@@ -34,7 +34,7 @@ export class Route {
   public client: Bot;
   public router: Router;
   public path: string;
-  public subPaths: Array<SubPath>;
+  public subPaths: SubPath[];
 
   constructor(client: Bot, opts: RouteOptions) {
     this.client = client;

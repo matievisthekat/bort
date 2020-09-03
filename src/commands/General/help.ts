@@ -44,7 +44,7 @@ export default class extends Command {
 
   public async allCommands(msg: Message, commands: Collection<string, Command>): Promise<CommandResult | Message> {
     const embed = new msg.client.Embed();
-    const categories: Array<string> = [...new Set(commands.map((cmd) => cmd.opts.category.toLowerCase()))];
+    const categories: string[] = [...new Set(commands.map((cmd) => cmd.opts.category.toLowerCase()))];
 
     for (const category of categories) {
       const categoryCommands = commands.filter((cmd) => cmd.opts.category.toLowerCase() === category);

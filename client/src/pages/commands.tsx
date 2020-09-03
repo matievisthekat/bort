@@ -9,7 +9,7 @@ import Category from "../components/Category";
 import ErrorBox from "../components/ErrorBox";
 
 interface State {
-  categories: Array<string> | void;
+  categories: string[] | void;
   error: string;
 }
 

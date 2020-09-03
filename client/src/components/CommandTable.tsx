@@ -3,7 +3,7 @@ import { Command } from "../../../lib";
 import Highlight from "react-highlight.js";
 
 interface Props {
-  commands: Array<Command>;
+  commands: Command[];
 }
 
 export default class CommandTable extends React.Component<Props, unknown> {
