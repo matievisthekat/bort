@@ -7,9 +7,9 @@ import http from "http";
 import querystring from "querystring";
 import { Message, ImageSize, User, Collection } from "discord.js";
 import config from "../../src/config";
-import { CommandResult } from "../types";
+import { CommandResult, ImageAPIEndpoint, HTTPStatusCode } from "../types";
 
-const realExec = promisify(exec);
+const asyncExec = promisify(exec);
 
 export class Util {
   public static config = config;
@@ -71,7 +71,7 @@ export class Util {
    */
   public static async execute(command: string): Promise<ExecuteResult> {
     let error = null;
-    const result = await realExec(command).catch((err) => (error = err));
+    const result = await asyncExec(command).catch((err) => (error = err));
     return {
       stdin: result?.stdin,
       stdout: result?.stdout,
@@ -283,95 +283,3 @@ export class Util {
     599: "Network Connect Timeout Error",
   };
 }
-
-export type ImageAPIQuery = "avatar" | "color" | "text" | "target";
-
-export type ImageAPIEndpoint =
-  | "religion" // Image url: 512x
-  | "beautiful" // Image url: 256x
-  | "fear" // Image url: 256x
-  | "sacred" // Image url: 512x
-  | "painting" // Image url: 512x
-  | "color" // Name or hex
-  | "delete" //  Image url: 256x
-  | "garbage" // Image url: 512x
-  | "tom" // Image url: 256x
-  | "bed" // Image url: 128x | Image url: 128x
-  | "crush" // Image url: 512x | Image url: 512x
-  | "patrick" // Image url: 512x
-  | "respect" // Image url: 128x
-  | "dipshit" // Text: 33
-  | "picture" // Image url: 256x
-  | "tweet" // Text: 165
-  | "truth" // Image url: 256x
-  | "bobross" // Image url: 512x
-  | "mask" // Image url: 512x
-  | "father" // Image url: 256x | Text: 42
-  | "achievement" // Image url: 64x | Text: 21
-  | "dominantColor"; // Image url: any size
-
-export type HTTPStatusCode =
-  | 100
-  | 101
-  | 102
-  | 200
-  | 201
-  | 202
-  | 203
-  | 204
-  | 205
-  | 206
-  | 207
-  | 208
-  | 226
-  | 300
-  | 301
-  | 302
-  | 303
-  | 304
-  | 305
-  | 307
-  | 308
-  | 400
-  | 401
-  | 402
-  | 403
-  | 404
-  | 405
-  | 406
-  | 407
-  | 408
-  | 409
-  | 410
-  | 411
-  | 412
-  | 413
-  | 414
-  | 415
-  | 416
-  | 417
-  | 418
-  | 421
-  | 422
-  | 423
-  | 424
-  | 426
-  | 428
-  | 429
-  | 431
-  | 444
-  | 451
-  | 499
-  | 500
-  | 501
-  | 502
-  | 503
-  | 504
-  | 505
-  | 506
-  | 507
-  | 508
-  | 509
-  | 510
-  | 511
-  | 599;
