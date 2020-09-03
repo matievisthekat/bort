@@ -81,7 +81,7 @@ export class Bot extends Client {
       : this.users.cache.find((u) => u.id === value.replace(regex, "") || u.username.toLowerCase().includes(value));
 
     return (
-      res || (guild ? await guild.members.fetch(value).catch(() => null) : this.users.fetch(value).catch(() => null))
+      res || (guild ? guild.members.fetch(value).catch(() => null) : this.users.fetch(value).catch(() => null))
     );
   }
 
@@ -99,7 +99,7 @@ export class Bot extends Client {
       (r) => r.id === value.replace(regex, "") || r.name.toLowerCase().includes(value)
     );
 
-    return res || (await guild.roles.fetch(value).catch(() => null));
+    return res || (guild.roles.fetch(value).catch(() => null));
   }
 
   /**
@@ -135,6 +135,6 @@ export class Bot extends Client {
       return this.logger.warn(`No error webhook was found using these credentials: TOKEN="${token}", ID="${id}"`);
 
     const embed = new this.Embed().red.setAuthor(err.name).setDescription(`\`\`\`\n${err.stack}\`\`\``).setTimestamp();
-    return await webhook.send(embed);
+    return webhook.send(embed);
   }
 }

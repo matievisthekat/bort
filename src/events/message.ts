@@ -66,7 +66,7 @@ async function permissionChecks(msg: Message, command: Command): Promise<Message
       !msg.guild.me.hasPermission("SEND_MESSAGES") || !msg.guild.me.permissionsIn(msg.channel).has("SEND_MESSAGES");
     const channel = missingSend ? msg.author.dmChannel ?? (await msg.author.createDM()) : msg.channel;
 
-    return await msg.send(
+    return msg.send(
       "warn",
       `I am missing one or more of the following permissions (\`${botPerms}\`) to execute that command ${
         missingSend ? `in **${msg.guild.name}**` : ""
@@ -76,7 +76,7 @@ async function permissionChecks(msg: Message, command: Command): Promise<Message
 
     // Check user perms in the current guild and channel
   } else if (!hasPerm(userPerms, msg.member)) {
-    return await msg.send(
+    return msg.send(
       "warn",
       `You are missing one or more of the following permissions (\`${userPerms}\`) to execute that command`
     );
@@ -91,7 +91,7 @@ async function argChecks(msg: Message, args: string[], command: Command): Promis
     for (let i = 0; i < command.opts.args.length; i++) {
       const arg = command.opts.args[i];
       if (!args[i] && arg.required)
-        return await msg.send(
+        return msg.send(
           "warn",
           `You are missing the argument **${arg.name}**. Correct usage \`${msg.client.prefix}${command.opts.name} ${command.opts.usage}\``
         );
@@ -113,7 +113,7 @@ async function cooldownChecks(msg: Message, command: Command): Promise<Message |
       // Get timeout in readable form
       const timeoutLong = ms(timeout, { long: true });
       // Send the error
-      return await msg.send(
+      return msg.send(
         "warn",
         `The cooldown for that command has not expired! Please wait **${timeoutLong}** before using it again`
       );

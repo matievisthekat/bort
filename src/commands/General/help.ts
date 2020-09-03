@@ -34,7 +34,7 @@ export default class extends Command {
     } else {
       const command = commands.get(args.join(" ")) ?? aliases.get(args.join(" "));
       if (!command)
-        return await msg.send(
+        return msg.send(
           "warn",
           `I could not find a command with that name! Use \`${msg.client.prefix}${this.opts.name}\` for a full list of commands`
         );
