@@ -19,6 +19,6 @@ export default class extends CustomEvent {
     if (oldMsg.content.toLowerCase() === msg.content.toLowerCase()) return;
 
     const event = client.evnt.events.get("message");
-    if (event) return await event.run(client, msg);
+    if (event) return event.run(client, msg);
   }
 }

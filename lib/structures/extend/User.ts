@@ -1,6 +1,5 @@
-import { Structures } from "discord.js";
+import { Structures, Client } from "discord.js";
 import { Bot } from "../..";
-import { Client } from "discord.js";
 
 Structures.extend(
   "User",

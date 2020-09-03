@@ -30,7 +30,7 @@ Structures.extend(
         channel?: TextChannel | DMChannel | NewsChannel
       ): Promise<Message> {
         if (!channel) channel = this.channel;
-        return await channel.send(this.format(type, msg));
+        return channel.send(this.format(type, msg));
       }
 
       /**

@@ -43,7 +43,7 @@ export default class extends Command {
     const result = new Promise((resolve) => resolve(eval(code)));
     result
       .then(async (output) => {
-        output = inspect(output, false, depth ? parseInt(depth) : 1);
+        output = inspect(output, false, depth ? parseInt(depth, 10) : 1);
 
         if (!flags.silent) await msg.channel.send("```js\n" + output + "```", options);
       })

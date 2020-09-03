@@ -5,7 +5,7 @@ import { Command, Arg, Bot, CommandRunOptions, CommandResult } from "../../../li
 import { Message } from "discord.js";
 
 export default class extends Command {
-  constructor (client: Bot) {
+  constructor(client: Bot) {
     super(client, {
       name: "",
       aliases: [],
@@ -17,7 +17,7 @@ export default class extends Command {
       botPerms: [],
       userPerms: [],
       cooldown: "",
-      __filename
+      __filename,
     });
   }
 

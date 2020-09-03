@@ -1,4 +1,4 @@
-import { Bot, util, HTTPMethod, HTTPStatusCode } from "../../lib";
+import { Bot, Util, HTTPMethod, HTTPStatusCode } from "../../lib";
 import { Router, Request, Response as ExpressResponse } from "express";
 
 export interface RouteOptions {
@@ -23,7 +23,7 @@ export class Response {
 
   constructor(info: ReponseInterface) {
     this.status = info.status;
-    this.statusText = util.Util.httpCodes[this.status];
+    this.statusText = Util.httpCodes[this.status];
     this.error = info.error;
     this.message = info.message;
     this.data = info.data;

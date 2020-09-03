@@ -22,7 +22,7 @@ export class Database extends EventEmitter {
    */
   public async load(): Promise<unknown> {
     this.loadModels(this.modelsPath);
-    return await Mongoose.connect(this.uri, this.options)
+    return Mongoose.connect(this.uri, this.options)
       .then((connection) => this.emit("ready", connection))
       .catch((err) => this.emit("error", err));
   }

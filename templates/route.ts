@@ -7,9 +7,9 @@ import { Bot } from "../../lib";
 import { Router } from "express";
 
 export default class extends Route {
-  constructor (client: Bot) {
+  constructor(client: Bot) {
     super(client, {
-      path: ""
+      path: "",
     });
   }
 

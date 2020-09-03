@@ -2,8 +2,8 @@
 import { ExecuteResult, Bot, Arg, Command } from "../";
 import { promisify } from "util";
 import { exec } from "child_process";
-import * as fs from "fs";
-import * as path from "path";
+import fs from "fs";
+import path from "path";
 import http from "http";
 import querystring from "querystring";
 import { Message, ImageSize, User, Collection } from "discord.js";
@@ -38,9 +38,9 @@ export class Util {
    * @public
    * @static
    */
-  public static loadEnv(path: string): Record<string, string> {
+  public static loadEnv(envPath: string): Record<string, string> {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const env = require(path);
+    const env = require(envPath);
     if (!env) throw new Error("(Util#loadEnv) No environment variables to load");
 
     return Util.loadObjectToEnv(env);
@@ -146,19 +146,14 @@ export class Util {
 
     if (useTarget && !target) return msg.send("warn", "No valid user was provided");
     if ((useText && text.length > maxLength) || (useColour && color.length > maxLength))
-      return msg.send(
-        "warn",
-        `Maximum length exceded! Please keep your text to less than ${maxLength} characters`
-      );
+      return msg.send("warn", `Maximum length exceded! Please keep your text to less than ${maxLength} characters`);
 
     let error = null;
-    const targetAv = target ? target.displayAvatarURL({ size: avatarSize, format: "png" }) : null;
-    const av = avatarTarget ? target.displayAvatarURL({ size: avatarSize, format: "png" }) : avatar;
 
     const res = await Util.getImg(endpoint, {
       text,
-      avatar: av,
-      target: targetAv,
+      avatar: avatarTarget ? target.displayAvatarURL({ size: avatarSize, format: "png" }) : avatar,
+      target: target ? target.displayAvatarURL({ size: avatarSize, format: "png" }) : null,
       color,
     }).catch((err) => (error = JSON.parse(err)));
     if (error) {

@@ -1,8 +1,6 @@
 import { CustomEvent, Bot, Command, CommandResult } from "../../lib";
-import { Message } from "discord.js";
+import { Message, GuildMember, PermissionString } from "discord.js";
 import ms from "ms";
-import { PermissionString } from "discord.js";
-import { GuildMember } from "discord.js";
 
 export default class Ready extends CustomEvent {
   constructor(client: Bot) {

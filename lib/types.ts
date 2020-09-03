@@ -132,8 +132,6 @@ export interface CommandOptions {
   __filename?: string;
 }
 
-export type ImageCommands = ImageCommand[];
-
 export interface ImageCommand {
   name: ImageAPIEndpoint;
   description: string;

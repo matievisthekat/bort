@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import {
   Client,
   ClientOptions,
@@ -73,16 +74,14 @@ export class Bot extends Client {
 
     const res = guild
       ? guild.members.cache.find(
-        (m) =>
-          m.user.id === value.replace(regex, "") ||
+          (m) =>
+            m.user.id === value.replace(regex, "") ||
             m.displayName.toLowerCase().includes(value) ||
             m.user.username.toLowerCase().includes(value)
-      )
+        )
       : this.users.cache.find((u) => u.id === value.replace(regex, "") || u.username.toLowerCase().includes(value));
 
-    return (
-      res || (guild ? guild.members.fetch(value).catch(() => null) : this.users.fetch(value).catch(() => null))
-    );
+    return res || (guild ? guild.members.fetch(value).catch(() => null) : this.users.fetch(value).catch(() => null));
   }
 
   /**
@@ -99,7 +98,7 @@ export class Bot extends Client {
       (r) => r.id === value.replace(regex, "") || r.name.toLowerCase().includes(value)
     );
 
-    return res || (guild.roles.fetch(value).catch(() => null));
+    return res || guild.roles.fetch(value).catch(() => null);
   }
 
   /**
@@ -130,7 +129,7 @@ export class Bot extends Client {
 
     const token = process.env["webhooks.error.token"];
     const id = process.env["webhooks.error.id"];
-    const webhook = await this.fetchWebhook(id, token).catch((err) => this.logger.error(err.stack));
+    const webhook = await this.fetchWebhook(id, token).catch((caught) => this.logger.error(caught.stack));
     if (!webhook)
       return this.logger.warn(`No error webhook was found using these credentials: TOKEN="${token}", ID="${id}"`);
 
