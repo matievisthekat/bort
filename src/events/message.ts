@@ -55,26 +55,23 @@ export default class Ready extends CustomEvent {
 }
 
 async function permissionChecks(msg: Message, command: Command): Promise<Message | boolean> {
-  // Get the required permissions for the command. Defaulting to SEND_MESSAGES
-  const botPerms = command.opts.botPerms ?? ["SEND_MESSAGES"];
-  const userPerms = command.opts.userPerms ?? ["SEND_MESSAGES"];
+  const botPerms = command.opts.botPerms || ["SEND_MESSAGES"];
+  const userPerms = command.opts.userPerms || ["SEND_MESSAGES"];
 
   const hasPerm = (perm: PermissionString | Array<PermissionString>, member?: GuildMember): boolean =>
     member.hasPermission(perm) || member.permissionsIn(msg.channel).has(perm);
-  // Check for permissions in the current guild and channel
+
   if (!hasPerm(botPerms, msg.guild.me)) {
-    // If the bot is missing the SEND_MESSAGES permission
     const missingSend =
       !msg.guild.me.hasPermission("SEND_MESSAGES") || !msg.guild.me.permissionsIn(msg.channel).has("SEND_MESSAGES");
+    const channel = missingSend ? msg.author.dmChannel ?? (await msg.author.createDM()) : msg.channel;
 
-    // Send an error message to the current channel or the author's DM channel
     return await msg.send(
       "warn",
       `I am missing one or more of the following permissions (\`${botPerms}\`) to execute that command ${
         missingSend ? `in **${msg.guild.name}**` : ""
       }`,
-      // If the bot is missing SEND_MESSAGES permission it sends a message to the author's DM channel (creating on if it doesn't exist)
-      missingSend ? msg.author.dmChannel ?? (await msg.author.createDM()) : msg.channel
+      channel
     );
 
     // Check user perms in the current guild and channel

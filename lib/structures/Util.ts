@@ -143,6 +143,7 @@ export class Util {
     const color = args.join(" ");
     const avatar = msg.author.displayAvatarURL({ size: avatarSize, format: "png" });
     const target = (await msg.client.getUserOrMember(args.join(" "))) as User;
+
     if (useTarget && !target) return await msg.send("warn", "No valid user was provided");
     if ((useText && text.length > maxLength) || (useColour && color.length > maxLength))
       return await msg.send(
@@ -151,11 +152,13 @@ export class Util {
       );
 
     let error = null;
+    const targetAv = target ? target.displayAvatarURL({ size: avatarSize, format: "png" }) : null;
+    const av = avatarTarget ? target.displayAvatarURL({ size: avatarSize, format: "png" }) : avatar;
 
     const res = await Util.getImg(endpoint, {
       text,
-      avatar: avatarTarget ? target.displayAvatarURL({ size: avatarSize, format: "png" }) : avatar,
-      target: target ? target.displayAvatarURL({ size: avatarSize, format: "png" }) : null,
+      avatar: av,
+      target: targetAv,
       color,
     }).catch((err) => (error = JSON.parse(err)));
     if (error) {
