@@ -24,9 +24,7 @@ export class CommandManager extends EventEmitter {
    * @public
    */
   public load(): Collection<string, Command> {
-    const files = Util.findNested(this.dir);
-    for (const file of files) this.loadCommand(file);
-
+    Util.loadFiles(this.dir, this.loadCommand.bind(this));
     this.emit("ready", this.commands);
     return this.commands;
   }

@@ -14,9 +14,7 @@ export class EventManager extends EventEmitter {
    * @public
    */
   public load(): Collection<string, CustomEvent> {
-    const files = Util.findNested(this.dir);
-    for (const file of files) this.loadEvent(file);
-
+    Util.loadFiles(this.dir, this.loadEvent.bind(this));
     this.emit("ready", this.events);
     return this.events;
   }

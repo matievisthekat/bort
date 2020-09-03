@@ -21,6 +21,8 @@ export interface DatabaseOptions {
   modelsPath: string;
 }
 
+export type LoadFilesCallback = (file: string) => unknown;
+
 export type ImageAPIQuery = "avatar" | "color" | "text" | "target";
 
 export type ImageAPIEndpoint =

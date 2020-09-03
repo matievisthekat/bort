@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import { ExecuteResult, Bot, Arg, Command } from "../";
 import { promisify } from "util";
 import { exec } from "child_process";
@@ -7,7 +8,7 @@ import http from "http";
 import querystring from "querystring";
 import { Message, ImageSize, User, Collection } from "discord.js";
 import config from "../../src/config";
-import { CommandResult, ImageAPIEndpoint, HTTPStatusCode } from "../types";
+import { CommandResult, ImageAPIEndpoint, HTTPStatusCode, LoadFilesCallback } from "../types";
 
 const asyncExec = promisify(exec);
 
@@ -24,9 +25,9 @@ export class Util {
   public static capitalise(str: string): string {
     return str.length > 0
       ? str
-        .split(/ +/gi)
-        .map((word: string) => word[0].toUpperCase() + word.slice(1).toLowerCase())
-        .join(" ")
+          .split(/ +/gi)
+          .map((word: string) => word[0].toUpperCase() + word.slice(1).toLowerCase())
+          .join(" ")
       : str;
   }
 
@@ -60,6 +61,13 @@ export class Util {
       }
     }
     return process.env;
+  }
+
+  public static loadFiles(dir: string, callback: LoadFilesCallback): void {
+    const files = Util.findNested(dir);
+    for (const file of files) {
+      callback(file);
+    }
   }
 
   /**

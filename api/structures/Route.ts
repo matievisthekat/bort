@@ -1,4 +1,4 @@
-import { Bot, util, HTTPMethod } from "../../lib";
+import { Bot, util, HTTPMethod, HTTPStatusCode } from "../../lib";
 import { Router, Request, Response as ExpressResponse } from "express";
 
 export interface RouteOptions {
@@ -8,14 +8,14 @@ export interface RouteOptions {
 }
 
 export interface ReponseInterface {
-  status: util.HTTPStatusCode;
+  status: HTTPStatusCode;
   error?: unknown;
   message?: unknown;
   data?: unknown;
 }
 
 export class Response {
-  public status: util.HTTPStatusCode;
+  public status: HTTPStatusCode;
   public statusText: string;
   public error: unknown;
   public message: unknown;
