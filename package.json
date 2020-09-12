@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.20.0",
     "ayb-api": "^1.0.8",
     "chalk": "^4.1.0",
     "cleverbot-free": "^1.0.4",
