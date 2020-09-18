@@ -1,5 +1,4 @@
-import { Collection } from "discord.js";
-import { Guild } from "discord.js";
+import { Collection, Guild } from "discord.js";
 import ms from "ms";
 import { Song } from "..";
 

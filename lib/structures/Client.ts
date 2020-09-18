@@ -168,13 +168,13 @@ export class Bot extends Client {
         if (/(cancel|cancle)/gi.test(m.content)) return collector.stop("Cancelled by author");
         const index = parseInt(m.content, 10);
         song = songs[index];
-        if (!index || !song) return await msg.send("warn", "Please supply a valid index selection");
+        if (!index || !song) return msg.send("warn", "Please supply a valid index selection");
 
         collector.stop("Song selected");
       });
 
       collector.on("end", async (collected, reason) => {
-        if (!song) return await msg.send("warn", `Song selection has ended: \`${reason ?? "Timed out"}\``);
+        if (!song) return msg.send("warn", `Song selection has ended: \`${reason ?? "Timed out"}\``);
         else res(song);
       });
     });
