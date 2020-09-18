@@ -30,12 +30,18 @@ export default class Play extends Command {
     if (!vc.joinable) return msg.send("warn", "I cannot join that voice channel");
     if (!vc.speakable) return msg.send("warn", "I cannot speak in that voice channel");
 
+    const m = await msg.send("loading", "Fetching information and selecting song...");
+
     const query = args.join(" ");
     const songs = await msg.client.songSearch(query, 10);
     const song = await msg.client.selectSong(msg, songs);
 
-    await song.play(vc);
+    if (m.deletable) await m.delete();
 
+    const connection = await vc.join();
+    song.play(connection);
+
+    await msg.send("success", `Started **${song.title}** in **${vc.name}**. It will play for \`${song.fullDuration}\``);
     return { done: true };
   }
 }
