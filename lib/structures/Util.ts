@@ -16,16 +16,23 @@ export class Util {
   public static config = config;
 
   public static durationObjectToString(duration: DurationObject): string {
+    duration = Util.reduceDurationObject(duration);
+
+    const steps = Object.entries(duration)
+      .map((step) => `${step[1]} ${step[1] > 1 ? step[0] : step[0].slice(0, -1)}`)
+      .filter((s) => !s.startsWith("0"));
+      
+    return steps.join(", ");
+  }
+
+  public static reduceDurationObject(duration: DurationObject): DurationObject {
     // yes i know not all months are 30 days long
     duration.days = duration.days + (duration.years * 365 + duration.months * 30);
 
     delete duration.years;
     delete duration.months;
 
-    const steps = Object.entries(duration)
-      .map((step) => `${step[1]} ${step[1] > 1 ? step[0] : step[0].slice(0, -1)}`)
-      .filter((s) => !s.startsWith("0"));
-    return steps.join(", ");
+    return duration;
   }
 
   /**
