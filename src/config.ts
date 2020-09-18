@@ -11,6 +11,10 @@ const config: Config = {
       custom: "<:xemoji:672073562307297293>",
       default: ":x:",
     },
+    loading: {
+      custom: "<a:generating:666019407256092673>",
+      default: ":inbox_tray:",
+    },
     warn: {
       custom: "<:warn:733277985133690881>",
       default: ":warning:",
@@ -27,7 +31,7 @@ const config: Config = {
     },
   },
   colours: {
-    default: "#0099FF",
+    default: "BLUE",
     green: "#00CC33",
     red: "#FF0033",
     yellow: "#FFCC33",
