@@ -10,3 +10,4 @@ export * from "./structures/Logger";
 export * from "./structures/extend/Embed";
 export * from "./types";
 export * from "./structures/Util";
+export * from "./structures/Song";

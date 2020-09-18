@@ -11,9 +11,9 @@ import {
   Message,
   GuildChannel,
 } from "discord.js";
-import { CommandManager, EventManager, Logger, Database, BotOptions, Embed } from "../";
+import { CommandManager, EventManager, Logger, Database, BotOptions, Embed, Song, Util } from "../";
 import { APIClient } from "../../api";
-import { Util } from "./Util";
+import YouTube from "simple-youtube-api";
 
 export class Bot extends Client {
   public readonly evnt: EventManager;
@@ -25,6 +25,7 @@ export class Bot extends Client {
   public readonly prefix: string;
   public readonly devs: UserResolvable[];
   public readonly Embed: Constructable<Embed> = Embed;
+  public readonly yt: YouTube;
 
   constructor(baseOpts: ClientOptions, opts: BotOptions) {
     super(baseOpts);
@@ -37,6 +38,7 @@ export class Bot extends Client {
     this.cmd = new CommandManager(this, opts.commandDir);
     this.db = new Database(opts.database);
     this._api = new APIClient(this, opts.api);
+    this.yt = new YouTube(opts.yt.key);
   }
 
   /**
@@ -120,6 +122,26 @@ export class Bot extends Client {
       .find((c) => c.id === value.replace(regex, "") || c.name.toLowerCase().includes(value));
 
     return res;
+  }
+
+  public async songSearch(query: string, limit = 10): Promise<Song | Song[] | null> {
+    let results = await this.yt.searchVideos(query, limit);
+    if (results.length < 1) return null;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    results = results.map((res: any) => {
+      return new Song({
+        title: res.title,
+        description: res.description,
+        publishedAt: res.publishedAt,
+        channel: res.channel.name,
+        duration: res.duration,
+        url: res.url,
+      });
+    });
+
+    if (results.length === 1) return results[0];
+
+    return results;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

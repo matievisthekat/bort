@@ -158,6 +158,27 @@ export interface BotOptions {
   commandDir: string;
   database: DatabaseOptions;
   api: APIOptions;
+  yt: YouTubeOptions;
+}
+
+export interface YouTubeOptions {
+  key: string;
+}
+
+export interface SongInfo {
+  title: string;
+  description: string;
+  publishedAt: Date;
+  channel: string;
+  duration: {
+    years: number;
+    months: number;
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+  };
+  url: string;
 }
 
 export interface CommandRunOptions {

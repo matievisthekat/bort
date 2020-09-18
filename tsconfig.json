@@ -5,7 +5,7 @@
     "sourceMap": true,
     "outDir": "./dist",
     "jsx": "react",
-    "esModuleInterop": true,
+    "esModuleInterop": true
   },
   "exclude": ["templates", "client"]
 }
