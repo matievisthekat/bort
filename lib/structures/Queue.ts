@@ -27,7 +27,20 @@ export class Queue {
   }
 
   public get nowPlaying(): Song | undefined {
-    return this.songs[0];
+    return this.songs.first();
+  }
+
+  public next(): Song {
+    if (this.songs.size <= 1) return null;
+
+    const currentSong = this.songs.first();
+    const connection = currentSong.connection;
+
+    this.songs.delete(this.songs.firstKey());
+    currentSong.stop();
+
+    this.songs.first().play(connection);
+    return this.songs.first();
   }
 
   public addSong(song: Song): Song | undefined {
