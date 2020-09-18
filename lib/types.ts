@@ -1,4 +1,4 @@
-import { CommandManager, EventManager, Command } from ".";
+import { CommandManager, EventManager, Command, Song } from ".";
 import { ImageSize, PermissionString } from "discord.js";
 import { Embed } from "./structures/extend/Embed";
 import { APIOptions } from "../api";
@@ -235,6 +235,8 @@ declare module "discord.js" {
       value: string,
       guild: Guild
     ): GuildChannel | void;
+    selectSong(msg: Message, songs: Song[] | Song): Promise<Song | null>;
+    songSearch(query: string, limit: number): Promise<Song | Song[] | null>;
   }
 
   interface Message {

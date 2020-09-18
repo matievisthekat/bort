@@ -14,6 +14,7 @@ import {
 import { CommandManager, EventManager, Logger, Database, BotOptions, Embed, Song, Util } from "../";
 import { APIClient } from "../../api";
 import YouTube from "simple-youtube-api";
+import ms from "ms";
 
 export class Bot extends Client {
   public readonly evnt: EventManager;
@@ -142,6 +143,39 @@ export class Bot extends Client {
     if (results.length === 1) return results[0];
 
     return results;
+  }
+
+  public async selectSong(msg: Message, songs: Song[] | Song): Promise<Song | null> {
+    // eslint-disable-next-line no-async-promise-executor
+    return new Promise(async (res) => {
+      if (!Array.isArray(songs)) return songs;
+      let song: Song = null;
+
+      const collector = msg.channel.createMessageCollector((m) => m.author.id === msg.author.id, {
+        time: ms("1m"),
+      });
+
+      await msg.send(
+        "success",
+        new this.Embed()
+          .setDescription(songs.map((song, i) => `[\`${i + 1}\`] - ${song.title}`).join("\n"))
+          .setFooter("Please select a song | Type 'cancel' to cancel | You have 1 minute")
+      );
+
+      collector.on("collect", async (m) => {
+        if (/(cancel|cancle)/gi.test(m.content)) return collector.stop("Cancelled by author");
+        const index = parseInt(m.content);
+        song = songs[index];
+        if (!index || !song) return await msg.send("warn", "Please supply a valid index selection");
+
+        collector.stop("Song selected");
+      });
+
+      collector.on("end", async (collected, reason) => {
+        if (!song) return await msg.send("warn", `Song selection has ended: \`${reason ?? "Timed out"}\``);
+        else res(song);
+      });
+    });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
