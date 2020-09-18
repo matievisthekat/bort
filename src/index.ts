@@ -42,6 +42,9 @@ const client = new Bot(
       modelsPath: join(__dirname, "models"),
     },
     api: config.api,
+    yt: {
+      key: process.env["yt.key"],
+    },
   }
 );
 
