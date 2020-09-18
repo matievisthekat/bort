@@ -139,7 +139,7 @@ export class Bot extends Client {
         description: res.description,
         publishedAt: res.publishedAt,
         channel: res.channel.name,
-        duration: parseInt(info.videoDetails.lengthSeconds) * 1000,
+        duration: parseInt(info.videoDetails.lengthSeconds, 10) * 1000,
         url: res.url,
       });
     }
@@ -166,7 +166,7 @@ export class Bot extends Client {
 
       collector.on("collect", async (m) => {
         if (/(cancel|cancle)/gi.test(m.content)) return collector.stop("Cancelled by author");
-        const index = parseInt(m.content);
+        const index = parseInt(m.content, 10);
         song = songs[index];
         if (!index || !song) return await msg.send("warn", "Please supply a valid index selection");
 
