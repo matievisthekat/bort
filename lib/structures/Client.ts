@@ -16,11 +16,11 @@ import { APIClient } from "../../api";
 import { Util } from "./Util";
 
 export class Bot extends Client {
-  public evnt: EventManager;
-  public cmd: CommandManager;
-  public logger: Logger;
-  public db: Database;
-  public _api: APIClient;
+  public readonly evnt: EventManager;
+  public readonly cmd: CommandManager;
+  public readonly logger = new Logger();
+  public readonly db: Database;
+  public readonly _api: APIClient;
   public readonly Util = Util;
   public readonly prefix: string;
   public readonly devs: UserResolvable[];
@@ -37,7 +37,6 @@ export class Bot extends Client {
     this.cmd = new CommandManager(this, opts.commandDir);
     this.db = new Database(opts.database);
     this._api = new APIClient(this, opts.api);
-    this.logger = new Logger();
   }
 
   /**
