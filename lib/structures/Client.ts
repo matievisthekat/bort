@@ -15,6 +15,7 @@ import { CommandManager, EventManager, Logger, Database, BotOptions, Embed, Song
 import { APIClient } from "../../api";
 import YouTube from "simple-youtube-api";
 import ms from "ms";
+import ytdl from "ytdl-core";
 
 export class Bot extends Client {
   public readonly evnt: EventManager;
@@ -125,30 +126,31 @@ export class Bot extends Client {
     return res;
   }
 
-  public async songSearch(query: string, limit = 10): Promise<Song | Song[] | null> {
-    let results = await this.yt.searchVideos(query, limit);
+  public async songSearch(query: string, limit = 10): Promise<Song[]> {
+    const results = await this.yt.searchVideos(query, limit);
     if (results.length < 1) return null;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    results = results.map((res: any) => {
-      return new Song({
+    for (let i = 0; i < results.length; i++) {
+      const res = results[i];
+      const info = await ytdl.getBasicInfo(res.url);
+
+      results[i] = new Song({
         title: res.title,
         description: res.description,
         publishedAt: res.publishedAt,
         channel: res.channel.name,
-        duration: res.duration,
+        duration: parseInt(info.videoDetails.lengthSeconds) * 1000,
         url: res.url,
       });
-    });
-
-    if (results.length === 1) return results[0];
+    }
 
     return results;
   }
 
-  public async selectSong(msg: Message, songs: Song[] | Song): Promise<Song | null> {
+  public async selectSong(msg: Message, songs: Song[]): Promise<Song | null> {
     // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (res) => {
-      if (!Array.isArray(songs)) return songs;
+      if (songs.length === 1) return songs[0];
       let song: Song = null;
 
       const collector = msg.channel.createMessageCollector((m) => m.author.id === msg.author.id, {
@@ -158,7 +160,7 @@ export class Bot extends Client {
       await msg.send(
         "success",
         new this.Embed()
-          .setDescription(songs.map((song, i) => `[\`${i + 1}\`] - ${song.title}`).join("\n"))
+          .setDescription(songs.map((s, i) => `[\`${i + 1}\`] - ${s.title}`).join("\n"))
           .setFooter("Please select a song | Type 'cancel' to cancel | You have 1 minute")
       );
 
@@ -180,7 +182,8 @@ export class Bot extends Client {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async handleProcessError(err: Error | any): Promise<Message | void> {
-    this.logger.error(err.stack);
+    console.error(err);
+    this.logger.error("Unhandled error. There should be additional logging above");
 
     const token = process.env["webhooks.error.token"];
     const id = process.env["webhooks.error.id"];
