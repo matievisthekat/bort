@@ -170,15 +170,17 @@ export interface SongInfo {
   description: string;
   publishedAt: Date;
   channel: string;
-  duration: {
-    years: number;
-    months: number;
-    days: number;
-    hours: number;
-    minutes: number;
-    seconds: number;
-  };
+  duration: DurationObject;
   url: string;
+}
+
+export interface DurationObject {
+  years: number;
+  months: number;
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
 }
 
 export interface CommandRunOptions {

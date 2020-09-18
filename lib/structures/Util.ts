@@ -8,12 +8,25 @@ import http from "http";
 import querystring from "querystring";
 import { Message, ImageSize, User, Collection } from "discord.js";
 import config from "../../src/config";
-import { CommandResult, ImageAPIEndpoint, HTTPStatusCode, LoadFilesCallback } from "../types";
+import { CommandResult, ImageAPIEndpoint, HTTPStatusCode, LoadFilesCallback, DurationObject } from "../types";
 
 const asyncExec = promisify(exec);
 
 export class Util {
   public static config = config;
+
+  public static durationObjectToString(duration: DurationObject): string {
+    // yes i know not all months are 30 days long
+    duration.days = duration.days + (duration.years * 365 + duration.months * 30);
+
+    delete duration.years;
+    delete duration.months;
+
+    const steps = Object.entries(duration)
+      .map((step) => `${step[1]} ${step[1] > 1 ? step[0] : step[0].slice(0, -1)}`)
+      .filter((s) => !s.startsWith("0"));
+    return steps.join(", ");
+  }
 
   /**
    * Capitalise a string or words
