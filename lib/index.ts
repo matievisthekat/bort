@@ -11,3 +11,4 @@ export * from "./structures/extend/Embed";
 export * from "./types";
 export * from "./structures/Util";
 export * from "./structures/Song";
+export * from "./structures/Queue";
