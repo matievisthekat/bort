@@ -142,7 +142,7 @@ export interface ImageCommand {
   maxLength?: number;
 }
 
-export type CustomMessageType = "warn" | "success" | "error";
+export type CustomMessageType = "warn" | "success" | "error" | "loading";
 
 export interface EventOptions {
   name: string;
@@ -170,7 +170,7 @@ export interface SongInfo {
   description: string;
   publishedAt: Date;
   channel: string;
-  duration: DurationObject;
+  duration: number;
   url: string;
 }
 
