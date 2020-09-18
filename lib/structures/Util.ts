@@ -9,6 +9,7 @@ import querystring from "querystring";
 import { Message, ImageSize, User, Collection } from "discord.js";
 import config from "../../src/config";
 import { CommandResult, ImageAPIEndpoint, HTTPStatusCode, LoadFilesCallback, DurationObject } from "../types";
+import ms from "ms";
 
 const asyncExec = promisify(exec);
 
@@ -18,11 +19,9 @@ export class Util {
   public static durationObjectToString(duration: DurationObject): string {
     duration = Util.reduceDurationObject(duration);
 
-    const steps = Object.entries(duration)
-      .map((step) => `${step[1]} ${step[1] > 1 ? step[0] : step[0].slice(0, -1)}`)
-      .filter((s) => !s.startsWith("0"));
-      
-    return steps.join(", ");
+    const times = Util.durationObjectToArray(duration).filter((s) => !s.startsWith("0"));
+
+    return times.join(", ");
   }
 
   public static reduceDurationObject(duration: DurationObject): DurationObject {
@@ -33,6 +32,23 @@ export class Util {
     delete duration.months;
 
     return duration;
+  }
+
+  public static parsePlural(value: number, puralString: string): string {
+    return `${value[1] > 1 ? puralString : puralString.slice(0, -1)}`;
+  }
+
+  public static durationObjectToMs(duration: DurationObject): number {
+    duration = Util.reduceDurationObject(duration);
+
+    const times = Util.durationObjectToArray(duration);
+    const milliseconds = times.map((time) => ms(time)).reduce((a, b) => a + b, 0);
+
+    return milliseconds;
+  }
+
+  public static durationObjectToArray(duration: DurationObject): string[] {
+    return Object.entries(duration).map((time) => `${time[1]} ${Util.parsePlural(time[1], time[0])}`);
   }
 
   /**
