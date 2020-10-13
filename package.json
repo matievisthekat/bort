@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.20.0",
-    "ayb-api": "^1.0.8",
+    "ayb-api": "^1.0.9",
     "chalk": "^4.1.0",
     "cleverbot-free": "^1.0.4",
     "cors": "^2.8.5",
