@@ -1,3 +1,4 @@
+import { Link } from "gatsby";
 import React, { ReactElement } from "react";
 import NavbarIcons from "./Icons";
 import NavBarTabs from "./Tabs";
@@ -18,9 +19,9 @@ export default class NavBar extends React.Component<Props, unknown> {
   public render(): ReactElement {
     return (
       <nav className="navbar fixed-top navbar-expand-lg navbar-dark indigo lighten-2 scrolling-navbar">
-        <a className="navbar-brand" href="/">
+        <Link className="navbar-brand" to="/">
           <strong>bort </strong>
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"

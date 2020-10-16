@@ -1,4 +1,5 @@
 import React, { ReactElement } from "react";
+import { Link } from "gatsby";
 import { pages } from "../../config";
 
 interface Props {
@@ -18,9 +19,9 @@ export default class NavBarTabs extends React.Component<Props, unknown> {
       <ul className="navbar-nav mr-auto">
         {pages.map((p, i) => (
           <li key={i} className={this.props.name === getSlug(p.name) ? "nav-item active" : "nav-item"}>
-            <a className="nav-link" href={p.href}>
+            <Link className="nav-link" to={p.href}>
               {p.name} {this.props.name === getSlug(p.name) ? current : ""}
-            </a>
+            </Link>
           </li>
         ))}
       </ul>

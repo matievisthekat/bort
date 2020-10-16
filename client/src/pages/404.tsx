@@ -4,7 +4,7 @@ import SEO from "../components/Layout/SEO";
 
 import Back from "../components/Back";
 
-class NotFoundPage extends React.Component {
+export default class NotFoundPage extends React.Component {
   constructor(props: Readonly<unknown>) {
     super(props);
   }
@@ -14,12 +14,10 @@ class NotFoundPage extends React.Component {
         <SEO title="404: Not found" description="Page not found" />
         <div className="container text-center text-primary">
           <h1>Not found :(</h1>
-          <p>You just hit a route that doesn&#39t exist... the sadness.</p>
+          <p>You just hit a route that doesn&apos;t exist... the sadness.</p>
           <Back button={true} />
         </div>
       </Layout>
     );
   }
 }
-
-export default NotFoundPage;

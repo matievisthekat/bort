@@ -1,3 +1,4 @@
+import { Link } from "gatsby";
 import React, { ReactElement } from "react";
 
 type Colour =
@@ -37,15 +38,15 @@ export default class Button extends React.Component<ButtonProps> {
 
   public render(): ReactElement {
     return (
-      <a
-        href={this.props.href}
+      <Link
+        to={this.props.href}
         target={this.props.openInNewtab ? "_blank" : ""}
         rel="noopener noreferrer"
         className={this.classes}
         onClick={this.props.onClick}
       >
         {this.props.text}
-      </a>
+      </Link>
     );
   }
 }

@@ -5,6 +5,7 @@ import Cookie from "js-cookie";
 import Layout from "../../components/Layout";
 import SEO from "../../components/Layout/SEO";
 import { oauth } from "../../config";
+import { Link } from "gatsby";
 
 interface State {
   error: string;
@@ -85,7 +86,7 @@ export default class Callback extends React.Component<unknown, State> {
           <div className="container text-danger text-center">
             An unexpected error occured: {this.state.error}
             <br />
-            Please <a href="/login">try again</a>
+            Please <Link to="/login">try again</Link>
           </div>
         ) : (
           <div className="container text-primary text-center">Please wait while you are redirected...</div>

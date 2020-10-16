@@ -1,3 +1,4 @@
+import { Link } from "gatsby";
 import React, { ReactElement } from "react";
 
 interface BackProps {
@@ -13,13 +14,13 @@ export default class Back extends React.Component<BackProps> {
 
   public render(): ReactElement {
     return (
-      <a
-        href={this.props.href || "#"}
-        onClick={window.history.back}
+      <Link
+        to={this.props.href || "#"}
+        onClick={() => window.history.back()}
         className={this.props.button ? "btn btn-outline-primary btn-sm" : ""}
       >
         {this.props.text || "Back"}
-      </a>
+      </Link>
     );
   }
 }
