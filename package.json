@@ -8,14 +8,14 @@
     "restart": "npm run build bot && npm run start bot",
     "_install": "scripts/install.sh",
     "clean": "scripts/clean.sh",
-    "build": "./scripts/build.sh",
+    "build": "bin/build",
     "docgen": "typedoc --theme minimal --out ./docs --readme README.md",
-    "rebuild": "npm run clean $1 && npm run build $1",
+    "rebuild": "npm run clean $1 && npm run install $1 && npm run build $1",
     "test": "tsc && rm -rf dist",
     "lint": "eslint"
   },
   "author": "Matthew Stead <matthew.stead@matievisthekat.dev>",
-  "license": "GPL-3.0",
+  "license": "EPL-2.0",
   "dependencies": {
     "chalk": "^4.0.0",
     "cors": "^2.8.5",
