@@ -12,3 +12,4 @@ Version 2 of bort in Typescript. If you would like to view the current version: 
 [![repo size](https://img.shields.io/github/repo-size/matievisthekat/bort)](https://shields.io)
 [![license](https://img.shields.io/github/license/MatievisTheKat/bort)](https://shields.io)
 [![last commit](https://img.shields.io/github/last-commit/MatievisTheKat/bort/v2)](https://shields.io)
+[![commits since last release](https://img.shields.io/github/commits-since/MatievisTheKat/bort/v0.2.10/v2)](https://shields.io)
