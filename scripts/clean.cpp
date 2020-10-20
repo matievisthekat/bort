@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     else if (*argv[1] == 'i')
     {
       exitCode = system("rm -rf dist/api/image");
-      cout << "Cleaned ./dist/api/image" << endl;
+      cout << "Cleaned ./api/image/main" << endl;
     }
     else if (*argv[1] == 'c')
     {
