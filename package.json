@@ -4,13 +4,12 @@
   "description": "Version 2 of bort in Typescript yeet. If you would like to view the current version: [here you go](https://github.com/MatievisTheKat/bort/tree/master)",
   "main": "src/index.js",
   "scripts": {
-    "start": "scripts/start.sh",
-    "restart": "npm run build bot && npm run start bot",
-    "_install": "scripts/install.sh",
-    "clean": "scripts/clean.sh",
-    "build": "bin/build",
+    "start": "./bin/start",
+    "_install": "./bin/install",
+    "clean": "./bin/clean",
+    "build": "./bin/build",
     "docgen": "typedoc --theme minimal --out ./docs --readme README.md",
-    "rebuild": "npm run clean $1 && npm run install $1 && npm run build $1",
+    "rebuild": "npm run clean $1 && npm run _install $1 && npm run build $1",
     "test": "tsc && rm -rf dist",
     "lint": "eslint"
   },
