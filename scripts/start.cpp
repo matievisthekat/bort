@@ -18,8 +18,7 @@ void startImg(int *exitCode)
 
 void startBot(int *exitCode)
 {
-  bool built = pathExists("./dist");
-  *exitCode = system(built ? "node dist/src/index.js" : "./bin/build bot && node dist/src/index.js");
+  *exitCode = system("./bin/build bot && node dist/src/index.js");
   cout << "Started bot" << endl;
 }
 
