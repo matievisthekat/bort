@@ -7,7 +7,7 @@ Version 2 of bort in Typescript. If you would like to view the current version: 
 [![grade](https://www.code-inspector.com/project/12775/status/svg)](https://www.code-inspector.com/project/12775/status)
 [![score](https://www.code-inspector.com/project/12775/score/svg)](https://www.code-inspector.com/project/12775/score)
 [![discord](https://img.shields.io/discord/673605613456195584)](https://discord.gg/t65hRpd)
-[![visists](https://badges.pufler.dev/visits/MatievisTheKat/bort)](https://badges.pufler.dev/visits/MatievisTheKat/bort)
+[![visits](https://badges.pufler.dev/visits/MatievisTheKat/bort)](https://badges.pufler.dev/visits/MatievisTheKat/bort)
 [![test](https://github.com/MatievisTheKat/bort/workflows/test/badge.svg?branch=v2)](https://github.com/MatievisTheKat/bort/actions?query=workflow%3Atest&branch=v2)
 [![repo size](https://img.shields.io/github/repo-size/matievisthekat/bort)](https://shields.io)
 [![license](https://img.shields.io/github/license/MatievisTheKat/bort)](https://shields.io)
