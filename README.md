@@ -1,5 +1,5 @@
 # bort
-Version 2 of bort in Typescript. If you would like to view the current version: [here you go](https://github.com/MatievisTheKat/bort/tree/master).
+Version 2 of bort in Typescript. If you would like to view the current version: [REDACTED].
 
 [![deepscan grade](https://deepscan.io/api/teams/10306/projects/13030/branches/212991/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=10306&pid=13030&bid=212991)
 [![vulnerabilities](https://snyk.io/test/github/MatievisTheKat/bort/badge.svg?targetFile=package.json)](https://snyk.io/test/github/MatievisTheKat/bort?targetFile=package.json)
