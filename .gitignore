@@ -1,12 +1,5 @@
-bort.js
 src/images
-src/templates
 src/corona-graph.png
-Lavalink.jar
-application.yml
-music.bat
-js-templates
-ts-templates
 
 # Logs
 logs
@@ -81,6 +74,7 @@ typings/
 # dotenv environment variables file
 .env
 .env.test
+.env.json
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
