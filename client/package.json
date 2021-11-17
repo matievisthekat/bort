@@ -5,7 +5,7 @@
   "version": "1.0.0",
   "author": "Matthew Stead <matthew.stead@matievisthekat.dev>",
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "bootstrap": "^4.5.2",
     "dotenv": "^8.2.0",
     "gatsby": "^2.23.12",
